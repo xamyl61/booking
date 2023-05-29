@@ -15,5 +15,10 @@ import Footer from '@/components/Footer.vue'
 </template>
 
 <style scoped>
-
+main {
+  display:flex; 
+  flex-direction:column;
+  min-height: calc(100vh - 100px); 
+  padding: 1rem 0;
+}
 </style>
