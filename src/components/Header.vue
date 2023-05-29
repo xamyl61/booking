@@ -1,6 +1,8 @@
 <template>
   <header>
-    
+    <div class="container mx-auto">
+      <p class="text-white">Hello</p>
+    </div>
   </header>
 </template>
   
