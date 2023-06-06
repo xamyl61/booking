@@ -34,7 +34,7 @@
   
 <style scoped>
   .header {
-    font-size: 16px;
+    font-size: 1rem;
     padding: 0 1.3rem;
   }
   .header .container {
@@ -49,7 +49,7 @@
     align-items: center;
   }
     .back .icon {
-      margin-right: 26px;
+      margin-right: 1.6rem;
     }
   
   .call {
@@ -64,7 +64,7 @@
     margin-left: 2.6vw;
   }
     .icon-phone-gold {
-      margin-right: 18px;
+      margin-right: 1rem;
     }
 
   .login {
