@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* variables */
+:root {
+    --color-primary: #215C66;
+    --color-line: #EAEAEA;
+  }
