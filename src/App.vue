@@ -5,20 +5,21 @@ import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
-  <Header />
+  <div class="flex flex-col h-screen justify-between">
+    <Header />
 
-  <main>
-    <RouterView />
-  </main>
+    <main>
+      <RouterView />
+    </main>
 
-  <Footer />
+    <Footer />
+  </div>
 </template>
 
 <style scoped>
 main {
   display:flex; 
   flex-direction:column;
-  min-height: calc(100vh - 100px); 
   padding: 1rem 0;
 }
 </style>

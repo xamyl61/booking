@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 
+/* variables */
+:root {
+    --color-primary: #215C66;
+    --color-line: #EAEAEA;
+}
+
 @font-face {
     font-family: 'Optima Cyr';
     src: url('./fonts/optima/Optima.woff2') format('woff2'),
