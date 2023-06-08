@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer">
+    <footer class="footer mt-auto">
         <div class="container mx-auto">
             <div class="flex justify-between">
                 <div class="left">

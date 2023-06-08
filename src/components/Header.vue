@@ -16,7 +16,6 @@
       </a>
 
       <div class="login">
-        <button class="authorization">Зарегистрироваться</button>
         <button class="btn">
           <IconPersonGold/>
           <span class="btn_text">Войти в личный кабинет</span>
