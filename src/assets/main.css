@@ -8,23 +8,6 @@
     --color-primary: #215C66;
     --color-line: #EAEAEA;
 }
-  
-.btn {
-    padding: 0 1.2rem;
-    text-align: center;
-    font-size: 1rem;
-    display: inline-block;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    background: var(--color-primary);
-    border-radius: 2.5rem;
-}
-    .btn .icon {
-      margin-right: 1.2rem;
-    }
 
 @font-face {
     font-family: 'Optima Cyr';
