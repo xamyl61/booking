@@ -2,6 +2,7 @@
 import { RouterView } from 'vue-router'
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
+import Filter from '@/components/Filter.vue'
 </script>
 
 <template>
@@ -9,7 +10,8 @@ import Footer from '@/components/Footer.vue'
     <Header />
 
     <main class="">
-      <RouterView />
+      <!-- <RouterView /> -->
+      <Filter/>
     </main>
 
     <Footer />
@@ -22,4 +24,5 @@ main {
   flex-direction:column;
   padding: 1rem 0;
 }
+
 </style>
