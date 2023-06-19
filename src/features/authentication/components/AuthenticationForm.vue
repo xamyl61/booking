@@ -18,7 +18,7 @@ import { toast } from 'vue3-toastify';
   const currentStep = ref<'code' | 'verification'>('code')
   const buttonText = ref('Отправить код повторно');
   const timer = ref(0);
-  let intervalId = -1;
+  let intervalId: ReturnType<typeof setInterval>;
   const isLoading = ref(false)
   const authStore = useAuthStore()
   const OTP_CODE_LENGTH = 4;

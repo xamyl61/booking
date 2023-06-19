@@ -13,7 +13,7 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
     import { ref, reactive, watch } from 'vue';
   
     const props = defineProps({
@@ -27,7 +27,7 @@
       modelValue: String
     });
   
-    const digits = reactive([])
+    const digits = reactive<any>([])
   
     if (props.default && props.default.length === props.digitCount) {
       for (let i =0; i < props.digitCount; i++) {
@@ -39,7 +39,7 @@
       }
     }
   
-    const otpCont = ref(null)
+    const otpCont = ref<any>(null)
   
   
     const emit = defineEmits(['update:modelValue']);
@@ -54,7 +54,7 @@
       return true;
     }
   
-    const handleKeyDown = function (event, index) {
+    const handleKeyDown = function (event: any, index: number) {
       if (event.key !== "Tab" && 
           event.key !== "ArrowRight" &&
           event.key !== "ArrowLeft"
