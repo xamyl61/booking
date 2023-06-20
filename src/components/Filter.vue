@@ -2,14 +2,16 @@
     <div>
         <h1>Выберите период проживания и количество гостей</h1>
         <div class="filter container mx-auto">
-            <div class="flex flex-row space-x-1">
+            <IconSeashell/>
+            <div class="flex">
                 <div class="col-1">
                     <div class="filter-title">Отель</div>
                     <div class="filter-controls">
                         <el-tree-select
                             v-model="choosedHotel"
-                            :data="hotelsList"
+                            :data="listCities"
                             placeholder="Выберите отель"
+                            @change="changeMaxAdult"
                         >
                         </el-tree-select>
                     </div>
@@ -73,7 +75,7 @@
 
                     </div>
                 </div>
-                <div class="basis-1/2">
+                <div class="col-3">
                     <div class="filter-title">Размещение</div>
                     <div class="filter-controls accommodation">
                         <el-dropdown
@@ -81,7 +83,8 @@
                             placement="bottom-start"
                         >
                             <span class="el-dropdown-link">
-                                <span>2 гостей</span>
+                                <span v-if="adults == 1">1 гость</span>
+                                <span v-else>{{ adults }} гостей</span>
                                 <IconPerson/>
                             </span>
 
@@ -93,7 +96,7 @@
                                         <div class="dscr">старше 18 лет<br> на дату заезда</div>
                                     </div>
                                     <div class="right">
-                                        <el-input-number v-model="adults" :min="1" :max="5" />
+                                        <el-input-number v-model="adults" :min="1" :max="maxAdults"/>
                                     </div>
                                    </div>
 
@@ -132,18 +135,38 @@
                         </el-dropdown>
                     </div>
                 </div>
-                <div class="basis-1/4">
-                    <div class="filter-title"></div>
+                <div class="col-4">
                     <div class="filter-">
-                        <button class="btn btn-dark">Найти номер</button>
-                        
+                        <button
+                            @click="getRooms"
+                            class="btn btn-dark"
+                            :disabled="!choosedHotel"
+                        >Найти номер</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="container mx-auto">
-        
+        date: {{ date }}
+        <br>
+        choosedHotel: {{ choosedHotel }}
+        <br>
+        adults: {{ adults }}
+        <br>
+        teenagers: {{ teenagers }}
+        <br>
+        сhildren: {{ сhildren }}
+        <br>
+        infants: {{ infants }}
+        <br>
+        choosedHotel.nuberOfPersonsPerRoom: {{ choosedHotel }}
+        <br>
+        <!-- listCities: {{ listCities }} -->
+        <div v-for="room in rooms">
+            {{ room }}
+            <hr>
+        </div>
         </div>
 
         
@@ -151,67 +174,42 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, reactive } from 'vue';
     import VueDatePicker from '@vuepic/vue-datepicker';
     import '@vuepic/vue-datepicker/dist/main.css'
+    import axios from 'axios';
 
-    import IconCalendar from '@/components/icons/iconCalendar.vue'
+    import IconCalendar from '@/components/icons/IconCalendar.vue'
     import IconArrowLeftSircle from '@/components/icons/IconArrowLeftSircle.vue'
     import IconArrowRightSircle from '@/components/icons/IconArrowRightSircle.vue'
     import IconPerson from '@/components/icons/IconPerson.vue'
+    import IconSeashell from '@/components/icons/IconSeashell.vue'
 
-    const choosedHotel = ref()
-    const hotelsList = [
-    {
-        value: '1',
-        label: 'г.Анапа',
-        children: [
-        {
-            value: '1-1',
-            label: 'ALEAN FAMILY DOVILLE',
-        },
-        {
-            value: '1-2',
-            label: 'ALEAN FAMILY RIVIERA',
-        },
-        {
-            value: '1-3',
-            label: 'MAJESTIC BY ALEAN',
-        },
-        ],
-    },
-    {
-        value: '2',
-        label: 'г. Геленджик',
-        children: [
-        {
-            value: '2-1',
-            label: 'ALEAN FAMILY BIARRITZ',
-        },
-        ],
-    },
-    {
-        value: '3',
-        label: 'г. Сочи',
-        children: [
-        {
-            value: '3-1',
-            label: 'ALEAN FAMILY SPUTNIK',
-        },
-        ],
-    },
-    ]
+    let maxAdults = ref(1)
+    let choosedHotel = ref()
+
+    
+    
 
     let date = ref()
     let rangeStartDate = ref()
     let rangeEndDate = ref()
 
-    const adults = ref(2)
+
+    const adults = ref(1)
     const teenagers = ref(0)
     const сhildren = ref(0)
     const infants = ref(0)
-    
 
+    const rooms = ref([]);
+
+
+
+    const changeMaxAdult = () => {
+        maxAdults.value = choosedHotel.value.nuberOfPersonsPerRoom
+        adults.value = 1
+    }
+    
     const parseDate = (date: any) => {
         const options = {
             weekday: 'short',
@@ -234,9 +232,54 @@
 
     const handleDate = (modelData:any) => {
         date.value = modelData;
-        // do something else with the data
         rangeStartDate.value = parseDate(date.value[0]);
         rangeEndDate.value =  parseDate(date.value[1]);
+    }
+
+
+    const listCities = ref([]);
+    async function getCities() {
+        try {
+            const res = await fetch("https://backmb.aleancollection.ru/api/v1/cities/");
+            const finalRes = await res.json();
+            listCities.value = finalRes.res.map(function(city: any) {
+
+                let hotels = city.hotels.map(function(hotel: any) {
+                    let myHotel = {
+                        value: {
+                            value: hotel.guid,
+                            nuberOfPersonsPerRoom: hotel.number_of_persons_per_room
+                        },
+                        label: hotel.title
+                    }
+                    return myHotel
+                })
+
+                let newCities = {
+                    value: city.guid,
+                    label: city.title,
+                    children: hotels
+                }
+                return newCities
+                })
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+    getCities()
+
+    
+    async function getRooms() {
+        try {
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${сhildren.value}`);
+            const finalRes = await res.json();
+            rooms.value = finalRes.res;
+            
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
 
@@ -251,6 +294,15 @@
   </script>
     
   <style scoped>
+  .btn[disabled] {
+    opacity: .3;
+  }
+  .icon-seashell {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 0;
+  }
     h1 {
         font-size: 44px;
         font-family: 'Optima Cyr';
@@ -260,12 +312,26 @@
     .filter {
         padding: 2rem 5rem 1.9rem;
         background-color: var(--color-primary);
+        position: relative;
     }
     .col-1 {
-        width: 33%;
+        width: 21%;
+        padding-right: 20px;
     }
     .col-2 {
-        width: 71%;
+        width: 36%;
+        padding-right: 20px;
+    }
+    .col-3 {
+        width: 18%;
+        padding-right: 20px;
+    }
+    .col-4 {
+        width: 20%;
+        margin-left: 5%;
+        display: flex;
+        align-items: self-end;
+        justify-content: flex-end;
     }
     .filter-title {
         color: #fff;

@@ -10,7 +10,7 @@ import Filter from '@/components/Filter.vue'
     <Header />
 
     <main class="">
-      <!-- <RouterView /> -->
+      <RouterView />
       <Filter/>
     </main>
 
