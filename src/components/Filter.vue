@@ -260,7 +260,7 @@
     const сhildren = ref(0)
     const infants = ref(0)
 
-    const roomTypes = ref([]);
+    const roomTypes = ref<any>([]);
 
 
 

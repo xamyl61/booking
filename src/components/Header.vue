@@ -16,10 +16,19 @@
       </a>
 
       <div class="login">
-        <button class="btn">
-          <IconPersonGold/>
-          <span class="btn_text">Войти в личный кабинет</span>
+        <div v-if="!authStore.authUser">
+          <Button @click="onLogin">
+            <slot name="icon">
+              <IconPersonGold/>
+              </slot>
+            <span class="btn-text">Войти в личный кабинет</span>
         </button>
+        </div>
+        <div v-else>
+          <Button @click="onLogout" class="btn">
+            <span class="btn-text">Выйти</span>
+          </Button>
+        </div>
       </div>
     </div>
   </header>
@@ -27,8 +36,26 @@
   
 <script setup lang="ts">
   import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
-  import IconPersonGold from '@/components/icons/IconPersonGold.vue'
   import IconPhoneGold from '@/components/icons/IconPhoneGold.vue'
+  import AuthenticationForm from '@/features/authentication/components/AuthenticationForm.vue'
+  import { useAuthStore } from '@/stores/auth-store';
+  import { $vfm } from 'vue-final-modal';
+  import IconPersonGold from '@/components/icons/IconPersonGold.vue'
+  import Button from '@/components/Button.vue'
+
+  const authStore = useAuthStore()
+
+  const onLogin = () => {
+  
+    $vfm.show({component: AuthenticationForm})
+
+  }
+
+  const onLogout = () => {
+    authStore.$reset()
+    localStorage.clear();
+  }
+
 </script>
   
 <style scoped>
