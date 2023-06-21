@@ -83,6 +83,7 @@
     background: var(--color-primary)!important;
     margin-top: -12px;
 }
+
     .el-input__inner:focus {
         box-shadow: none;
     }
@@ -103,7 +104,7 @@
     .el-tree-select__popper .el-select-dropdown__item {
         color: #fff;
     }
-    .el-popper.is-light .el-popper__arrow::before {
+    .el-popper.is-light .el-popper__arrow {
         display: none;
     }
     .el-tree-select__popper .el-tree-node__expand-icon {
@@ -117,6 +118,9 @@
 
     .el-select {
         width: 100%;
+    }
+    .el-select-dropdown__wrap {
+        max-height: 100%!important;
     }
     .el-input:focus {
         border-color: #fff!important;
@@ -274,6 +278,19 @@
     }
     .room-type .room-description .icon {
         margin-left: 1rem;
+    }
+
+
+    /* counter */
+    .counter.disabled {
+        
+    }
+    .counter .el-input__inner {
+        pointer-events: none;
+    }
+    .counter.disabled .el-input-number__increase {
+        opacity: 0.3;
+        pointer-events: none;
     }
 
 
