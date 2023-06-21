@@ -265,5 +265,16 @@
         height: 1.7rem;
     }
 
+    /* room-type */
+    .room-type .params .icon path {
+        fill: #939393;
+    }
+    .room-type .room-description {
+        padding: 1rem 1.8rem 4rem;
+    }
+    .room-type .room-description .icon {
+        margin-left: 1rem;
+    }
+
 
     

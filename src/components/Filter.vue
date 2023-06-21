@@ -138,7 +138,7 @@
                 <div class="col-4">
                     <div class="filter-">
                         <button
-                            @click="getRooms"
+                            @click="getAccommodation"
                             class="btn btn-dark"
                             :disabled="!choosedHotel"
                         >Найти номер</button>
@@ -148,7 +148,7 @@
         </div>
 
         <div class="container mx-auto">
-        date: {{ date }}
+        <!-- date: {{ date }}
         <br>
         choosedHotel: {{ choosedHotel }}
         <br>
@@ -161,35 +161,94 @@
         infants: {{ infants }}
         <br>
         choosedHotel.nuberOfPersonsPerRoom: {{ choosedHotel }}
-        <br>
+        <br> -->
         <!-- listCities: {{ listCities }} -->
-        <div v-for="room in rooms">
-            {{ room }}
-            <hr>
-        </div>
-        </div>
+        <!-- {{ roomTypes }}
+        <div v-for="roomType in roomTypes" class="rooms" style="border: 1px solid green; margin: 20px;">
+            <div class="photo">
+                <img src="" alt="">
+            </div>
+            <div class="title">{{ roomType.title }}</div>
+            <div class="params">
+                <div>{{ roomType.number_of_persons_per_room }}</div>
+            </div>
+            <div class="details">Подробнее о номере </div>
+            <div class="foot">
+                <div>
+                    <div class="cost">192 420 р.</div>
+                    <div class="guests-night">3 чел. / 2 ночи</div>
+                </div>
+            </div>
+        </div> -->
 
-        
+
+
+
+        <!-- ========= -->
+        <div class="container my-12 mx-auto px-4 md:px-12 room-type">
+            <div class="flex flex-wrap -mx-1 lg:-mx-4">
+
+                <!-- Column -->
+                <div v-for="roomType in roomTypes" class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+
+                    <!-- Article -->
+                    <article class="overflow-hidden">
+
+                        <a href="#">
+                            <img alt="Placeholder" class="block h-auto w-full" src="@/assets/room1.jpg">
+                        </a>
+
+                        <div class="leading-tight">
+                            <h1 class="">
+                                <a class="no-underline text-black" href="#">
+                                    {{ roomType.title }}
+                                </a>
+                            </h1>
+                        </div>
+                        
+                        <div class="flex items-center params">
+                            <div class="flex items-center">
+                                <IconPerson/>
+                                {{ roomType.number_of_persons_per_room }} человека
+                            </div>
+                        </div>
+
+                        <div class="flex room-description">
+                            <a class="flex items-center no-underline hover:underline text-black" href="#">
+                                Подробнее о номере
+                                <IconArrowLeftInCircle/>
+                            </a>
+                        </div>
+
+                    </article>
+                    <!-- END Article -->
+
+                </div>
+                <!-- END Column -->
+
+            </div>
+        </div>
+        <!-- end ========= -->
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { ref, onMounted, reactive } from 'vue';
+    import { ref, onMounted } from 'vue';
     import VueDatePicker from '@vuepic/vue-datepicker';
     import '@vuepic/vue-datepicker/dist/main.css'
-    import axios from 'axios';
 
     import IconCalendar from '@/components/icons/IconCalendar.vue'
     import IconArrowLeftSircle from '@/components/icons/IconArrowLeftSircle.vue'
     import IconArrowRightSircle from '@/components/icons/IconArrowRightSircle.vue'
     import IconPerson from '@/components/icons/IconPerson.vue'
     import IconSeashell from '@/components/icons/IconSeashell.vue'
+    import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue'
+    
 
     let maxAdults = ref(1)
     let choosedHotel = ref()
 
-    
-    
 
     let date = ref()
     let rangeStartDate = ref()
@@ -201,7 +260,7 @@
     const сhildren = ref(0)
     const infants = ref(0)
 
-    const rooms = ref([]);
+    const roomTypes = ref([]);
 
 
 
@@ -270,12 +329,11 @@
     getCities()
 
     
-    async function getRooms() {
+    async function getAccommodation() {
         try {
             const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${сhildren.value}`);
             const finalRes = await res.json();
-            rooms.value = finalRes.res;
-            
+            roomTypes.value = finalRes.res;
         } catch (error) {
             console.log(error)
         }
@@ -436,4 +494,27 @@
             padding-top: .5rem;
         }
         
+    /* room-type */
+    .room-type {
+        
+    }
+    .room-type article {
+        border: 1px solid #EAEAEA;
+    }
+    .room-type h1 {
+        padding: 1.5rem 1.8rem 1.5rem;
+        font-size: 1.8rem;
+        line-height: 1;
+        text-align: left;
+    }
+    .room-type .params {
+        padding: 1rem 1.8rem;
+        border-top: 1px solid #EAEAEA;
+        border-bottom: 1px solid #EAEAEA;
+        font-size: .9rem;
+    }
+    .room-type .params .icon {
+        padding-right: .8rem;
+    }
+    
   </style>
