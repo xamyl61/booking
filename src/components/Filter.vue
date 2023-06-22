@@ -1,10 +1,10 @@
 <template>
     <div>
         <h1>Выберите период проживания и количество гостей</h1>
-        <div class="filter container mx-auto">
+        <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
-            <div class="flex">
-                <div class="col-1">
+            <div class="md:w-1/2 lg:basis-72 p-2 lg:p-0">
+                <div class=" ">
                     <div class="filter-title">Отель</div>
                     <div class="filter-controls">
                         <el-tree-select
@@ -16,7 +16,9 @@
                         </el-tree-select>
                     </div>
                 </div>
-                <div class="col-2">
+            </div>
+            <div class="md:w-1/2 lg:w-2/6 p-2 lg:p-0">
+                <div class="">
                     <div class="filter-title">Дата заезда</div>
                     <div class="filter-controls">
                         <VueDatePicker
@@ -73,12 +75,18 @@
                         </VueDatePicker>
                     </div>
                 </div>
-                <div class="col-3">
+            </div>
+            <div class="md:w-1/2 lg:lg:basis-56 p-2 lg:p-0">
+                <div class="">
                     <div class="filter-title">Размещение</div>
-                    <div class="filter-controls accommodation">
+                    <div
+                        class="filter-controls accommodation"
+                        
+                    >
                         <el-dropdown
                             trigger="click"
                             placement="bottom-start"
+                            :class="{'disabled': !choosedHotel}"
                         >
                             <span class="el-dropdown-link">
                                 <span v-if="sumHosted == 1">1 гость</span>
@@ -147,7 +155,171 @@
                                         />
                                     </div>
                                    </div>
+                                </div>
+                            </template>
+                        </el-dropdown>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-wrapper p-2 lg:p-0">
+                <button
+                    @click="getRoomTypes"
+                    class="btn btn-dark"
+                    :disabled="!choosedHotel"
+                >
+                    Найти номер
+                </button>
+            </div>
+        </div>   
+        <!-- <div class="filter container mx-auto">
+            <IconSeashell/>
+            <div class="flex">
+                <div class="col-1">
+                    <div class="filter-title">Отель</div>
+                    <div class="filter-controls">
+                        <el-tree-select
+                            v-model="choosedHotel"
+                            :data="listCities"
+                            placeholder="Выберите отель"
+                            @change="changeMaxAdult"
+                        >
+                        </el-tree-select>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="filter-title">Дата заезда</div>
+                    <div class="filter-controls">
+                        <VueDatePicker
+                            range
+                            multi-calendars
+                            v-model="date"
+                            :enable-time-picker="false"
+                            auto-apply
+                            locale="ru"
+                            position="left"
+                            :six-weeks="true"
+                            :offset="1"
+                            @update:model-value="handleDate"
+                        >
+                            <template #trigger>
+                                <div class="daterange">
+                                    <div class="daterange-item start-date">
+                                        {{ rangeStartDate }}
+                                        <IconCalendar/>
+                                    </div>
+                                    <div class="daterange-item">
+                                        {{ rangeEndDate }}
+                                    </div>
+                                </div>
+                            </template>
 
+                            <template 
+                                #month-year="{
+                                    month,
+                                    year,
+                                    handleMonthYearChange
+                            }">
+                                <div class="custom-month-year-component">
+                                    {{ getMonthName(month) }} {{ year }}
+                                </div>
+                                <div class="icons">
+                                <span 
+                                    class="datepicker-arrow arrow-left" 
+                                    @click="handleMonthYearChange(false)">
+                                    <IconArrowLeftSircle/>
+                                </span>
+                                <span 
+                                    class="datepicker-arrow arrow-right" 
+                                    @click="handleMonthYearChange(true)">
+                                    <IconArrowRightSircle/>
+                                </span>
+                                </div>
+                            </template>
+                        
+                            <template #action-buttons>
+                                <div></div>
+                            </template>
+                        </VueDatePicker>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="filter-title">Размещение</div>
+                    <div
+                        class="filter-controls accommodation"
+                        
+                    >
+                        <el-dropdown
+                            trigger="click"
+                            placement="bottom-start"
+                            :class="{'disabled': !choosedHotel}"
+                        >
+                            <span class="el-dropdown-link">
+                                <span v-if="sumHosted == 1">1 гость</span>
+                                <span v-else>{{ sumHosted }} гостей</span>
+                                <IconPerson/>
+                            </span>
+
+                            <template #dropdown>
+                                <div class="accommodation-dropdown">
+                                   <div class="accommodation-dropdown-item">
+                                    <div class="left">
+                                        <div class="title">Взрослые</div>
+                                        <div class="dscr">старше 18 лет<br> на дату заезда</div>
+                                    </div>
+                                    <div class="right">
+                                        <el-input-number
+                                            v-model="adults"
+                                            :min="1"
+                                            :max="adults + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
+                                    </div>
+                                   </div>
+
+                                   <div class="accommodation-dropdown-item">
+                                    <div class="left">
+                                        <div class="title">Подростки</div>
+                                        <div class="dscr">от 12 до 18 лет<br> на дату заезда</div>
+                                    </div>
+                                    <div class="right">
+                                        <el-input-number
+                                            v-model="teenagers"
+                                            :min="0"
+                                            :max="teenagers + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
+                                    </div>
+                                   </div>
+
+                                   <div class="accommodation-dropdown-item">
+                                    <div class="left">
+                                        <div class="title">Дети</div>
+                                        <div class="dscr">от 2 до 12 лет<br>  на дату заезда</div>
+                                    </div>
+                                    <div class="right">
+                                        <el-input-number
+                                            v-model="сhildren"
+                                            :min="0"
+                                            :max="сhildren + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
+                                    </div>
+                                   </div>
+
+                                   <div class="accommodation-dropdown-item">
+                                    <div class="left">
+                                        <div class="title">Младенцы</div>
+                                        <div class="dscr">до 2 лет<br> на дату заезда</div>
+                                    </div>
+                                    <div class="right">
+                                        <el-input-number
+                                            v-model="infants"
+                                            :min="0"
+                                            :max="infants + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
+                                    </div>
+                                   </div>
                                 </div>
                             </template>
                         </el-dropdown>
@@ -163,16 +335,19 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+
+        <div v-if="emptyPersons == 0" class="flex items-center justify-center">
+            <div class="max-w-lg py-8">
+                <div class="">
+                    Такое колличество гостей не вмещаяется в 1 номер. Пожалуйста, распределите гостей на несколько номеров или позвоните нам. <a href="+79999999999">+79999999999</a>
+                </div>
+                <div class="pt-4">
+                    <button class="btn btn-dark ">Перезвоните мне</button>
+                </div>
+            </div>
         </div>
-        <div>
-            maxHostedPeople: {{ maxHostedPeople }}
-            <br>
-            sumHosted: {{ sumHosted }}
-            <br>
-            emptyPersons: {{ emptyPersons }}
-            <br>
-            showNoRoomsNotification: {{ showNoRoomsNotification }}
-        </div>
+
         <div class="container mx-auto">
             <div class="container my-12 mx-auto px-4 md:px-12 room-type">
                 <div class="flex flex-wrap -mx-1 lg:-mx-4">
@@ -210,7 +385,7 @@
                 <div
                     v-if="roomTypes.length == 0 && showNoRoomsNotification"
                 >
-                    <h6 class="text-3xl	 text-center">Номеров нет.</h6>
+                    <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
                 </div>
             </div>
         </div>
@@ -238,7 +413,7 @@
     let rangeEndDate = ref()
     
     
-    const adults = ref<any>(1)
+    const adults = ref<any>(2)
     const teenagers = ref<any>(0)
     const сhildren = ref<any>(0)
     const infants = ref<any>(0)
@@ -248,7 +423,7 @@
     
     
     let maxHostedPeople = ref<any>(0)
-    let sumHosted = ref<any>(1)
+    let sumHosted = ref<any>(adults.value)
     let emptyPersons = ref<any>(1)
     
     const runCounterMaxHosted = () => {   
@@ -258,12 +433,12 @@
 
     const changeMaxAdult = () => {
         maxHostedPeople.value = choosedHotel.value.nuberOfPersonsPerRoom
-        sumHosted.value = 1
         emptyPersons.value = 1
-        adults.value = 0
+        adults.value = 2
         teenagers.value = 0
         сhildren.value = 0
         infants.value = 0
+        sumHosted.value = adults.value
     }
     
     const parseDate = (date: any) => {
@@ -354,6 +529,12 @@
   .btn[disabled] {
     opacity: .3;
   }
+    .filter .btn-wrapper {
+        margin-left: auto;
+        display: flex;
+        align-items:flex-end;
+        justify-content: flex-end; 
+    } 
   .icon-seashell {
     position: absolute;
     right: 0;
@@ -367,7 +548,7 @@
         padding: 4.2rem 0 3.2rem;
     }
     .filter {
-        padding: 2rem 5rem 1.9rem;
+        /* padding: 2rem 5rem 1.9rem; */
         background-color: var(--color-primary);
         position: relative;
     }
