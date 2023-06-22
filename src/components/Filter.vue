@@ -94,16 +94,12 @@
                                         <div class="dscr">старше 18 лет<br> на дату заезда</div>
                                     </div>
                                     <div class="right">
-                                        <div
-                                            class="counter"
-                                            :class="{disabled: !emptyPersons}"
-                                        >
-                                            <el-input-number
-                                                v-model="adults"
-                                                :min="1"
-                                                @change="runCounterMaxHosted"
-                                            />
-                                        </div>
+                                        <el-input-number
+                                            v-model="adults"
+                                            :min="1"
+                                            :max="adults + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
                                     </div>
                                    </div>
 
@@ -113,16 +109,12 @@
                                         <div class="dscr">от 12 до 18 лет<br> на дату заезда</div>
                                     </div>
                                     <div class="right">
-                                        <div
-                                            class="counter"
-                                            :class="{disabled: !emptyPersons}"
-                                        >
-                                            <el-input-number
-                                                v-model="teenagers"
-                                                :min="0"
-                                                @change="runCounterMaxHosted"
-                                            />
-                                        </div>
+                                        <el-input-number
+                                            v-model="teenagers"
+                                            :min="0"
+                                            :max="teenagers + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
                                     </div>
                                    </div>
 
@@ -132,16 +124,12 @@
                                         <div class="dscr">от 2 до 12 лет<br>  на дату заезда</div>
                                     </div>
                                     <div class="right">
-                                        <div
-                                            class="counter"
-                                            :class="{disabled: !emptyPersons}"
-                                        >
-                                            <el-input-number
-                                                v-model="сhildren"
-                                                :min="0"
-                                                @change="runCounterMaxHosted"
-                                            />
-                                        </div>
+                                        <el-input-number
+                                            v-model="сhildren"
+                                            :min="0"
+                                            :max="сhildren + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
                                     </div>
                                    </div>
 
@@ -151,16 +139,12 @@
                                         <div class="dscr">до 2 лет<br> на дату заезда</div>
                                     </div>
                                     <div class="right">
-                                        <div
-                                            class="counter"
-                                            :class="{disabled: !emptyPersons}"
-                                        >
-                                            <el-input-number
-                                                v-model="infants"
-                                                :min="0"
-                                                @change="runCounterMaxHosted"
-                                            />
-                                        </div>
+                                        <el-input-number
+                                            v-model="infants"
+                                            :min="0"
+                                            :max="infants + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
                                     </div>
                                    </div>
 
@@ -265,6 +249,12 @@
 
     const changeMaxAdult = () => {
         maxHostedPeople.value = choosedHotel.value.nuberOfPersonsPerRoom
+        sumHosted.value = 1
+        emptyPersons.value = 1
+        adults.value = 0
+        teenagers.value = 0
+        сhildren.value = 0
+        infants.value = 0
     }
     
     const parseDate = (date: any) => {

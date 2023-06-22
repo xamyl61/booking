@@ -285,12 +285,8 @@
     .counter.disabled {
         
     }
-    .counter .el-input__inner {
-        pointer-events: none;
-    }
-    .counter.disabled .el-input-number__increase {
+    .el-input-number__increase.is-disabled {
         opacity: 0.3;
-        pointer-events: none;
     }
 
 
