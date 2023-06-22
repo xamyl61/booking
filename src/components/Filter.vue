@@ -156,7 +156,7 @@
                 <div class="col-4">
                     <div class="filter-">
                         <button
-                            @click="getAccommodation"
+                            @click="getRoomTypes"
                             class="btn btn-dark"
                             :disabled="!choosedHotel"
                         >Найти номер</button>
@@ -170,11 +170,14 @@
             sumHosted: {{ sumHosted }}
             <br>
             emptyPersons: {{ emptyPersons }}
+            <br>
+            showNoRoomsNotification: {{ showNoRoomsNotification }}
         </div>
         <div class="container mx-auto">
             <div class="container my-12 mx-auto px-4 md:px-12 room-type">
                 <div class="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div v-for="roomType in roomTypes" class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                    <div
+                        v-for="roomType in roomTypes" class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                         <article class="overflow-hidden">
                             <a href="#">
                                 <img alt="Placeholder" class="block h-auto w-full" src="@/assets/room1.jpg">
@@ -203,6 +206,11 @@
 
                         </article>
                     </div>
+                </div>
+                <div
+                    v-if="roomTypes.length == 0 && showNoRoomsNotification"
+                >
+                    <h6 class="text-3xl	 text-center">Номеров нет.</h6>
                 </div>
             </div>
         </div>
@@ -236,6 +244,7 @@
     const infants = ref<any>(0)
     
     const roomTypes = ref<any>([]);
+    const showNoRoomsNotification = ref<boolean>(false)
     
     
     let maxHostedPeople = ref<any>(0)
@@ -317,11 +326,14 @@
     getCities()
 
     
-    async function getAccommodation() {
+    async function getRoomTypes() {
         try {
-            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${сhildren.value}`);
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}`);
             const finalRes = await res.json();
             roomTypes.value = finalRes.res;
+            if (roomTypes.value == 0) {
+                showNoRoomsNotification.value = true
+            }
         } catch (error) {
             console.log(error)
         }
