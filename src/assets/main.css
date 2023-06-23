@@ -279,9 +279,6 @@
 
 
     /* counter */
-    .counter.disabled {
-        
-    }
     .el-input-number__increase.is-disabled {
         opacity: 0.3;
     }
