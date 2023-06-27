@@ -13,16 +13,17 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false"
   },
   "dependencies": {
+    "@splidejs/vue-splide": "^0.6.12",
     "@vuepic/vue-datepicker": "^5.2.1",
-    "element-plus": "^2.3.6",
-    "pinia": "^2.0.36",
-    "vue": "^3.3.2",
-    "vue-router": "^4.2.0",
-    "vue-tailwind-datepicker": "^1.4.5",
     "axios": "^1.4.0",
+    "element-plus": "^2.3.6",
     "flowbite": "^1.6.5",
     "maska": "^2.1.9",
+    "pinia": "^2.0.36",
+    "vue": "^3.3.2",
     "vue-final-modal": "^3.4.11",
+    "vue-router": "^4.2.0",
+    "vue-tailwind-datepicker": "^1.4.5",
     "vue3-toastify": "^0.1.11"
   },
   "devDependencies": {

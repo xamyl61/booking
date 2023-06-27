@@ -1,5 +1,8 @@
 <template>
     <div>
+        <RoomTypeCard
+            :roomTypes="roomTypes"
+        />
         <h1>Выберите период проживания и количество гостей</h1>
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
@@ -241,6 +244,10 @@
     import IconSeashell from '@/components/icons/IconSeashell.vue'
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue'
     
+    import RoomTypeCard from './RoomTypeCard.vue';
+
+    
+    
 
     let choosedHotel = ref()
     
@@ -305,7 +312,7 @@
     }
 
 
-    const listCities = ref([]);
+    const listCities = ref();
     async function getCities() {
         try {
             const res = await fetch("https://backmb.aleancollection.ru/api/v1/cities/");
