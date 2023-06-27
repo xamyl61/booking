@@ -1,8 +1,6 @@
 <template>
     <div>
-        <RoomTypeCard
-            :roomTypes="roomTypes"
-        />
+       
         <h1>Выберите период проживания и количество гостей</h1>
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
@@ -176,6 +174,8 @@
             </div>
         </div>   
 
+       
+
 
         <div v-if="emptyPersons == 0" class="flex items-center justify-center">
             <div class="max-w-lg py-8">
@@ -188,47 +188,10 @@
             </div>
         </div>
 
-        <div class="container mx-auto">
-            <div class="container my-12 mx-auto px-4 md:px-12 room-type">
-                <div class="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div
-                        v-for="roomType in roomTypes" class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                        <article class="overflow-hidden">
-                            <a href="#">
-                                <img alt="Placeholder" class="block h-auto w-full" src="@/assets/room1.jpg">
-                            </a>
-                            <div class="leading-tight">
-                                <h1 class="">
-                                    <a class="no-underline text-black" href="#">
-                                        {{ roomType.title }}
-                                    </a>
-                                </h1>
-                            </div>
-                            
-                            <div class="flex items-center params">
-                                <div class="flex items-center">
-                                    <IconPerson/>
-                                    {{ roomType.number_of_persons_per_room }} человека
-                                </div>
-                            </div>
+        <RoomTypeCard
+            :roomTypes="roomTypes"
+        />
 
-                            <div class="flex room-description">
-                                <a class="flex items-center no-underline hover:underline text-black" href="#">
-                                    Подробнее о номере
-                                    <IconArrowLeftInCircle/>
-                                </a>
-                            </div>
-
-                        </article>
-                    </div>
-                </div>
-                <div
-                    v-if="roomTypes.length == 0 && showNoRoomsNotification"
-                >
-                    <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
