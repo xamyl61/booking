@@ -1,10 +1,10 @@
 <template>
     <div>
         <h1>Выберите период проживания и количество гостей</h1>
-        <div class="filter container mx-auto">
+        <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
-            <div class="flex">
-                <div class="col-1">
+            <div class="md:w-1/2 lg:basis-72 p-2 lg:p-0">
+                <div class=" ">
                     <div class="filter-title">Отель</div>
                     <div class="filter-controls">
                         <el-tree-select
@@ -12,79 +12,86 @@
                             :data="listCities"
                             placeholder="Выберите отель"
                             @change="changeMaxAdult"
+                            class="dropdown-custom-styles"
                         >
                         </el-tree-select>
                     </div>
                 </div>
-                <div class="col-2">
+            </div>
+            <div class="md:w-1/2 lg:w-2/6 p-2 lg:p-0">
+                <div class="">
                     <div class="filter-title">Дата заезда</div>
                     <div class="filter-controls">
-
-                            <VueDatePicker
-                                range
-                                multi-calendars
-                                v-model="date"
-                                :enable-time-picker="false"
-                                auto-apply
-                                locale="ru"
-                                position="left"
-                                :six-weeks="true"
-                                :offset="1"
-                                @update:model-value="handleDate"
-                            >
-                                <template #trigger>
-                                    <div class="daterange">
-                                        <div class="daterange-item start-date">
-                                            {{ rangeStartDate }}
-                                            <IconCalendar/>
-                                        </div>
-                                        <div class="daterange-item">
-                                            {{ rangeEndDate }}
-                                        </div>
+                        <VueDatePicker
+                            range
+                            multi-calendars
+                            v-model="date"
+                            :enable-time-picker="false"
+                            auto-apply
+                            locale="ru"
+                            position="left"
+                            :six-weeks="true"
+                            :offset="1"
+                            @update:model-value="handleDate"
+                        >
+                            <template #trigger>
+                                <div class="daterange">
+                                    <div class="daterange-item start-date">
+                                        {{ rangeStartDate }}
+                                        <IconCalendar/>
                                     </div>
-                                </template>
-
-                                <template 
-                                    #month-year="{
-                                        month,
-                                        year,
-                                        handleMonthYearChange
-                                }">
-                                    <div class="custom-month-year-component">
-                                        {{ getMonthName(month) }} {{ year }}
+                                    <div class="daterange-item">
+                                        {{ rangeEndDate }}
                                     </div>
-                                    <div class="icons">
-                                    <span 
-                                        class="datepicker-arrow arrow-left" 
-                                        @click="handleMonthYearChange(false)">
-                                        <IconArrowLeftSircle/>
-                                    </span>
-                                    <span 
-                                        class="datepicker-arrow arrow-right" 
-                                        @click="handleMonthYearChange(true)">
-                                        <IconArrowRightSircle/>
-                                    </span>
-                                    </div>
-                                </template>
-                          
-                                <template #action-buttons>
-                                    <!-- Empty block to hide select button -->
-                                    <div></div>
-                                </template>
-                            </VueDatePicker>
+                                </div>
+                            </template>
 
+                            <template 
+                                #month-year="{
+                                    month,
+                                    year,
+                                    handleMonthYearChange
+                            }">
+                                <div class="custom-month-year-component">
+                                    {{ getMonthName(month) }} {{ year }}
+                                </div>
+                                <div class="icons">
+                                <span 
+                                    class="datepicker-arrow arrow-left" 
+                                    @click="handleMonthYearChange(false)">
+                                    <IconArrowLeftSircle/>
+                                </span>
+                                <span 
+                                    class="datepicker-arrow arrow-right" 
+                                    @click="handleMonthYearChange(true)">
+                                    <IconArrowRightSircle/>
+                                </span>
+                                </div>
+                            </template>
+                        
+                            <template #action-buttons>
+                                <!-- Empty block to hide select button -->
+                                <div></div>
+                            </template>
+                        </VueDatePicker>
                     </div>
                 </div>
-                <div class="col-3">
+            </div>
+            <div class="md:w-1/2 lg:lg:basis-56 p-2 lg:p-0">
+                <div class="">
                     <div class="filter-title">Размещение</div>
-                    <div class="filter-controls accommodation">
+                    <div
+                        class="filter-controls accommodation"
+                        
+                    >
                         <el-dropdown
                             trigger="click"
                             placement="bottom-start"
+                            :class="{'disabled': !choosedHotel}"
                         >
                             <span class="el-dropdown-link">
-                                <span v-if="adults == 1">1 гость</span>
-                                <span v-else>{{ adults }} гостей</span>
+                                <span v-if="sumHosted == 1">1 гость</span>
+                                <span v-else>{{ sumHosted }} гостей</span>
                                 <IconPerson/>
                             </span>
 
@@ -96,7 +103,12 @@
                                         <div class="dscr">старше 18 лет<br> на дату заезда</div>
                                     </div>
                                     <div class="right">
-                                        <el-input-number v-model="adults" :min="1" :max="maxAdults"/>
+                                        <el-input-number
+                                            v-model="adults"
+                                            :min="1"
+                                            :max="adults + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
                                     </div>
                                    </div>
 
@@ -106,7 +118,12 @@
                                         <div class="dscr">от 12 до 18 лет<br> на дату заезда</div>
                                     </div>
                                     <div class="right">
-                                        <el-input-number v-model="teenagers" :min="0" :max="5" />
+                                        <el-input-number
+                                            v-model="teenagers"
+                                            :min="0"
+                                            :max="teenagers + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
                                     </div>
                                    </div>
 
@@ -116,7 +133,12 @@
                                         <div class="dscr">от 2 до 12 лет<br>  на дату заезда</div>
                                     </div>
                                     <div class="right">
-                                        <el-input-number v-model="сhildren" :min="0" :max="5" />
+                                        <el-input-number
+                                            v-model="сhildren"
+                                            :min="0"
+                                            :max="сhildren + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
                                     </div>
                                    </div>
 
@@ -126,109 +148,83 @@
                                         <div class="dscr">до 2 лет<br> на дату заезда</div>
                                     </div>
                                     <div class="right">
-                                        <el-input-number v-model="infants" :min="0" :max="5" />
+                                        <el-input-number
+                                            v-model="infants"
+                                            :min="0"
+                                            :max="infants + emptyPersons"
+                                            @change="runCounterMaxHosted"
+                                        />
                                     </div>
                                    </div>
-
                                 </div>
                             </template>
                         </el-dropdown>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="filter-">
-                        <button
-                            @click="getAccommodation"
-                            class="btn btn-dark"
-                            :disabled="!choosedHotel"
-                        >Найти номер</button>
-                    </div>
+            </div>
+            <div class="btn-wrapper p-2 lg:p-0">
+                <button
+                    @click="getRoomTypes"
+                    class="btn btn-dark"
+                    :disabled="!choosedHotel"
+                >
+                    Найти номер
+                </button>
+            </div>
+        </div>   
+
+
+        <div v-if="emptyPersons == 0" class="flex items-center justify-center">
+            <div class="max-w-lg py-8">
+                <div class="">
+                    Такое колличество гостей не вмещаяется в 1 номер. Пожалуйста, распределите гостей на несколько номеров или позвоните нам. <a href="+79999999999">+79999999999</a>
+                </div>
+                <div class="pt-4">
+                    <button class="btn btn-dark ">Перезвоните мне</button>
                 </div>
             </div>
         </div>
 
         <div class="container mx-auto">
-        <!-- date: {{ date }}
-        <br>
-        choosedHotel: {{ choosedHotel }}
-        <br>
-        adults: {{ adults }}
-        <br>
-        teenagers: {{ teenagers }}
-        <br>
-        сhildren: {{ сhildren }}
-        <br>
-        infants: {{ infants }}
-        <br>
-        choosedHotel.nuberOfPersonsPerRoom: {{ choosedHotel }}
-        <br> -->
-        <!-- listCities: {{ listCities }} -->
-        <!-- {{ roomTypes }}
-        <div v-for="roomType in roomTypes" class="rooms" style="border: 1px solid green; margin: 20px;">
-            <div class="photo">
-                <img src="" alt="">
-            </div>
-            <div class="title">{{ roomType.title }}</div>
-            <div class="params">
-                <div>{{ roomType.number_of_persons_per_room }}</div>
-            </div>
-            <div class="details">Подробнее о номере </div>
-            <div class="foot">
-                <div>
-                    <div class="cost">192 420 р.</div>
-                    <div class="guests-night">3 чел. / 2 ночи</div>
-                </div>
-            </div>
-        </div> -->
-
-
-
-
-        <!-- ========= -->
-        <div class="container my-12 mx-auto px-4 md:px-12 room-type">
-            <div class="flex flex-wrap -mx-1 lg:-mx-4">
-
-                <!-- Column -->
-                <div v-for="roomType in roomTypes" class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-
-                    <!-- Article -->
-                    <article class="overflow-hidden">
-
-                        <a href="#">
-                            <img alt="Placeholder" class="block h-auto w-full" src="@/assets/room1.jpg">
-                        </a>
-
-                        <div class="leading-tight">
-                            <h1 class="">
-                                <a class="no-underline text-black" href="#">
-                                    {{ roomType.title }}
-                                </a>
-                            </h1>
-                        </div>
-                        
-                        <div class="flex items-center params">
-                            <div class="flex items-center">
-                                <IconPerson/>
-                                {{ roomType.number_of_persons_per_room }} человека
-                            </div>
-                        </div>
-
-                        <div class="flex room-description">
-                            <a class="flex items-center no-underline hover:underline text-black" href="#">
-                                Подробнее о номере
-                                <IconArrowLeftInCircle/>
+            <div class="container my-12 mx-auto px-4 md:px-12 room-type">
+                <div class="flex flex-wrap -mx-1 lg:-mx-4">
+                    <div
+                        v-for="roomType in roomTypes" class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                        <article class="overflow-hidden">
+                            <a href="#">
+                                <img alt="Placeholder" class="block h-auto w-full" src="@/assets/room1.jpg">
                             </a>
-                        </div>
+                            <div class="leading-tight">
+                                <h1 class="">
+                                    <a class="no-underline text-black" href="#">
+                                        {{ roomType.title }}
+                                    </a>
+                                </h1>
+                            </div>
+                            
+                            <div class="flex items-center params">
+                                <div class="flex items-center">
+                                    <IconPerson/>
+                                    {{ roomType.number_of_persons_per_room }} человека
+                                </div>
+                            </div>
 
-                    </article>
-                    <!-- END Article -->
+                            <div class="flex room-description">
+                                <a class="flex items-center no-underline hover:underline text-black" href="#">
+                                    Подробнее о номере
+                                    <IconArrowLeftInCircle/>
+                                </a>
+                            </div>
 
+                        </article>
+                    </div>
                 </div>
-                <!-- END Column -->
-
+                <div
+                    v-if="roomTypes.length == 0 && showNoRoomsNotification"
+                >
+                    <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
+                </div>
             </div>
-        </div>
-        <!-- end ========= -->
         </div>
     </div>
 </template>
@@ -246,27 +242,40 @@
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue'
     
 
-    let maxAdults = ref(1)
     let choosedHotel = ref()
-
-
+    
+    
     let date = ref()
     let rangeStartDate = ref()
     let rangeEndDate = ref()
-
-
-    const adults = ref(1)
-    const teenagers = ref(0)
-    const сhildren = ref(0)
-    const infants = ref(0)
-
+    
+    
+    const adults = ref<any>(2)
+    const teenagers = ref<any>(0)
+    const сhildren = ref<any>(0)
+    const infants = ref<any>(0)
+    
     const roomTypes = ref<any>([]);
-
-
+    const showNoRoomsNotification = ref<boolean>(false)
+    
+    
+    let maxHostedPeople = ref<any>(0)
+    let sumHosted = ref<any>(adults.value)
+    let emptyPersons = ref<any>(1)
+    
+    const runCounterMaxHosted = () => {   
+        sumHosted.value = adults.value + teenagers.value + сhildren.value + infants.value
+        emptyPersons.value = maxHostedPeople.value - sumHosted.value
+    }
 
     const changeMaxAdult = () => {
-        maxAdults.value = choosedHotel.value.nuberOfPersonsPerRoom
-        adults.value = 1
+        maxHostedPeople.value = choosedHotel.value.nuberOfPersonsPerRoom
+        emptyPersons.value = 1
+        adults.value = 2
+        teenagers.value = 0
+        сhildren.value = 0
+        infants.value = 0
+        sumHosted.value = adults.value
     }
     
     const parseDate = (date: any) => {
@@ -329,15 +338,17 @@
     getCities()
 
     
-    async function getAccommodation() {
+    async function getRoomTypes() {
         try {
-            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${сhildren.value}`);
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}`);
             const finalRes = await res.json();
             roomTypes.value = finalRes.res;
+            if (roomTypes.value == 0) {
+                showNoRoomsNotification.value = true
+            }
         } catch (error) {
             console.log(error)
         }
-
     }
 
 
@@ -355,6 +366,12 @@
   .btn[disabled] {
     opacity: .3;
   }
+    .filter .btn-wrapper {
+        margin-left: auto;
+        display: flex;
+        align-items:flex-end;
+        justify-content: flex-end; 
+    } 
   .icon-seashell {
     position: absolute;
     right: 0;
@@ -368,7 +385,7 @@
         padding: 4.2rem 0 3.2rem;
     }
     .filter {
-        padding: 2rem 5rem 1.9rem;
+        /* padding: 2rem 5rem 1.9rem; */
         background-color: var(--color-primary);
         position: relative;
     }
@@ -516,5 +533,10 @@
     .room-type .params .icon {
         padding-right: .8rem;
     }
+
+
+
+
+    
     
   </style>

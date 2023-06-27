@@ -49,31 +49,28 @@
 @font-face {
     font-family: 'Optima Cyr';
     src: url('./fonts/optima/Optima.woff2') format('woff2'),
-         url('./fonts/optima/Optima.woff') format('woff'),
-         url('./fonts/optima/Optima.ttf') format('truetype');
+         url('./fonts/optima/Optima.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-    font-display: swap;
+    font-display: block;
 }
 
 @font-face {
     font-family: 'Geometria';
     src: url('./fonts/geometria/Geometria-Light.woff2') format('woff2'),
-         url('./fonts/geometria/Geometria-Light.woff') format('woff'),
-         url('./fonts/geometria/Geometria-Light.ttf') format('truetype');
+         url('./fonts/geometria/Geometria-Light.woff') format('woff');
     font-weight: 500;
     font-style: normal;
-    font-display: swap;
+    font-display: block;
 }
 
 @font-face {
     font-family: 'Baskerville';
     src: url('./fonts/baskerville/BaskervilleCyrLTStd-Incline.woff2') format('woff2'),
-         url('./fonts/baskerville/BaskervilleCyrLTStd-Incline.woff') format('woff'),
-         url('./fonts/baskerville/BaskervilleCyrLTStd-Incline.ttf') format('truetype');
+         url('./fonts/baskerville/BaskervilleCyrLTStd-Incline.woff') format('woff');
     font-weight: normal;
     font-style: italic;
-    font-display: swap;
+    font-display: block;
 }
 
 
@@ -83,6 +80,7 @@
     background: var(--color-primary)!important;
     margin-top: -12px;
 }
+
     .el-input__inner:focus {
         box-shadow: none;
     }
@@ -103,7 +101,7 @@
     .el-tree-select__popper .el-select-dropdown__item {
         color: #fff;
     }
-    .el-popper.is-light .el-popper__arrow::before {
+    .el-popper.is-light .el-popper__arrow {
         display: none;
     }
     .el-tree-select__popper .el-tree-node__expand-icon {
@@ -117,6 +115,9 @@
 
     .el-select {
         width: 100%;
+    }
+    .el-select-dropdown__wrap {
+        max-height: 100%!important;
     }
     .el-input:focus {
         border-color: #fff!important;
@@ -274,6 +275,16 @@
     }
     .room-type .room-description .icon {
         margin-left: 1rem;
+    }
+
+
+    /* counter */
+    .el-input-number__increase.is-disabled {
+        opacity: 0.3;
+    }
+    .accommodation .el-dropdown.disabled {
+        pointer-events: none;
+        opacity: .3;
     }
 
 
