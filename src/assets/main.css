@@ -271,7 +271,7 @@
         fill: #939393;
     }
     .room-type .room-description {
-        padding: 1rem 1.8rem 4rem;
+        padding: 1rem 1.8rem 2rem;
     }
     .room-type .room-description .icon {
         margin-left: 1rem;
@@ -310,16 +310,28 @@
 
     .custom-wrapper .splide__arrow--next,
     .custom-wrapper .splide__arrow--prev {
-        right: 1em;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
         visibility: hidden;
     }
+    .custom-wrapper .splide__arrow--next {
+        right: 1em;
+    }
     .custom-wrapper:hover .splide__arrow--next,
     .custom-wrapper:hover .splide__arrow--prev,
     .custom-wrapper:hover .splide__pagination.sircle-items {
         visibility: visible;
+    }
+
+
+    .room-description a:hover .icon-arrow-left-in-circle svg circle {
+        fill: #000!important;
+        stroke: #000!important;
+    }
+    .room-description a:hover .icon-arrow-left-in-circle svg path {
+        fill: #fff!important;
+        stroke: #fff!important;
     }
 
 

@@ -75,6 +75,7 @@
                                 <div></div>
                             </template>
                         </VueDatePicker>
+                        
                     </div>
                 </div>
             </div>
@@ -172,10 +173,11 @@
                     Найти номер
                 </button>
             </div>
-        </div>   
-
-       
-
+        </div>  
+        
+        <div v-if="roomTypes.length == 0 && showNoRoomsNotification">
+            <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
+        </div>
 
         <div v-if="emptyPersons == 0" class="flex items-center justify-center">
             <div class="max-w-lg py-8">
@@ -240,12 +242,12 @@
 
     const changeMaxAdult = () => {
         maxHostedPeople.value = choosedHotel.value.nuberOfPersonsPerRoom
-        emptyPersons.value = 1
         adults.value = 2
         teenagers.value = 0
         сhildren.value = 0
         infants.value = 0
-        sumHosted.value = adults.value
+        sumHosted.value = adults.value + teenagers.value + сhildren.value + infants.value
+        emptyPersons.value = maxHostedPeople.value - sumHosted.value
     }
     
     const parseDate = (date: any) => {
@@ -316,6 +318,7 @@
             if (roomTypes.value == 0) {
                 showNoRoomsNotification.value = true
             }
+            console.log("roomTypes.value: ", roomTypes.value)
         } catch (error) {
             console.log(error)
         }
