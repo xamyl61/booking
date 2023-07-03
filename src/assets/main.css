@@ -335,4 +335,16 @@
     }
 
 
+    /* spiner */
+    .el-loading-spinner {
+        top: 3rem!important;
+    }
+    .el-loading-text {
+        color: var(--color-primary)!important;
+    }
+    .el-loading-mask svg circle {
+        stroke: var(--color-primary)!important;
+    }
+
+
     

@@ -192,6 +192,8 @@
 
         <RoomTypeCard
             :roomTypes="roomTypes"
+            v-loading="loading"
+            element-loading-text="Идет поиск номеров..."
         />
 
     </div>
@@ -213,7 +215,7 @@
 
     
     
-
+    const loading = ref(false)
     let choosedHotel = ref()
     
     
@@ -312,6 +314,7 @@
     
     async function getRoomTypes() {
         try {
+            loading.value = true
             const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}`);
             const finalRes = await res.json();
             roomTypes.value = finalRes.res;
@@ -321,6 +324,8 @@
             console.log("roomTypes.value: ", roomTypes.value)
         } catch (error) {
             console.log(error)
+        } finally {
+            loading.value = false
         }
     }
 
