@@ -12,10 +12,13 @@
                         <div class="custom-wrapper">
                             <SplideTrack>
                                 <SplideSlide>
-                                <img src="@/assets/room1.jpg" alt="Sample 1">
+                                    <img :src="`https://backmb.aleancollection.ru/` + roomType.cover_image.file" alt="">
                                 </SplideSlide>
-                                <SplideSlide>
-                                <img src="@/assets/room1.jpg" alt="Sample 2">
+                  
+                                <SplideSlide
+                                    v-for="room_image in roomType.gallery"
+                                >
+                                    <img :src="`https://backmb.aleancollection.ru/` + room_image.image.file" alt="">
                                 </SplideSlide>
                             </SplideTrack>
 
@@ -49,11 +52,11 @@
                             </div>
                             <div class="flex items-center pr-4 text-xs">
                                 <IconSquare/>
-                                100 м2
+                                {{ roomType.room_square }} м2
                             </div>
                             <div class="flex items-center text-xs">
                                 <IconHome/>
-                                2 комнаты
+                                {{ roomType.room_type.number_of_beds_per_room }} комнаты
                             </div>
                         </div>
                     </div>
@@ -71,8 +74,8 @@
                                 <div class="discount-percent text-xs">-20%</div>
                                 <div class="discount-cost text-xs line-through">245 659 р.</div>
                             </div>
-                            <div class="cost text-2xl h-9">192 420 р.</div>
-                            <div class="person-nights text-xs">3 чел. / 2 ночи</div>
+                            <div class="cost text-2xl h-9">{{ roomType.price * countOfPersons  }} р.</div>
+                            <div class="person-nights text-xs">{{ countOfPersons }} чел. / {{ countOfDays }} ночи</div>
                         </div>
                         <div class="pt-3">
                             <div class="flex justify-center align-center h-5">
@@ -109,12 +112,29 @@
             title: string
             number_of_persons_per_room: number
             number_of_adults: number
+            number_of_beds_per_room: number
+            
         }
+        cover_image: {
+            file: string
+        }
+        gallery: [
+            {
+                image: {
+                    file: string
+                }
+            }
+        ]
+        room_square: number
+        price: number
+
          
     }
 
     const props = defineProps({
-        roomTypes: Object as PropType<Room[]>
+        roomTypes: Object as PropType<Room[]>,
+        countOfDays: Number,
+        countOfPersons: Number
     })
 
 

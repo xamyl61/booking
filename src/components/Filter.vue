@@ -1,5 +1,11 @@
 <template>
     <div>
+        <div>
+            <hr>
+            date: {{ date }}
+            <hr>
+            countOfDays: {{ countOfDays }}
+        </div>
        
         <h1>Выберите период проживания и количество гостей</h1>
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
@@ -191,6 +197,8 @@
         </div>
 
         <RoomTypeCard
+            :countOfDays="countOfDays"
+            :countOfPersons="countOfPersons"
             :roomTypes="roomTypes"
             v-loading="loading"
             element-loading-text="Идет поиск номеров..."
@@ -236,6 +244,10 @@
     let maxHostedPeople = ref<any>(0)
     let sumHosted = ref<any>(adults.value)
     let emptyPersons = ref<any>(1)
+
+
+    let countOfDays = ref()
+    let countOfPersons = ref()
     
     const runCounterMaxHosted = () => {   
         sumHosted.value = adults.value + teenagers.value + сhildren.value + infants.value
@@ -271,6 +283,7 @@
             month: 'long',
         });
     }
+
 
     const handleDate = (modelData:any) => {
         date.value = modelData;
@@ -314,6 +327,8 @@
     
     async function getRoomTypes() {
         try {
+            countOfPersons.value = sumHosted.value
+            countOfDays.value = (new Date(date.value[1]).getTime() - new Date(date.value[0]).getTime())/(1000 * 3600 * 24)
             loading.value = true
             const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}`);
             const finalRes = await res.json();
