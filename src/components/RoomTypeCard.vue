@@ -12,13 +12,13 @@
                         <div class="custom-wrapper">
                             <SplideTrack>
                                 <SplideSlide>
-                                    <img :src="`https://backmb.aleancollection.ru/` + roomType.cover_image.file" alt="">
+                                    <img :src="`https://backmb.aleancollection.ru/` + roomType.cover_image.url" alt="">
                                 </SplideSlide>
                   
                                 <SplideSlide
                                     v-for="room_image in roomType.gallery"
                                 >
-                                    <img :src="`https://backmb.aleancollection.ru/` + room_image.image.file" alt="">
+                                    <img :src="`https://backmb.aleancollection.ru/` + room_image.url" alt="">
                                 </SplideSlide>
                             </SplideTrack>
 
@@ -116,13 +116,11 @@
             
         }
         cover_image: {
-            file: string
+            url: string
         }
         gallery: [
             {
-                image: {
-                    file: string
-                }
+                url: string
             }
         ]
         room_square: number
