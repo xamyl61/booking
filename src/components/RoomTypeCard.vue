@@ -18,7 +18,7 @@
                                 <SplideSlide
                                     v-for="room_image in roomType.gallery"
                                 >
-                                    <img :src="`https://backmb.aleancollection.ru/` + room_image.url" alt="">
+                                    <img :src="`https://backmb.aleancollection.ru/` + room_image.image.url" alt="">
                                 </SplideSlide>
                             </SplideTrack>
 
@@ -74,7 +74,7 @@
                                 <div class="discount-percent text-xs">-20%</div>
                                 <div class="discount-cost text-xs line-through">245 659 р.</div>
                             </div>
-                            <div class="cost text-2xl h-9">{{ roomType.price * countOfPersons  }} р.</div>
+                            <div class="cost text-2xl h-9">{{ roomType.price * countOfDays  }} р.</div>
                             <div class="person-nights text-xs">{{ countOfPersons }} чел. / {{ countOfDays }} ночи</div>
                         </div>
                         <div class="pt-3">
@@ -120,7 +120,9 @@
         }
         gallery: [
             {
-                url: string
+                image: {
+                    url: string
+                }
             }
         ]
         room_square: number
