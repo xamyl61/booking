@@ -39,7 +39,7 @@
                     <div class="leading-tight grow">
                         <h1 class="">
                             <a class="no-underline text-black" href="#">
-                                {{ roomType.room_type.title }}
+                                {{ roomType.title }}
                             </a>
                         </h1>
                     </div>
@@ -108,8 +108,8 @@
     import Button from '@/components/Button.vue';
 
     interface Room {
+        title: string
         room_type: {
-            title: string
             number_of_persons_per_room: number
             number_of_adults: number
             number_of_beds_per_room: number
