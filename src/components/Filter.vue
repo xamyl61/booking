@@ -74,6 +74,7 @@
                                 <div></div>
                             </template>
                         </VueDatePicker>
+                        
                     </div>
                 </div>
             </div>
@@ -171,8 +172,11 @@
                     Найти номер
                 </button>
             </div>
-        </div>   
-
+        </div>  
+        
+        <div v-if="roomTypes.length == 0 && showNoRoomsNotification">
+            <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
+        </div>
 
         <div v-if="emptyPersons == 0" class="flex items-center justify-center">
             <div class="max-w-lg py-8">
@@ -185,47 +189,14 @@
             </div>
         </div>
 
-        <div class="container mx-auto">
-            <div class="container my-12 mx-auto px-4 md:px-12 room-type">
-                <div class="flex flex-wrap -mx-1 lg:-mx-4">
-                    <div
-                        v-for="roomType in roomTypes" class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                        <article class="overflow-hidden">
-                            <a href="#">
-                                <img alt="Placeholder" class="block h-auto w-full" src="@/assets/room1.jpg">
-                            </a>
-                            <div class="leading-tight">
-                                <h1 class="">
-                                    <a class="no-underline text-black" href="#">
-                                        {{ roomType.title }}
-                                    </a>
-                                </h1>
-                            </div>
-                            
-                            <div class="flex items-center params">
-                                <div class="flex items-center">
-                                    <IconPerson/>
-                                    {{ roomType.number_of_persons_per_room }} человека
-                                </div>
-                            </div>
+        <RoomTypeCard
+            :countOfDays="countOfDays"
+            :countOfPersons="countOfPersons"
+            :roomTypes="roomTypes"
+            v-loading="loading"
+            element-loading-text="Идет поиск номеров..."
+        />
 
-                            <div class="flex room-description">
-                                <a class="flex items-center no-underline hover:underline text-black" href="#">
-                                    Подробнее о номере
-                                    <IconArrowLeftInCircle/>
-                                </a>
-                            </div>
-
-                        </article>
-                    </div>
-                </div>
-                <div
-                    v-if="roomTypes.length == 0 && showNoRoomsNotification"
-                >
-                    <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -241,7 +212,11 @@
     import IconSeashell from '@/components/icons/IconSeashell.vue'
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue'
     
+    import RoomTypeCard from './RoomTypeCard.vue';
 
+    
+    
+    const loading = ref(false)
     let choosedHotel = ref()
     
     
@@ -262,6 +237,10 @@
     let maxHostedPeople = ref<any>(0)
     let sumHosted = ref<any>(adults.value)
     let emptyPersons = ref<any>(1)
+
+
+    let countOfDays = ref()
+    let countOfPersons = ref()
     
     const runCounterMaxHosted = () => {   
         sumHosted.value = adults.value + teenagers.value + сhildren.value + infants.value
@@ -270,12 +249,12 @@
 
     const changeMaxAdult = () => {
         maxHostedPeople.value = choosedHotel.value.nuberOfPersonsPerRoom
-        emptyPersons.value = 1
         adults.value = 2
         teenagers.value = 0
         сhildren.value = 0
         infants.value = 0
-        sumHosted.value = adults.value
+        sumHosted.value = adults.value + teenagers.value + сhildren.value + infants.value
+        emptyPersons.value = maxHostedPeople.value - sumHosted.value
     }
     
     const parseDate = (date: any) => {
@@ -298,6 +277,7 @@
         });
     }
 
+
     const handleDate = (modelData:any) => {
         date.value = modelData;
         rangeStartDate.value = parseDate(date.value[0]);
@@ -305,7 +285,7 @@
     }
 
 
-    const listCities = ref([]);
+    const listCities = ref();
     async function getCities() {
         try {
             const res = await fetch("https://backmb.aleancollection.ru/api/v1/cities/");
@@ -340,14 +320,20 @@
     
     async function getRoomTypes() {
         try {
+            countOfPersons.value = sumHosted.value
+            countOfDays.value = (new Date(date.value[1]).getTime() - new Date(date.value[0]).getTime())/(1000 * 3600 * 24)
+            loading.value = true
             const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}`);
             const finalRes = await res.json();
             roomTypes.value = finalRes.res;
             if (roomTypes.value == 0) {
                 showNoRoomsNotification.value = true
             }
+            console.log("roomTypes.value: ", roomTypes.value)
         } catch (error) {
             console.log(error)
+        } finally {
+            loading.value = false
         }
     }
 
