@@ -74,7 +74,7 @@
                                 <div class="discount-percent text-xs">-20%</div>
                                 <div class="discount-cost text-xs line-through">245 659 р.</div>
                             </div>
-                            <div class="cost text-2xl h-9">{{ roomType.price * countOfDays  }} р.</div>
+                            <div class="cost text-2xl h-9">{{ (roomType.price * countOfDays).toLocaleString('ru-RU') }} р.</div>
                             <div class="person-nights text-xs">{{ countOfPersons }} чел. / {{ countOfDays }} ночи</div>
                         </div>
                         <div class="pt-3">
@@ -93,6 +93,7 @@
 </template>
   
 <script setup lang="ts">
+    import { ref } from 'vue';
     import type { PropType } from 'vue';
 
     import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
@@ -133,7 +134,10 @@
 
     const props = defineProps({
         roomTypes: Object as PropType<Room[]>,
-        countOfDays: Number,
+        countOfDays: {
+            type: Number,
+            default: 1
+        },
         countOfPersons: Number
     })
 
