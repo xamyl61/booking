@@ -38,10 +38,13 @@
                                 <div class="daterange">
                                     <div class="daterange-item start-date">
                                         {{ rangeStartDate }}
-                                        <IconCalendar/>
                                     </div>
-                                    <div class="daterange-item">
+                                    <div class="devide-line">
+                                        &#9135;
+                                    </div>
+                                    <div class="daterange-item end-date">
                                         {{ rangeEndDate }}
+                                        <IconCalendar/>
                                     </div>
                                 </div>
                             </template>
@@ -447,18 +450,27 @@
     }
         .daterange-item {
             height: 100%;
-            width: 50%;
+            
             display: flex;
             align-items: center;
             padding: 0.7rem 1rem;
         }
         .daterange-item.start-date {
-            border-right: 1px solid #BFC1C1;
+
         }
-        .daterange-item.start-date i {
+        .daterange-item.end-date {
+            flex-grow: 1;
+        }
+        .daterange-item.end-date i {
             margin-left: auto;
         }
-
+        .daterange .devide-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 10%;
+        }
+        
         
         .accommodation .el-dropdown {
             height: 3rem;
