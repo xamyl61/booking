@@ -251,6 +251,7 @@
     }
 
     const changeMaxAdult = () => {
+        roomTypes.value = []
         maxHostedPeople.value = choosedHotel.value.nuberOfPersonsPerRoom
         adults.value = 2
         teenagers.value = 0
@@ -260,8 +261,8 @@
         emptyPersons.value = maxHostedPeople.value - sumHosted.value
     }
     
-    const parseDate = (date: any) => {
-        let year = date.toLocaleString("default", { year: "numeric" });
+    const parseDate = (date: Date) => {
+        let year = date.getFullYear();
         let month = date.toLocaleString("default", { month: "long" });
         let day = date.toLocaleString("default", { day: "numeric" });
         let weekday = date.toLocaleString("default", { weekday: "short" });
