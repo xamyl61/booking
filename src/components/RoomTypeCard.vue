@@ -6,10 +6,14 @@
                 <article class="overflow-hidden h-full flex flex-col">
                     <Splide 
                         :has-track="false"
-                        :options="{ type: 'loop' }"
+                        :options="{ type:  roomType.gallery.length > 0 ? 'loop' : ''}"
+                        :arrows="false"
                     >
 
-                        <div class="custom-wrapper">
+                        <div
+                            :class="roomType.gallery.length > 0 ? '' : 'hide-arrows'"
+                            class="custom-wrapper"
+                        >
                             <SplideTrack>
                                 <SplideSlide>
                                     <img :src="`https://backmb.aleancollection.ru/` + roomType.cover_image.url" alt="">
@@ -22,7 +26,10 @@
                                 </SplideSlide>
                             </SplideTrack>
 
-                            <div class="splide__arrows">
+                            <div
+                                v-if="roomType.gallery"
+                                class="splide__arrows"
+                            >
                                 <button class="splide__arrow--prev">
                                     <IconSlideRight/>
                                 </button>
@@ -48,7 +55,7 @@
                         <div class="flex items-center">
                             <div class="flex items-center pr-4 text-xs">
                                 <IconPerson/>
-                                {{ roomType.room_type.number_of_persons_per_room }} человека
+                                {{ roomType.room_type.number_of_persons_per_room }} {{ pluralPeopletext(roomType.room_type.number_of_persons_per_room) }}
                             </div>
                             <div class="flex items-center pr-4 text-xs">
                                 <IconSquare/>
@@ -56,7 +63,7 @@
                             </div>
                             <div class="flex items-center text-xs">
                                 <IconHome/>
-                                {{ roomType.room_type.number_of_beds_per_room }} комнаты
+                                {{ roomType.room_type.number_of_beds_per_room }} {{ pluralRoomsText(roomType.room_type.number_of_beds_per_room) }}
                             </div>
                         </div>
                     </div>
@@ -75,7 +82,7 @@
                                 <div class="discount-cost text-xs line-through">245 659 р.</div>
                             </div>
                             <div class="cost text-2xl h-9">{{ (roomType.price * countOfDays).toLocaleString('ru-RU') }} р.</div>
-                            <div class="person-nights text-xs">{{ countOfPersons }} чел. / {{ countOfDays }} ночи</div>
+                            <div class="person-nights text-xs">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
                         </div>
                         <div class="pt-3">
                             <div class="flex justify-center align-center h-5">
@@ -99,6 +106,9 @@
     import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
     import '@splidejs/vue-splide/css';
 
+    
+    
+
     import IconSlideRight from '@/components/icons/IconSlideRight.vue';
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue';
     import IconPerson from '@/components/icons/IconPerson.vue';
@@ -107,6 +117,10 @@
     import IconRuble from '@/components/icons/IconRuble.vue';
 
     import Button from '@/components/Button.vue';
+
+    import plural  from 'plural-ru';
+
+    const peoplePerRoomPlurals = ref('')
 
     interface Room {
         title: string
@@ -140,6 +154,19 @@
         },
         countOfPersons: Number
     })
+
+    const pluralPeopletext = (count: number) => {
+        return plural(count, 'человек', 'человека', 'человек');
+    }
+
+    const pluralRoomsText = (count: number) => {
+        return plural(count, 'комната', 'комнаты', 'комнат');
+    }
+
+    const pluralNightText = (count: number) => {
+        return plural(count, 'ночь', 'ночи', 'ночей');
+    }
+
 
 
 </script>
@@ -190,6 +217,8 @@
         font-family: 'Optima Cyr';
         color: #939393;
     }
+
+
 
 
 

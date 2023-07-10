@@ -1,9 +1,9 @@
 <template>
     <div>
         <h1>Выберите период проживания и количество гостей</h1>
-        <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
+        <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
-            <div class="md:w-1/2 lg:basis-72 p-2 lg:p-0">
+            <div class="xl:w-3/12 lg:w-2/12 md:w-1/2 p-2 lg:p-0">
                 <div class=" ">
                     <div class="filter-title">Отель</div>
                     <div class="filter-controls">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <div class="md:w-1/2 lg:w-2/6 p-2 lg:p-0">
+            <div class="xl:w-4/12 lg:w-4/12 md:w-1/2 p-2 lg:p-0">
                 <div class="">
                     <div class="filter-title">Дата заезда</div>
                     <div class="filter-controls">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class="md:w-1/2 lg:lg:basis-56 p-2 lg:p-0">
+            <div class="xl:grow lg:w-2/12  md:w-1/2 p-2 lg:p-0">
                 <div class="">
                     <div class="filter-title">Размещение</div>
                     <div
@@ -166,7 +166,7 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-wrapper p-2 lg:p-0">
+            <div class="xl:grow lg:p-0 btn-wrapper">
                 <button
                     @click="getRoomTypes"
                     class="btn btn-dark"
@@ -261,14 +261,13 @@
     }
     
     const parseDate = (date: any) => {
-        const options = {
-            weekday: 'short',
-            month: 'long',
-            day: 'numeric',
-            
-        };
+        let year = date.toLocaleString("default", { year: "numeric" });
+        let month = date.toLocaleString("default", { month: "long" });
+        let day = date.toLocaleString("default", { day: "numeric" });
+        let weekday = date.toLocaleString("default", { weekday: "short" });
+        let formattedDate = day  + " " + month + " " + year + "г., " + weekday;
 
-        return date.toLocaleString('ru', options)
+        return formattedDate
     }
 
     const getMonthName = (monthNumber: number) => {
@@ -387,8 +386,7 @@
         padding-right: 20px;
     }
     .col-3 {
-        width: 18%;
-        padding-right: 20px;
+        width: 22%;
     }
     .col-4 {
         width: 20%;

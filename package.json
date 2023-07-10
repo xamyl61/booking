@@ -20,6 +20,7 @@
     "flowbite": "^1.6.5",
     "maska": "^2.1.9",
     "pinia": "^2.0.36",
+    "plural-ru": "^2.0.2",
     "vue": "^3.3.2",
     "vue-final-modal": "^3.4.11",
     "vue-router": "^4.2.0",
