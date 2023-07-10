@@ -346,5 +346,9 @@
         stroke: var(--color-primary)!important;
     }
 
+    .hide-arrows .splide__arrows.splide__arrows--ltr {
+        display: none!important;
+    }
+
 
     
