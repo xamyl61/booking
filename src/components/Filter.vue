@@ -260,11 +260,14 @@
         emptyPersons.value = maxHostedPeople.value - sumHosted.value
     }
     
-    const parseDate = (date: any) => {
-        let year = date.toLocaleString("default", { year: "numeric" });
+    const parseDate = (date: Date) => {
+        let year = date.getFullYear();
         let month = date.toLocaleString("default", { month: "long" });
         let day = date.toLocaleString("default", { day: "numeric" });
         let weekday = date.toLocaleString("default", { weekday: "short" });
+
+
+
         let formattedDate = day  + " " + month + " " + year + "г., " + weekday;
 
         return formattedDate
