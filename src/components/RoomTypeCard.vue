@@ -69,10 +69,12 @@
                     </div>
 
                     <div class="flex room-description pr-4">
-                        <a class="flex items-center no-underline hover:underline text-black" href="#">
+                        <div
+                            @click="dialogVisible = true"
+                            class="flex items-center no-underline hover:underline text-black cursor-pointer">
                             Подробнее о номере
                             <IconArrowLeftInCircle/>
-                        </a>
+                        </div>
                     </div>
 
                     <div class="card-foot flex justify-between px-4">
@@ -96,6 +98,16 @@
                 </article>
             </div>
         </div>
+
+        <el-dialog
+            v-model="dialogVisible"
+            width="30%"
+        >
+            <div>
+                lalalalal
+            </div>
+        </el-dialog>
+
     </div>
 </template>
   
@@ -121,6 +133,7 @@
     import plural  from 'plural-ru';
 
     const peoplePerRoomPlurals = ref('')
+    const dialogVisible = ref(false)
 
     interface Room {
         title: string

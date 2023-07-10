@@ -334,6 +334,10 @@
         stroke: #fff!important;
     }
 
+    .hide-arrows .splide__arrows.splide__arrows--ltr {
+        display: none!important;
+    }
+
 
     /* spiner */
     .el-loading-spinner {
@@ -346,9 +350,7 @@
         stroke: var(--color-primary)!important;
     }
 
-    .hide-arrows .splide__arrows.splide__arrows--ltr {
-        display: none!important;
-    }
+
 
 
     

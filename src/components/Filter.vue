@@ -331,7 +331,6 @@
             if (roomTypes.value == 0) {
                 showNoRoomsNotification.value = true
             }
-            console.log("roomTypes.value: ", roomTypes.value)
         } catch (error) {
             console.log(error)
         } finally {
