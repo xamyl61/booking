@@ -251,6 +251,7 @@
     }
 
     const changeMaxAdult = () => {
+        roomTypes.value = []
         maxHostedPeople.value = choosedHotel.value.nuberOfPersonsPerRoom
         adults.value = 2
         teenagers.value = 0
@@ -265,9 +266,6 @@
         let month = date.toLocaleString("default", { month: "long" });
         let day = date.toLocaleString("default", { day: "numeric" });
         let weekday = date.toLocaleString("default", { weekday: "short" });
-
-
-
         let formattedDate = day  + " " + month + " " + year + "г., " + weekday;
 
         return formattedDate
