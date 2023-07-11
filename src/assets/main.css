@@ -65,6 +65,15 @@
 }
 
 @font-face {
+    font-family: 'Geometria';
+    src: url('./fonts/geometria/Geometria-Bold.woff2') format('woff2'),
+         url('./fonts/geometria/Geometria-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
     font-family: 'Baskerville';
     src: url('./fonts/baskerville/BaskervilleCyrLTStd-Incline.woff2') format('woff2'),
          url('./fonts/baskerville/BaskervilleCyrLTStd-Incline.woff') format('woff');
@@ -348,6 +357,121 @@
     }
     .el-loading-mask svg circle {
         stroke: var(--color-primary)!important;
+    }
+
+
+    /* modal room-detail */
+    .room-detail {
+        /* width: 100%;
+        max-width: 1600px; */
+    }
+    .room-detail .el-dialog__header {
+        padding: 0;
+        
+    }
+    .room-detail .el-dialog__headerbtn {
+        top: 1.6rem;
+        right: 1.6rem;
+        width: 25px;
+        height: 25px;
+        border: 1px solid #fff;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .room-detail .el-dialog__body {
+        padding: 0;
+    }
+
+    .room-detail .room-detail-head {
+        background-color: var(--color-primary);
+        padding: 1.5rem 3rem;
+        color: #fff;
+        font-family: 'Optima Cyr';
+    }
+    .room-detail .el-dialog__close path {
+        fill: #fff;
+    }
+
+    .room-detail .room-detail-body {
+        padding: 0 3rem;
+        height: 25.3vw;
+        overflow-y: auto;
+    }
+    .room-detail .room-detail-body .slider {
+        padding: 2.5rem 0 1.5rem;
+    }
+
+    .room-detail-foot {
+        background-color: var(--color-primary);
+        color: #fff;
+        padding: .9rem 3rem;
+    }
+
+    .room-detail .room-detail-foot .cost-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-right: 6rem;
+    }
+
+    .room-detail .room-detail-foot .cost {
+        font-size: 1.8rem;
+        font-family: 'Optima Cyr';
+        line-height: 1.2;
+    }
+
+    .room-detail .room-detail-foot .persons-nights {
+        font-size: .8rem;
+    }
+
+    .room-detail .room-detail-foot .btn {
+        background-color: #fff;
+        color: #000;
+        width: 11rem;
+    }
+
+    .room-detail .room-detail-foot .bonus {
+        color: #fff;
+    }
+
+
+
+    /* slider-thumblr */
+    .room-detail-body {
+    }
+    .room-detail-body .slider {
+        display: flex;
+        gap: 1rem;
+    }
+    .slider-thumblr .splide,
+    .slider-thumblr .custom-wrapper,
+    .slider-thumblr .splide__track {
+        height: 100%;
+    }
+    .slider-thumblr .splide__list {
+        display: block;
+        transform: none!important;
+        /* border: 2px solid red; */
+        gap: 1rem;
+
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .slider-thumblr .splide__slide {
+        flex: 1;
+        overflow: auto;
+        border: none!important;
+        margin-right: 0!important;
+        width: 10vw!important;
+    }
+
+    .slider-thumblr .splide__arrows {
+        display: none;
     }
 
 

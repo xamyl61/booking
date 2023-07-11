@@ -70,11 +70,13 @@
 
                     <div class="flex room-description pr-4">
                         <div
-                            @click="dialogVisible = true"
+                            @click="showRoomDetails(roomType.room_type.guid)"
                             class="flex items-center no-underline hover:underline text-black cursor-pointer">
                             Подробнее о номере
                             <IconArrowLeftInCircle/>
                         </div>
+
+                        
                     </div>
 
                     <div class="card-foot flex justify-between px-4">
@@ -101,11 +103,13 @@
 
         <el-dialog
             v-model="dialogVisible"
-            width="30%"
+            width="55%"
+            class="room-detail"
+            align-center
         >
-            <div>
-                lalalalal
-            </div>
+            <RoomCardDetails
+                :roomGuid="roomGuid"
+            />
         </el-dialog>
 
     </div>
@@ -118,8 +122,8 @@
     import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
     import '@splidejs/vue-splide/css';
 
-    
-    
+
+    import RoomCardDetails from '@/components/RoomCardDetails.vue';
 
     import IconSlideRight from '@/components/icons/IconSlideRight.vue';
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue';
@@ -134,10 +138,12 @@
 
     const peoplePerRoomPlurals = ref('')
     const dialogVisible = ref(false)
+    const roomGuid = ref('')
 
     interface Room {
         title: string
         room_type: {
+            guid: string
             number_of_persons_per_room: number
             number_of_adults: number
             number_of_beds_per_room: number
@@ -180,7 +186,12 @@
         return plural(count, 'ночь', 'ночи', 'ночей');
     }
 
+    const showRoomDetails = (guid: string) => {
+        dialogVisible.value = true
+        roomGuid.value = guid
+    }
 
+    
 
 </script>
   
