@@ -439,9 +439,9 @@
 
 
     /* .slider */
-    /* .slider > .splide .splide__arrows.splide__arrows--ltr {
-        display: none;
-    } */
+    .slider > .splide .splide__slide img {
+        width: 100%;
+    }
 
     /* slider-thumblr */
     .room-detail-body {
