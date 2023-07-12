@@ -174,15 +174,11 @@
     const thumbs = ref<InstanceType<typeof Splide>>();
 
 
-
-
     const thumbsOptions = {
       type        : 'slide',
       rewind      : true,
       gap         : '1rem',
       pagination  : true,
-    //   fixedWidth  : 160,
-    //   fixedHeight : 70,
       cover       : true,
       focus       : 'center',
       isNavigation: true,
@@ -202,28 +198,6 @@
     const pluralNightText = (count: number) => {
         return plural(count, 'ночь', 'ночи', 'ночей');
     }
-
-    // const roomDetails = ref({
-    //     title: String,
-    //     description: String,
-    //     room_square: Number,
-    //     room_type: {
-    //         number_of_beds_per_room: Number,
-    //         number_of_persons_per_room: Number
-    //     },
-    //     cover_image: {
-    //         full_url: String
-    //     },
-    //     gallery: [
-    //         {
-    //             image: {
-    //                 full_url: String
-    //             }
-    //         }
-    //     ]
-    // })
-
-    // const roomDetails = ref<any>()
 
     interface Details {
         title: string,
@@ -254,24 +228,8 @@
             required: true,
         }
     })
-
-
-    // async function getRoomDeatails() {
-    //     try {
-    //         console.log("roomGuid: ", props.roomGuid)
-    //         const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${props.roomGuid}/`);
-    //         const finalRes = await res.json();
-    //         roomDetails.value = finalRes.res;
-    //         console.log("roomDetails.value: ", roomDetails)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-    
     
     onMounted(() => {
-        // getRoomDeatails()
-
         const thumbsSplide = thumbs.value?.splide;
 
         if ( thumbsSplide ) {
