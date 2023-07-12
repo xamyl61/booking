@@ -69,10 +69,14 @@
                     </div>
 
                     <div class="flex room-description pr-4">
-                        <a class="flex items-center no-underline hover:underline text-black" href="#">
+                        <div
+                            @click="showRoomDetails(roomType.room_type.guid)"
+                            class="flex items-center no-underline hover:underline text-black cursor-pointer">
                             Подробнее о номере
                             <IconArrowLeftInCircle/>
-                        </a>
+                        </div>
+
+                        
                     </div>
 
                     <div class="card-foot flex justify-between px-4">
@@ -96,6 +100,18 @@
                 </article>
             </div>
         </div>
+
+        <el-dialog
+            v-model="dialogVisible"
+            width="55%"
+            class="room-detail"
+            align-center
+        >
+            <RoomCardDetails
+                :roomDetails="roomDetails"
+            />
+        </el-dialog>
+
     </div>
 </template>
   
@@ -106,8 +122,8 @@
     import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
     import '@splidejs/vue-splide/css';
 
-    
-    
+
+    import RoomCardDetails from '@/components/RoomCardDetails.vue';
 
     import IconSlideRight from '@/components/icons/IconSlideRight.vue';
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue';
@@ -121,10 +137,13 @@
     import plural  from 'plural-ru';
 
     const peoplePerRoomPlurals = ref('')
+    const dialogVisible = ref(false)
+    const roomGuid = ref('')
 
     interface Room {
         title: string
         room_type: {
+            guid: string
             number_of_persons_per_room: number
             number_of_adults: number
             number_of_beds_per_room: number
@@ -167,7 +186,25 @@
         return plural(count, 'ночь', 'ночи', 'ночей');
     }
 
+    const showRoomDetails = (guid: string) => {
+        dialogVisible.value = true
+        // roomGuid.value = guid
+        console.log("guid: ", guid)
+        getRoomDeatails(guid)
+    }
 
+    const roomDetails = ref()
+    async function getRoomDeatails(guid: string) {
+        try {
+            console.log("roomGuid: ", guid)
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${guid}/`);
+            const finalRes = await res.json();
+            roomDetails.value = finalRes.res;
+            console.log("roomDetails.value: ", roomDetails)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 </script>
   

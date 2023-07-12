@@ -3,7 +3,7 @@
         <h1>Выберите период проживания и количество гостей</h1>
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
-            <div class="xl:w-3/12 lg:w-2/12 md:w-1/2 p-2 lg:p-0">
+            <div class="col-1 grow p-2 lg:p-0" style="width: 20%;">
                 <div class=" ">
                     <div class="filter-title">Отель</div>
                     <div class="filter-controls">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <div class="xl:w-4/12 lg:w-4/12 md:w-1/2 p-2 lg:p-0">
+            <div class="col-2 xl:w-4/12 lg:w-4/12 md:w-1/2 p-2 lg:p-0" style="width: 440px;">
                 <div class="">
                     <div class="filter-title">Дата заезда</div>
                     <div class="filter-controls">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class="xl:grow lg:w-2/12  md:w-1/2 p-2 lg:p-0">
+            <div class="col-3 grow p-2 lg:p-0" style="width: 16%;">
                 <div class="">
                     <div class="filter-title">Размещение</div>
                     <div
@@ -160,13 +160,23 @@
                                         />
                                     </div>
                                    </div>
+                                   <div v-if="emptyPersons == 0" class="flex items-center justify-center accommodation-limit-message">
+                                        <div class="max-w-lg pt-4">
+                                            <div class="">
+                                                Выбрано максимальное колличество гостей для размещения в 1 номере. Если колличество гостей не вмещается в 1 номер, пожалуйста, распределите гостей на несколько номеров или позвоните нам <br>тел. <a href="+79999999999">8 800 250 00 30 </a>
+                                            </div>
+                                            <div class="pt-4">
+                                                <button class="btn btn-dark ">Перезвоните мне</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </template>
                         </el-dropdown>
                     </div>
                 </div>
             </div>
-            <div class="xl:grow lg:p-0 btn-wrapper">
+            <div class="col-4 grow lg:p-0 btn-wrapper">
                 <button
                     @click="getRoomTypes"
                     class="btn btn-dark"
@@ -181,7 +191,7 @@
             <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
         </div>
 
-        <div v-if="emptyPersons == 0" class="flex items-center justify-center">
+        <!-- <div v-if="emptyPersons == 0" class="flex items-center justify-center">
             <div class="max-w-lg py-8">
                 <div class="">
                     Такое колличество гостей не вмещаяется в 1 номер. Пожалуйста, распределите гостей на несколько номеров или позвоните нам. <a href="+79999999999">+79999999999</a>
@@ -190,7 +200,7 @@
                     <button class="btn btn-dark ">Перезвоните мне</button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <RoomTypeCard
             :countOfDays="countOfDays"
@@ -332,7 +342,6 @@
             if (roomTypes.value == 0) {
                 showNoRoomsNotification.value = true
             }
-            console.log("roomTypes.value: ", roomTypes.value)
         } catch (error) {
             console.log(error)
         } finally {
@@ -379,22 +388,16 @@
         position: relative;
     }
     .col-1 {
-        width: 21%;
-        padding-right: 20px;
+        width: 20%%;
     }
     .col-2 {
-        width: 36%;
-        padding-right: 20px;
+        width: 440px;
     }
     .col-3 {
-        width: 22%;
+        width: 16%;
     }
     .col-4 {
-        width: 20%;
-        margin-left: 5%;
-        display: flex;
-        align-items: self-end;
-        justify-content: flex-end;
+
     }
     .filter-title {
         color: #fff;
@@ -488,6 +491,7 @@
 
         .accommodation-dropdown {
             padding: 1.4rem 1.9rem;
+            width: 19rem;
         }
         .accommodation-dropdown-item {
             display: flex;
@@ -506,6 +510,16 @@
             font-size: .8rem;
             line-height: 1;
             padding-top: .5rem;
+        }
+        .accommodation-limit-message {
+            font-size: .7rem;
+            line-height: 1.4;
+            color: rgba(204, 204, 204, .5);
+        }
+        .accommodation-limit-message .btn {
+            height: 2.1rem;
+            width: 10.5rem;
+            font-size: 0.8rem;
         }
         
     /* room-type */
