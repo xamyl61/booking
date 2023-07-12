@@ -1,36 +1,37 @@
 <template>
     <div>
         <div class="room-detail-head">
-            <p class="text-2xl">{{ roomDetails.title }}</p>
+            <p class="text-2xl">{{ roomDetails?.title }}</p>
         </div>
         <div class="room-detail-body">
             <div class="slider">
                 <Splide 
                     :has-track="false"
-                    :options="{ type:  roomDetails.gallery.length > 0 ? 'loop' : ''}"
+                    :options="{ type: 'loop'}"
                     :arrows="false"
+                    pagination: true
                     ref="main"
                 >
         
                     <div
-                        :class="roomDetails.gallery.length > 0 ? '' : 'hide-arrows'"
+                        :class="roomDetails?.gallery.length > 0 ? '' : 'hide-arrows'"
                         class="custom-wrapper"
                     >
                         <SplideTrack>
 
                             <SplideSlide>
-                                <img :src="roomDetails.cover_image.full_url" alt="">
+                                <img :src="roomDetails?.cover_image.full_url" alt="">
                             </SplideSlide>
                 
                             <SplideSlide
-                                v-for="room_image in roomDetails.gallery"
+                                v-for="room_image in roomDetails?.gallery"
                             >
                                 <img :src="room_image.image.full_url" alt="">
                             </SplideSlide>
                         </SplideTrack>
         
                         <div
-                            v-if="roomDetails.gallery"
+                            v-if="roomDetails?.gallery"
                             class="splide__arrows"
                         >
                             <button class="splide__arrow--prev">
@@ -56,28 +57,43 @@
                     >
             
                         <div
-                            :class="roomDetails.gallery.length > 0 ? '' : 'hide-arrows'"
+                            :class="roomDetails?.gallery.length > 0 ? '' : 'hide-arrows'"
                             class="custom-wrapper"
                         >
                             <SplideTrack>
                                 <SplideSlide>
-                                    <img :src="roomDetails.cover_image.full_url" alt="">
+                                    <img :src="roomDetails?.cover_image.full_url" alt="">
                                 </SplideSlide>
                     
                                 <SplideSlide
-                                    v-for="room_image in roomDetails.gallery"
+                                    v-for="room_image in roomDetails?.gallery"
                                 >
                                     <img :src="room_image.image.full_url" alt="">
                                 </SplideSlide>
                             </SplideTrack>
+                            <div
+                                v-if="roomDetails?.gallery"
+                                class="splide__arrows"
+                            >
+                                <button class="splide__arrow--prev">
+                                    <IconSlideRight/>
+                                </button>
+                                <button class="splide__arrow--next">
+                                    <IconSlideRight/>
+                                </button>
+                            </div>
+            
+                            <ul class="splide__pagination sircle-items">
+                                
+                            </ul>
                         </div>
                     </Splide>
                 </div>
             </div>
             <div class="details">
                 <div class="flex pb-10">
-                    <div class="description text-xl">
-                        {{ roomDetails.description }}
+                    <div class="description text-lg">
+                        <!-- {{ roomDetails?.description }} -->
                         Полутороспальная кровать, кресло-кровать, стол, мини-холодильник, жк-телевизор, сейф, сплит-система телефон, чайная станция, охладитель под шампанское. На балконе: стулья и стол из искусственного ротанга. В комплектации номера гладильная доска и утюг, сушилка для белья.
                     </div>
                     <div class="type-of-service ">
@@ -87,15 +103,15 @@
 
                 <div class="flex base-detail">
                     <div class="text-block">
-                        <div class="styled-text">{{ roomDetails.room_square }} м2</div>
+                        <div class="styled-text">{{ roomDetails?.room_square }} м2</div>
                         <div class="text">Площадь</div>
                     </div>
                     <div class="text-block">
-                        <div class="styled-text">{{ roomDetails.room_type.number_of_beds_per_room }}</div>
+                        <div class="styled-text">{{ roomDetails?.room_type.number_of_beds_per_room }}</div>
                         <div class="text">Комнаты</div>
                     </div>
                     <div class="text-block">
-                        <div class="styled-text">{{ roomDetails.room_type.number_of_persons_per_room }} человека</div>
+                        <div class="styled-text">{{ roomDetails?.room_type.number_of_persons_per_room }} человека</div>
                         <div class="text">Вместимость номера</div>
                     </div>
                 </div>
@@ -126,10 +142,6 @@
                         </div>
                     </div>
                 </div>
-
-                <hr>
-                    roomDetails: {{ roomDetails }}
-                <hr>
             </div>
         </div>
         <div class="room-detail-foot flex justify-end ">
@@ -168,13 +180,14 @@
       type        : 'slide',
       rewind      : true,
       gap         : '1rem',
-      pagination  : false,
+      pagination  : true,
     //   fixedWidth  : 160,
     //   fixedHeight : 70,
       cover       : true,
       focus       : 'center',
       isNavigation: true,
       updateOnMove: true,
+      arrows: false,
     };
 
 
@@ -190,30 +203,9 @@
         return plural(count, 'ночь', 'ночи', 'ночей');
     }
 
-    const roomDetails = ref({
-        title: String,
-        description: String,
-        room_square: Number,
-        room_type: {
-            number_of_beds_per_room: Number,
-            number_of_persons_per_room: Number
-        },
-        cover_image: {
-            full_url: String
-        },
-        gallery: [
-            {
-                image: {
-                    full_url: String
-                }
-            }
-        ]
-    })
-
-    // const roomDetails = ref<any>()
-
-    // interface Details {
+    // const roomDetails = ref({
     //     title: String,
+    //     description: String,
     //     room_square: Number,
     //     room_type: {
     //         number_of_beds_per_room: Number,
@@ -229,35 +221,56 @@
     //             }
     //         }
     //     ]
-    // }
+    // })
+
+    // const roomDetails = ref<any>()
+
+    interface Details {
+        title: string,
+        room_square: number,
+        room_type: {
+            number_of_beds_per_room: number,
+            number_of_persons_per_room: number
+        },
+        cover_image: {
+            full_url: string
+        },
+        gallery: [
+            {
+                image: {
+                    full_url: string
+                }
+            }
+        ]
+    }
 
     const props = defineProps({
-        roomGuid: {
-            type: String,
-            default: 'No content found!'
-        },
+        // roomGuid: {
+        //     type: String,
+        //     default: 'No content found!'
+        // },
         roomDetails: {
-            type: Object,
-            requiered: true
+            type: Object as PropType<Details>,
+            required: true,
         }
     })
 
 
-    async function getRoomDeatails() {
-        try {
-            console.log("roomGuid: ", props.roomGuid)
-            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${props.roomGuid}/`);
-            const finalRes = await res.json();
-            roomDetails.value = finalRes.res;
-            console.log("roomDetails.value: ", roomDetails)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // async function getRoomDeatails() {
+    //     try {
+    //         console.log("roomGuid: ", props.roomGuid)
+    //         const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${props.roomGuid}/`);
+    //         const finalRes = await res.json();
+    //         roomDetails.value = finalRes.res;
+    //         console.log("roomDetails.value: ", roomDetails)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
     
     
     onMounted(() => {
-        getRoomDeatails()
+        // getRoomDeatails()
 
         const thumbsSplide = thumbs.value?.splide;
 

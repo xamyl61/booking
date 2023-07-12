@@ -108,7 +108,7 @@
             align-center
         >
             <RoomCardDetails
-                :roomGuid="roomGuid"
+                :roomDetails="roomDetails"
             />
         </el-dialog>
 
@@ -188,10 +188,23 @@
 
     const showRoomDetails = (guid: string) => {
         dialogVisible.value = true
-        roomGuid.value = guid
+        // roomGuid.value = guid
+        console.log("guid: ", guid)
+        getRoomDeatails(guid)
     }
 
-    
+    const roomDetails = ref()
+    async function getRoomDeatails(guid: string) {
+        try {
+            console.log("roomGuid: ", guid)
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${guid}/`);
+            const finalRes = await res.json();
+            roomDetails.value = finalRes.res;
+            console.log("roomDetails.value: ", roomDetails)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 </script>
   

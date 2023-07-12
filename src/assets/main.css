@@ -300,7 +300,7 @@
     /* carousel */
     .splide__pagination.sircle-items {
         bottom: .5em;
-        visibility: hidden;
+        /* visibility: hidden; */
     }
     .splide__pagination.sircle-items .splide__pagination__page,
     .splide__pagination.sircle-items .splide__pagination__page.is-active {
@@ -343,7 +343,7 @@
         stroke: #fff!important;
     }
 
-    .hide-arrows .splide__arrows.splide__arrows--ltr {
+    .hide-arrows .splide__arrows {
         display: none!important;
     }
 
@@ -438,6 +438,10 @@
     }
 
 
+    /* .slider */
+    /* .slider > .splide .splide__arrows.splide__arrows--ltr {
+        display: none;
+    } */
 
     /* slider-thumblr */
     .room-detail-body {
