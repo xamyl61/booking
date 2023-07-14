@@ -38,6 +38,7 @@ frontend:build:
       when: always
 
 frontend:publish:
+  image: docker:20.10.16-dind
   extends:
     - .docker:base
   stage: publish
