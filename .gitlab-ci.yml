@@ -4,6 +4,14 @@ stages:
 
 variables:
   NODE_VERSION: "node:18"
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+services:
+  - name: docker:20-dind
+    alias: docker
+    command: ["--tls=false"]
 
 .node:base:
   cache:
@@ -38,12 +46,10 @@ frontend:build:
       when: always
 
 frontend:publish:
-  image: docker:latest
+  image: docker:20-dind
   extends:
     - .docker:base
   stage: publish
   script:
     - docker build -t $CI_REGISTRY_IMAGE:frontend -f Dockerfile .
     - docker push $CI_REGISTRY_IMAGE:frontend
-  services:
-    - docker:dind
