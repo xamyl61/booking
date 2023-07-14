@@ -38,6 +38,7 @@ frontend:build:
       when: always
 
 frontend:publish:
+  image: docker:latest
   extends:
     - .docker:base
   stage: publish
