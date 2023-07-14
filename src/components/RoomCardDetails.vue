@@ -245,32 +245,15 @@
     }
 
     const props = defineProps({
-        // roomGuid: {
-        //     type: String,
-        //     default: 'No content found!'
-        // },
+  
         roomDetails: {
             type: Object as PropType<Details>,
             required: true,
         }
     })
-
-
-    // async function getRoomDeatails() {
-    //     try {
-    //         console.log("roomGuid: ", props.roomGuid)
-    //         const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${props.roomGuid}/`);
-    //         const finalRes = await res.json();
-    //         roomDetails.value = finalRes.res;
-    //         console.log("roomDetails.value: ", roomDetails)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
     
     
     onMounted(() => {
-        // getRoomDeatails()
 
         const thumbsSplide = thumbs.value?.splide;
 
