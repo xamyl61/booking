@@ -1,20 +1,24 @@
 stages:
   - build
+  - publish
 
 variables:
-  FRONTEND_PROJECT: "./src"
   NODE_VERSION: "node:18"
 
 .node:base:
   cache:
     paths:
-      - $FRONTEND_PROJECT/.npm
+      - .npm
     key: ${CI_PROJECT_NAME}_${CI_JOB_NAME}
   before_script:
     - echo ${CI_PROJECT_NAME}_${CI_JOB_NAME}
-    - cd $FRONTEND_PROJECT
     - NODE_OPTIONS=\"--max_old_space_size=3512\"
     - node --max-old-space-size=3512
+
+.docker:base:
+  stage: build
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 frontend:build:
   image:
@@ -27,10 +31,16 @@ frontend:build:
     - npm run build
   artifacts:
     paths:
-      - "src/build/*"
+      - "dist/*"
     expire_in: 1h
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes:
-        - src/**/*
       when: always
+
+frontend:publish:
+  extends:
+    - .docker:base
+  stage: publish
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:frontend -f Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE:frontend
