@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 
+body {
+    font-family: 'Geometria';
+}
+
+
 /* variables */
 :root {
     --color-primary: #215C66;

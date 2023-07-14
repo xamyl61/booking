@@ -23,7 +23,7 @@ import { toast } from 'vue3-toastify';
   const authStore = useAuthStore()
   const OTP_CODE_LENGTH = 4;
 
- 
+  const activeTab = ref('phone')
 
   onMounted(() => {
     initFlowbite();
@@ -182,31 +182,21 @@ import { toast } from 'vue3-toastify';
         <div class="authenctication-form__content">
 
             <template v-if="currentStep === 'code'">
-                <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
-                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
-                    <li class="mr-2" role="presentation">
-                        <button @click="onChangeAuthWay('phone')" class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Телефон</button>
-                    </li>
-                    <li class="mr-2" role="presentation">
-                        <button @click="onChangeAuthWay('email')" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Email</button>
-                    </li>
-                </ul>
-                </div>
-                <div id="myTabContent">
-                    <div class="hidden rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+                <el-tabs v-model="activeTab" class="login-tabs">
+                    <el-tab-pane label="По телефону" name="phone">
                         <Input v-model="phone" v-maska data-maska="+7 ### ###-##-##" placeholder="Телефон" />
-                    </div>
-                    <div class="hidden rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                    </el-tab-pane>
+                    <el-tab-pane label="По E-mail" name="email">
                         <Input v-model="email" placeholder="Email" />
-                    </div>
-                </div>
+                    </el-tab-pane>
+                </el-tabs>
 
                 <div class="authentication-form__submit">
                     <Button :loading="isLoading" @click="onSendCode">Получить код</Button>
                 </div>
             </template>
             <template v-else>
-
                 <OtpInput class="otp-code" :digit-count="OTP_CODE_LENGTH" v-model="code" />
                     <div class="authentication-form__submit">
                         <Button :loading="isLoading" @click="onResendCode">{{ buttonText }}</Button>
@@ -227,7 +217,7 @@ import { toast } from 'vue3-toastify';
     </Modal>
 
 </template>
-<style scoped>
+<style>
 .authentication-form 
 {
     display: flex;
@@ -236,11 +226,14 @@ import { toast } from 'vue3-toastify';
 }
 
 .authentication-form__title {
+    font-family: 'Optima Cyr';
     font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 .authentication-form__submit {
     width: 70%;
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 .authentication-form__note {
@@ -252,5 +245,21 @@ import { toast } from 'vue3-toastify';
 .otp-code {
     display: flex;
     width: 50%;
+}
+
+.login-tabs .el-tabs__header {
+    display: flex;
+}
+
+.login-tabs .el-tabs__nav-wrap {
+    padding: 0 1rem 0 1rem;
+}
+
+.login-tabs .el-tabs__active-bar {
+    background-color: grey;
+}
+
+.login-tabs .el-tabs__item {
+    color: grey;
 }
 </style>

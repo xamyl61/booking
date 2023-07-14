@@ -316,7 +316,6 @@
     color: #939393;
     font-weight: 700;
     font-size: .8rem;
-    font-family: 'Geometria';
     padding-bottom: .8rem;
 }
 
