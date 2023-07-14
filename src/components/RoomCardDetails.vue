@@ -161,7 +161,7 @@
     import { ref, onMounted } from 'vue';
     import type { PropType } from 'vue';
 
-    import { Splide, SplideSlide, SplideTrack, Options } from '@splidejs/vue-splide';
+    import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
     import '@splidejs/vue-splide/css';
 
 
