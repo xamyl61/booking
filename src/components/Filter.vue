@@ -134,7 +134,7 @@
                                    <div class="accommodation-dropdown-item">
                                     <div class="left">
                                         <div class="title">Дети</div>
-                                        <div class="dscr">от 2 до 12 лет<br>  на дату заезда</div>
+                                        <div class="dscr">от 2 до 12 лет<br> на дату заезда</div>
                                     </div>
                                     <div class="right">
                                         <el-input-number
