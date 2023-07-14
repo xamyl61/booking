@@ -38,10 +38,11 @@ frontend:build:
       when: always
 
 frontend:publish:
-  image: docker:latest
   extends:
     - .docker:base
   stage: publish
   script:
     - docker build -t $CI_REGISTRY_IMAGE:frontend -f Dockerfile .
     - docker push $CI_REGISTRY_IMAGE:frontend
+  services:
+    - docker:dind
