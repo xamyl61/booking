@@ -8,11 +8,6 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
 
-services:
-  - name: docker:20-dind
-    alias: docker
-    command: ["--tls=false"]
-
 .node:base:
   cache:
     paths:
@@ -51,5 +46,9 @@ frontend:publish:
     - .docker:base
   stage: publish
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:frontend -f Dockerfile .
-    - docker push $CI_REGISTRY_IMAGE:frontend
+    - docker build -t $CI_REGISTRY_IMAGE:latest -f Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE:latest
+  services:
+    - name: docker:20-dind
+      alias: docker
+      command: ["--tls=false"]
