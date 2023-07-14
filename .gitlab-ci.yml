@@ -54,6 +54,9 @@ frontend:publish:
     - name: docker:20-dind
       alias: docker
       command: ["--tls=false"]
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^master/'
+      when: on_success
 
 frontend:deploy:
   stage: deploy
@@ -63,3 +66,6 @@ frontend:deploy:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker compose pull"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker compose -f $DEPLOY_SCRIPT_PATH up -d"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker image prune -f"
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^master/'
+      when: on_success
