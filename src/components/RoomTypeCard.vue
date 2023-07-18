@@ -2,7 +2,9 @@
     <div class="room-type container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
         <div class="flex flex-wrap -mx-1 lg:-mx-4">
             <div
-                v-for="roomType in roomTypes" class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                v-for="roomType in roomTypes"
+                class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3"
+            >
                 <article class="overflow-hidden h-full flex flex-col">
                     <Splide 
                         :has-track="false"
@@ -16,13 +18,13 @@
                         >
                             <SplideTrack>
                                 <SplideSlide>
-                                    <img :src="`https://backmb.aleancollection.ru/` + roomType.cover_image.url" alt="">
+                                    <img :src="roomType.cover_image.full_url" alt="">
                                 </SplideSlide>
                   
                                 <SplideSlide
                                     v-for="room_image in roomType.gallery"
                                 >
-                                    <img :src="`https://backmb.aleancollection.ru/` + room_image.image.url" alt="">
+                                    <img :src="room_image.image.full_url" alt="">
                                 </SplideSlide>
                             </SplideTrack>
 
@@ -103,9 +105,10 @@
 
         <el-dialog
             v-model="dialogVisible"
-            width="55%"
+            width="70%"
             class="room-detail"
             align-center
+            destroy-on-close
         >
             <RoomCardDetails
                 :roomDetails="roomDetails"
@@ -150,11 +153,13 @@
             
         }
         cover_image: {
+            full_url: string
             url: string
         }
         gallery: [
             {
                 image: {
+                    full_url: string
                     url: string
                 }
             }
@@ -188,19 +193,15 @@
 
     const showRoomDetails = (guid: string) => {
         dialogVisible.value = true
-        // roomGuid.value = guid
-        console.log("guid: ", guid)
         getRoomDeatails(guid)
     }
 
     const roomDetails = ref()
     async function getRoomDeatails(guid: string) {
         try {
-            console.log("roomGuid: ", guid)
             const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${guid}/`);
             const finalRes = await res.json();
             roomDetails.value = finalRes.res;
-            console.log("roomDetails.value: ", roomDetails)
         } catch (error) {
             console.log(error)
         }

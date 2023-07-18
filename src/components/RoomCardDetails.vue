@@ -31,7 +31,6 @@
                         </SplideTrack>
         
                         <div
-                            v-if="roomDetails?.gallery"
                             class="splide__arrows"
                         >
                             <button class="splide__arrow--prev">
@@ -51,7 +50,7 @@
                     <Splide 
                         :has-track="false"
                         :options="thumbsOptions"
-                        :arrows="false"
+                        :arrows="true"
                         ref="thumbs"
                         class="slider-thumblr-splide"
                     >
@@ -71,21 +70,7 @@
                                     <img :src="room_image.image.full_url" alt="">
                                 </SplideSlide>
                             </SplideTrack>
-                            <div
-                                v-if="roomDetails?.gallery"
-                                class="splide__arrows"
-                            >
-                                <button class="splide__arrow--prev">
-                                    <IconSlideRight/>
-                                </button>
-                                <button class="splide__arrow--next">
-                                    <IconSlideRight/>
-                                </button>
-                            </div>
-            
-                            <ul class="splide__pagination sircle-items">
-                                
-                            </ul>
+             
                         </div>
                     </Splide>
                 </div>
@@ -117,28 +102,64 @@
                 </div>
 
                 <div class="list-block">
-                    <h6 class="list-block-title pt-10 pb-6">Удобства в номере</h6>
-                    <div class="flex">
-                        <div class="w-1/4">
-                            <div class="subtitle">Интернет/телефония:</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Wi-Fi</div>
+
+                    <h6 class="list-block-title pt-10 pb-6">{{ roomDetails?.amenity_title }}</h6>
+                    <div class="list-block-grid">
+                        <div    
+                            v-for="amenity in roomDetails?.amenity_categories"
+                            class="list-block-grid-col"
+                        >
+                            <div class="">
+                                <div class="subtitle">{{ amenity?.title }}:</div>
+                                <div
+                                    style=""
+                                >
+                                    <div
+                                        v-for="item in amenity.amenity_items"
+                                        class="item flex pb-2 content-center"
+                                    >
+                                        <div>
+                                            <img
+                                                class="list-block-icons"
+                                                :class="item.amenity.icon?.full_url ? '' : 'invisible'"
+                                                :src="item.amenity.icon?.full_url"
+                                                alt=""
+                                            >
+                                        </div>
+                                        <p>{{ item.amenity.title }}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="w-1/4">
-                            <div class="subtitle">Электроника:</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Фен</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Мини-холодильник</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Утюг</div>
-                        </div>
-                        <div class="w-1/4">
-                            <div class="subtitle">Ванная комната:</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Душ</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Косметические средства</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Тапочки</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Халаты</div>
-                        </div>
-                        <div class="w-1/4">
-                            <div class="subtitle">Внешняя территория и вид из окон:</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Вид на город</div>
+                    </div>
+
+                    <h6 class="list-block-title pt-10 pb-6">{{ roomDetails?.arrival_service_title }}</h6>
+                    <div class="list-block-grid">
+                        <div    
+                            v-for="amenity in roomDetails?.arrival_service_categories"
+                            class="list-block-grid-col"
+                        >
+                            <div class="">
+                                <div class="subtitle">{{ amenity?.title }}:</div>
+                                <div
+                                    style=""
+                                >
+                                    <div
+                                        v-for="item in amenity.arrival_service_items"
+                                        class="item flex pb-2 content-center"
+                                    >
+                                        <div>
+                                            <img
+                                                class="list-block-icons"
+                                                :class="item.arrival_service.icon?.full_url ? '' : 'invisible'"
+                                                :src="item.arrival_service.icon?.full_url"
+                                                alt=""
+                                            >
+                                        </div>
+                                        <p>{{ item.arrival_service.title }}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -158,7 +179,7 @@
 </template>
   
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, onUnmounted } from 'vue';
     import type { PropType } from 'vue';
 
     import { Splide, SplideSlide, SplideTrack, Options } from '@splidejs/vue-splide';
@@ -173,12 +194,13 @@
     const main   = ref<InstanceType<typeof Splide>>();
     const thumbs = ref<InstanceType<typeof Splide>>();
 
-
     const thumbsOptions = {
       type        : 'slide',
       rewind      : true,
       gap         : '1rem',
       pagination  : true,
+    //   fixedWidth  : 160,
+    //   fixedHeight : 70,
       cover       : true,
       focus       : 'center',
       isNavigation: true,
@@ -215,14 +237,44 @@
                     full_url: string
                 }
             }
+        ],
+        amenity_title: string,
+        amenity_categories: [
+            {
+                title: string,
+                amenity_items: [
+                    {
+                        amenity: {
+                            title: string,
+                            icon: {
+                                alt: string,
+                                full_url: string
+                            }
+                        }
+                    }
+                ]
+            }
+        ],
+        arrival_service_title: string,
+        arrival_service_categories: [
+            {
+                title: string,
+                arrival_service_items: [
+                    {
+                        arrival_service: {
+                            title: string,
+                            icon: {
+                                alt: string,
+                                full_url: string
+                            }
+                        }
+                    }
+                ]
+            }
         ]
     }
 
     const props = defineProps({
-        // roomGuid: {
-        //     type: String,
-        //     default: 'No content found!'
-        // },
         roomDetails: {
             type: Object as PropType<Details>,
             required: true,
@@ -236,6 +288,8 @@
             main.value?.sync( thumbsSplide );
         }
     })
+
+
 
 </script>
   
@@ -277,6 +331,39 @@
     font-family: 'Geometria';
     padding-bottom: .8rem;
 }
+
+
+/* list-block */
+.list-block {
+    
+}
+.list-block-grid {
+    display: flex;
+    gap: 1rem;
+}
+.list-block-grid-col {
+    display: flex;
+    flex-flow: column;
+    width: 25%;
+    padding-right: 3rem;
+}
+.item {
+    flex: 1 50px;
+    /* border: 1px solid green; */
+    flex-grow: 1;
+    display: flex;
+}
+.item p {
+    min-height: 3rem;
+}
+
+.list-block-icons {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+}
+
+
 
 
 

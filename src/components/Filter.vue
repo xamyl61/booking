@@ -32,6 +32,7 @@
                             position="left"
                             :six-weeks="true"
                             :offset="1"
+                            :min-date="new Date()"
                             @update:model-value="handleDate"
                         >
                             <template #trigger>
