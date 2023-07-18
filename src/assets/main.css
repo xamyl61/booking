@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 
+body {
+    font-family: 'Geometria', sans-serif;
+}
+
+
 /* variables */
 :root {
     --color-primary: #215C66;
@@ -88,6 +93,7 @@
     border-radius: 0!important;
     background: var(--color-primary)!important;
     margin-top: -12px;
+    font-family: 'Arial';
 }
 
     .el-input__inner:focus {

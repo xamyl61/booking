@@ -72,7 +72,7 @@
 
                     <div class="flex room-description pr-4">
                         <div
-                            @click="showRoomDetails(roomType.room_type.guid)"
+                            @click="showRoomDetails(roomType.room_type.guid, (roomType.price * countOfDays).toLocaleString('ru-RU'))"
                             class="flex items-center no-underline hover:underline text-black cursor-pointer">
                             Подробнее о номере
                             <IconArrowLeftInCircle/>
@@ -112,6 +112,9 @@
         >
             <RoomCardDetails
                 :roomDetails="roomDetails"
+                :roomPrice="roomPrice"
+                :countOfDays="countOfDays"
+                :countOfPersons="countOfPersons"
             />
         </el-dialog>
 
@@ -142,6 +145,8 @@
     const peoplePerRoomPlurals = ref('')
     const dialogVisible = ref(false)
     const roomGuid = ref('')
+
+    const roomPrice = ref('')
 
     interface Room {
         title: string
@@ -176,7 +181,11 @@
             type: Number,
             default: 1
         },
-        countOfPersons: Number
+        countOfPersons: {
+            type: Number,
+            default: 1
+        },
+
     })
 
     const pluralPeopletext = (count: number) => {
@@ -191,8 +200,9 @@
         return plural(count, 'ночь', 'ночи', 'ночей');
     }
 
-    const showRoomDetails = (guid: string) => {
+    const showRoomDetails = (guid: string, cost: string) => {
         dialogVisible.value = true
+        roomPrice.value = cost
         getRoomDeatails(guid)
     }
 

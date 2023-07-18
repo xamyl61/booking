@@ -167,8 +167,9 @@
         </div>
         <div class="room-detail-foot flex justify-end ">
             <div class="cost-block">
-                <div class="cost">192420 р.</div>
-                <div class="persons-nights">3 чел. / 2 ночи</div>
+                <div class="cost">{{ roomPrice }} р.</div>
+                
+                <div class="persons-nights">{{ countOfPersons }} чел. / {{ countOfDays }} ночи</div>
             </div>
             <div class="btns-block">
                 <div class="bonus text-xs text-center pb-1">3 000 бонусов</div>
@@ -182,7 +183,7 @@
     import { ref, onMounted, onUnmounted } from 'vue';
     import type { PropType } from 'vue';
 
-    import { Splide, SplideSlide, SplideTrack, Options } from '@splidejs/vue-splide';
+    import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
     import '@splidejs/vue-splide/css';
 
 
@@ -224,6 +225,7 @@
     interface Details {
         title: string,
         room_square: number,
+        price: number,
         room_type: {
             number_of_beds_per_room: number,
             number_of_persons_per_room: number
@@ -278,7 +280,20 @@
         roomDetails: {
             type: Object as PropType<Details>,
             required: true,
-        }
+        },
+        roomPrice: {
+            type: String,
+            required: true,
+        },
+        countOfDays: {
+            type: Number,
+            required: true,
+        },
+        countOfPersons: {
+            type: Number,
+            required: true,
+        },
+        
     })
     
     onMounted(() => {
@@ -328,7 +343,6 @@
     color: #939393;
     font-weight: 700;
     font-size: .8rem;
-    font-family: 'Geometria';
     padding-bottom: .8rem;
 }
 

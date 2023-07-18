@@ -109,9 +109,6 @@
       font-size: 2rem;
       text-align: center;
   }
-  .digit-box:focus {
-    outline: 3px solid black;
-  }
   
   @keyframes pulse {
     0% {

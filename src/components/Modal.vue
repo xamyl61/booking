@@ -6,19 +6,26 @@
     classes="flex justify-center items-center"
     content-class="relative flex flex-col max-h-full mx-4 bg-white max-w-[700px]"
   >
-    <span class="flex items-center pl-8 pr-8 h-[6rem] bg-teal-500 text-white uppercase justify-between">
+    <span class="flex items-center pl-8 pr-8 h-[6rem] text-white uppercase justify-between header">
       <slot name="title"></slot>
-      <span class="cursor-pointer" @click="close">X</span>
+      <IconClose @click="close" class="icon-close" />
     </span>
-    <div class="flex-grow overflow-y-auto p-16 pt-8 pb-8">
+    <div class="flex-grow overflow-y-auto p-8 pt-8 pb-8">
       <slot :params="params"></slot>
     </div>
   </vue-final-modal>
 </template>
   
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-  emits: ['cancel', 'confirm']
-}
+<script setup lang="ts">
+import IconClose from '@/components/icons/IconClose.vue'
 </script>
+
+<style scoped>
+.header {
+  background-color: #215c66;
+  font-weight: 300;
+}
+.icon-close {
+  cursor: pointer;
+}
+</style>
