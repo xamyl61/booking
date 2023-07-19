@@ -1,6 +1,9 @@
 <template>
     <div>
         <h1>Выберите период проживания и количество гостей</h1>
+        startDateFormated: {{ startDateFormated }}
+        <br>
+        endDateFormated: {{ endDateFormated }}
 
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
@@ -278,8 +281,8 @@
 
     const dateFormateding = (date: Date) => {
         let year = date.getFullYear();
-        let month = date.toLocaleString("default", { month: "numeric" });
-        let day = date.toLocaleString("default", { day: "numeric" });
+        let month = date.toLocaleString("default", { month: "2-digit" });
+        let day = date.toLocaleString("default", { day: "2-digit" });
         let formattedDate = year + "-" + month + "-" + day;
 
         return formattedDate
