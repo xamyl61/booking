@@ -2,7 +2,9 @@
     <div class="room-type container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
         <div class="flex flex-wrap -mx-1 lg:-mx-4">
             <div
-                v-for="roomType in roomTypes" class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                v-for="roomType in roomTypes"
+                class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3"
+            >
                 <article class="overflow-hidden h-full flex flex-col">
                     <Splide 
                         :has-track="false"
@@ -16,13 +18,13 @@
                         >
                             <SplideTrack>
                                 <SplideSlide>
-                                    <img :src="`https://backmb.aleancollection.ru/` + roomType.cover_image.url" alt="">
+                                    <img :src="roomType.cover_image.full_url" alt="">
                                 </SplideSlide>
                   
                                 <SplideSlide
                                     v-for="room_image in roomType.gallery"
                                 >
-                                    <img :src="`https://backmb.aleancollection.ru/` + room_image.image.url" alt="">
+                                    <img :src="room_image.image.full_url" alt="">
                                 </SplideSlide>
                             </SplideTrack>
 
@@ -44,7 +46,7 @@
                         </div>
                     </Splide>   
                     <div class="leading-tight grow">
-                        <h1 class="">
+                        <h1>
                             <a class="no-underline text-black" href="#">
                                 {{ roomType.title }}
                             </a>
@@ -70,7 +72,7 @@
 
                     <div class="flex room-description pr-4">
                         <div
-                            @click="showRoomDetails(roomType.room_type.guid)"
+                            @click="showRoomDetails(roomType.room_type.guid, (roomType.price * countOfDays).toLocaleString('ru-RU'))"
                             class="flex items-center no-underline hover:underline text-black cursor-pointer">
                             Подробнее о номере
                             <IconArrowLeftInCircle/>
@@ -80,7 +82,7 @@
                     </div>
 
                     <div class="card-foot flex justify-between px-4">
-                        <div class="">
+                        <div>
                             <div class="flex justify-between mb-1 h-4">
                                 <div class="discount-percent text-xs">-20%</div>
                                 <div class="discount-cost text-xs line-through">245 659 р.</div>
@@ -103,12 +105,16 @@
 
         <el-dialog
             v-model="dialogVisible"
-            width="55%"
+            width="70%"
             class="room-detail"
             align-center
+            destroy-on-close
         >
             <RoomCardDetails
                 :roomDetails="roomDetails"
+                :roomPrice="roomPrice"
+                :countOfDays="countOfDays"
+                :countOfPersons="countOfPersons"
             />
         </el-dialog>
 
@@ -140,6 +146,8 @@
     const dialogVisible = ref(false)
     const roomGuid = ref('')
 
+    const roomPrice = ref('')
+
     interface Room {
         title: string
         room_type: {
@@ -150,11 +158,13 @@
             
         }
         cover_image: {
+            full_url: string
             url: string
         }
         gallery: [
             {
                 image: {
+                    full_url: string
                     url: string
                 }
             }
@@ -171,7 +181,11 @@
             type: Number,
             default: 1
         },
-        countOfPersons: Number
+        countOfPersons: {
+            type: Number,
+            default: 1
+        },
+
     })
 
     const pluralPeopletext = (count: number) => {
@@ -186,21 +200,18 @@
         return plural(count, 'ночь', 'ночи', 'ночей');
     }
 
-    const showRoomDetails = (guid: string) => {
+    const showRoomDetails = (guid: string, cost: string) => {
         dialogVisible.value = true
-        // roomGuid.value = guid
-        console.log("guid: ", guid)
+        roomPrice.value = cost
         getRoomDeatails(guid)
     }
 
     const roomDetails = ref()
     async function getRoomDeatails(guid: string) {
         try {
-            console.log("roomGuid: ", guid)
             const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${guid}/`);
             const finalRes = await res.json();
             roomDetails.value = finalRes.res;
-            console.log("roomDetails.value: ", roomDetails)
         } catch (error) {
             console.log(error)
         }

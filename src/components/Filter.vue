@@ -3,7 +3,7 @@
         <h1>Выберите период проживания и количество гостей</h1>
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
-            <div class="col-1 grow p-2 lg:p-0" style="width: 20%;">
+            <div class="grow p-2 lg:p-0">
                 <div class=" ">
                     <div class="filter-title">Отель</div>
                     <div class="filter-controls">
@@ -18,8 +18,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 xl:w-4/12 lg:w-4/12 md:w-1/2 p-2 lg:p-0" style="width: 440px;">
-                <div class="">
+            <div class="datepicker-wrapper p-2 lg:p-0">
+                <div>
                     <div class="filter-title">Дата заезда</div>
                     <div class="filter-controls">
                         <VueDatePicker
@@ -32,17 +32,18 @@
                             position="left"
                             :six-weeks="true"
                             :offset="1"
+                            :min-date="new Date()"
                             @update:model-value="handleDate"
                         >
                             <template #trigger>
                                 <div class="daterange">
-                                    <div class="daterange-item start-date">
+                                    <div class="daterange-item start-date whitespace-pre">
                                         {{ rangeStartDate }}
                                     </div>
                                     <div class="devide-line">
                                         &#9135;
                                     </div>
-                                    <div class="daterange-item end-date">
+                                    <div class="daterange-item end-date whitespace-pre">
                                         {{ rangeEndDate }}
                                         <IconCalendar/>
                                     </div>
@@ -81,8 +82,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3 grow p-2 lg:p-0" style="width: 16%;">
-                <div class="">
+            <div class="grow p-2 lg:p-0">
+                <div>
                     <div class="filter-title">Размещение</div>
                     <div
                         class="filter-controls accommodation"
@@ -162,7 +163,7 @@
                                    </div>
                                    <div v-if="emptyPersons == 0" class="flex items-center justify-center accommodation-limit-message">
                                         <div class="max-w-lg pt-4">
-                                            <div class="">
+                                            <div>
                                                 Выбрано максимальное колличество гостей для размещения в 1 номере. Если колличество гостей не вмещается в 1 номер, пожалуйста, распределите гостей на несколько номеров или позвоните нам <br>тел. <a href="+79999999999">8 800 250 00 30 </a>
                                             </div>
                                             <div class="pt-4">
@@ -176,7 +177,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4 grow lg:p-0 btn-wrapper">
+            <div class="lg:p-0 btn-wrapper">
                 <button
                     @click="getRoomTypes"
                     class="btn btn-dark"
@@ -191,16 +192,6 @@
             <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
         </div>
 
-        <!-- <div v-if="emptyPersons == 0" class="flex items-center justify-center">
-            <div class="max-w-lg py-8">
-                <div class="">
-                    Такое колличество гостей не вмещаяется в 1 номер. Пожалуйста, распределите гостей на несколько номеров или позвоните нам. <a href="+79999999999">+79999999999</a>
-                </div>
-                <div class="pt-4">
-                    <button class="btn btn-dark ">Перезвоните мне</button>
-                </div>
-            </div>
-        </div> -->
 
         <RoomTypeCard
             :countOfDays="countOfDays"
@@ -236,6 +227,9 @@
     let date = ref()
     let rangeStartDate = ref()
     let rangeEndDate = ref()
+
+    let startDateFormated = ref()
+    let endDateFormated = ref()
     
     
     const adults = ref<any>(2)
@@ -281,6 +275,15 @@
         return formattedDate
     }
 
+    const dateFormateding = (date: Date) => {
+        let year = date.getFullYear();
+        let month = date.toLocaleString("default", { month: "2-digit" });
+        let day = date.toLocaleString("default", { day: "2-digit" });
+        let formattedDate = year + "-" + month + "-" + day;
+
+        return formattedDate
+    }
+
     const getMonthName = (monthNumber: number) => {
         const date = new Date();
         date.setMonth(monthNumber - 1);
@@ -295,6 +298,9 @@
         date.value = modelData;
         rangeStartDate.value = parseDate(date.value[0]);
         rangeEndDate.value =  parseDate(date.value[1]);
+
+        startDateFormated.value = dateFormateding(date.value[0]);
+        endDateFormated.value =  dateFormateding(date.value[1]);
     }
 
 
@@ -336,7 +342,7 @@
             countOfPersons.value = sumHosted.value
             countOfDays.value = (new Date(date.value[1]).getTime() - new Date(date.value[0]).getTime())/(1000 * 3600 * 24)
             loading.value = true
-            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}`);
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}&date_from=${startDateFormated.value}&date_till=${endDateFormated.value}`);
             const finalRes = await res.json();
             roomTypes.value = finalRes.res;
             if (roomTypes.value == 0) {
@@ -356,6 +362,9 @@
         date.value = [startDate, endDate];
         rangeStartDate.value = parseDate(startDate)
         rangeEndDate.value = parseDate(endDate)
+
+        startDateFormated.value = dateFormateding(startDate)
+        endDateFormated.value = dateFormateding(endDate)
     })
 
   </script>
@@ -386,18 +395,7 @@
         /* padding: 2rem 5rem 1.9rem; */
         background-color: var(--color-primary);
         position: relative;
-    }
-    .col-1 {
-        width: 20%%;
-    }
-    .col-2 {
-        width: 440px;
-    }
-    .col-3 {
-        width: 16%;
-    }
-    .col-4 {
-
+        font-family: 'Arial';
     }
     .filter-title {
         color: #fff;
@@ -437,6 +435,9 @@
 
 
     /* datepicker */
+    .datepicker-wrapper {
+        flex-basis: 30rem;
+    }
     .dp__main {
         height: 100%;
         background: #fff;

@@ -31,7 +31,6 @@
                         </SplideTrack>
         
                         <div
-                            v-if="roomDetails?.gallery"
                             class="splide__arrows"
                         >
                             <button class="splide__arrow--prev">
@@ -51,7 +50,7 @@
                     <Splide 
                         :has-track="false"
                         :options="thumbsOptions"
-                        :arrows="false"
+                        :arrows="true"
                         ref="thumbs"
                         class="slider-thumblr-splide"
                     >
@@ -71,33 +70,18 @@
                                     <img :src="room_image.image.full_url" alt="">
                                 </SplideSlide>
                             </SplideTrack>
-                            <div
-                                v-if="roomDetails?.gallery"
-                                class="splide__arrows"
-                            >
-                                <button class="splide__arrow--prev">
-                                    <IconSlideRight/>
-                                </button>
-                                <button class="splide__arrow--next">
-                                    <IconSlideRight/>
-                                </button>
-                            </div>
-            
-                            <ul class="splide__pagination sircle-items">
-                                
-                            </ul>
+             
                         </div>
                     </Splide>
                 </div>
             </div>
             <div class="details">
-                <div class="flex pb-10">
+                <div class="flex justify-between pb-10">
                     <div class="description text-lg">
-                        <!-- {{ roomDetails?.description }} -->
-                        Полутороспальная кровать, кресло-кровать, стол, мини-холодильник, жк-телевизор, сейф, сплит-система телефон, чайная станция, охладитель под шампанское. На балконе: стулья и стол из искусственного ротанга. В комплектации номера гладильная доска и утюг, сушилка для белья.
+                        {{ roomDetails?.description }}
                     </div>
                     <div class="type-of-service ">
-                        Обслуживание производится по программе «Ультра всё включено»
+                        {{ roomDetails?.room_rate_description }}
                     </div>
                 </div>
 
@@ -108,37 +92,73 @@
                     </div>
                     <div class="text-block">
                         <div class="styled-text">{{ roomDetails?.room_type.number_of_beds_per_room }}</div>
-                        <div class="text">Комнаты</div>
+                        <div class="text">{{ pluralRoomsText(roomDetails?.room_type.number_of_beds_per_room) }}</div>
                     </div>
                     <div class="text-block">
-                        <div class="styled-text">{{ roomDetails?.room_type.number_of_persons_per_room }} человека</div>
+                        <div class="styled-text">{{ roomDetails?.room_type.number_of_persons_per_room }} {{ pluralPeopletext(roomDetails?.room_type.number_of_persons_per_room) }}</div>
                         <div class="text">Вместимость номера</div>
                     </div>
                 </div>
 
                 <div class="list-block">
-                    <h6 class="list-block-title pt-10 pb-6">Удобства в номере</h6>
-                    <div class="flex">
-                        <div class="w-1/4">
-                            <div class="subtitle">Интернет/телефония:</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Wi-Fi</div>
+
+                    <h6 class="list-block-title pt-10 pb-6">{{ roomDetails?.amenity_title }}</h6>
+                    <div class="list-block-grid">
+                        <div    
+                            v-for="amenity in roomDetails?.amenity_categories"
+                            class="list-block-grid-col"
+                        >
+                            <div>
+                                <div class="subtitle">{{ amenity?.title }}:</div>
+                                <div
+                                    style=""
+                                >
+                                    <div
+                                        v-for="item in amenity.amenity_items"
+                                        class="item flex pb-2 content-center"
+                                    >
+                                        <div>
+                                            <img
+                                                class="list-block-icons"
+                                                :class="item.amenity.icon?.full_url ? '' : 'invisible'"
+                                                :src="item.amenity.icon?.full_url"
+                                                alt=""
+                                            >
+                                        </div>
+                                        <p>{{ item.amenity.title }}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="w-1/4">
-                            <div class="subtitle">Электроника:</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Фен</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Мини-холодильник</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Утюг</div>
-                        </div>
-                        <div class="w-1/4">
-                            <div class="subtitle">Ванная комната:</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Душ</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Косметические средства</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Тапочки</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Халаты</div>
-                        </div>
-                        <div class="w-1/4">
-                            <div class="subtitle">Внешняя территория и вид из окон:</div>
-                            <div class="flex pb-2"><IconFen class="mr-3"/> Вид на город</div>
+                    </div>
+
+                    <h6 class="list-block-title pt-10 pb-6">{{ roomDetails?.arrival_service_title }}</h6>
+                    <div class="list-block-grid">
+                        <div    
+                            v-for="amenity in roomDetails?.arrival_service_categories"
+                            class="list-block-grid-col"
+                        >
+                            <div>
+                                <div class="subtitle">{{ amenity?.title }}:</div>
+                                <div
+                                    style=""
+                                >
+                                    <div
+                                        v-for="item in amenity.arrival_service_items"
+                                        class="item flex pb-2 content-center"
+                                    >
+                                        <div>
+                                            <img
+                                                class="list-block-icons"
+                                                :class="item.arrival_service.icon?.full_url ? '' : 'invisible'"
+                                                :src="item.arrival_service.icon?.full_url"
+                                                alt=""
+                                            >
+                                        </div>
+                                        <p>{{ item.arrival_service.title }}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,8 +166,9 @@
         </div>
         <div class="room-detail-foot flex justify-end ">
             <div class="cost-block">
-                <div class="cost">192420 р.</div>
-                <div class="persons-nights">3 чел. / 2 ночи</div>
+                <div class="cost">{{ roomPrice }} р.</div>
+                
+                <div class="persons-nights">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
             </div>
             <div class="btns-block">
                 <div class="bonus text-xs text-center pb-1">3 000 бонусов</div>
@@ -158,7 +179,7 @@
 </template>
   
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, onUnmounted } from 'vue';
     import type { PropType } from 'vue';
 
     import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
@@ -172,9 +193,6 @@
 
     const main   = ref<InstanceType<typeof Splide>>();
     const thumbs = ref<InstanceType<typeof Splide>>();
-
-
-
 
     const thumbsOptions = {
       type        : 'slide',
@@ -203,31 +221,12 @@
         return plural(count, 'ночь', 'ночи', 'ночей');
     }
 
-    // const roomDetails = ref({
-    //     title: String,
-    //     description: String,
-    //     room_square: Number,
-    //     room_type: {
-    //         number_of_beds_per_room: Number,
-    //         number_of_persons_per_room: Number
-    //     },
-    //     cover_image: {
-    //         full_url: String
-    //     },
-    //     gallery: [
-    //         {
-    //             image: {
-    //                 full_url: String
-    //             }
-    //         }
-    //     ]
-    // })
-
-    // const roomDetails = ref<any>()
-
     interface Details {
         title: string,
         room_square: number,
+        price: number,
+        description: string,
+        room_rate_description: string,
         room_type: {
             number_of_beds_per_room: number,
             number_of_persons_per_room: number
@@ -241,26 +240,72 @@
                     full_url: string
                 }
             }
+        ],
+        amenity_title: string,
+        amenity_categories: [
+            {
+                title: string,
+                amenity_items: [
+                    {
+                        amenity: {
+                            title: string,
+                            icon: {
+                                alt: string,
+                                full_url: string
+                            }
+                        }
+                    }
+                ]
+            }
+        ],
+        arrival_service_title: string,
+        arrival_service_categories: [
+            {
+                title: string,
+                arrival_service_items: [
+                    {
+                        arrival_service: {
+                            title: string,
+                            icon: {
+                                alt: string,
+                                full_url: string
+                            }
+                        }
+                    }
+                ]
+            }
         ]
     }
 
     const props = defineProps({
-  
         roomDetails: {
             type: Object as PropType<Details>,
             required: true,
-        }
+        },
+        roomPrice: {
+            type: String,
+            required: true,
+        },
+        countOfDays: {
+            type: Number,
+            required: true,
+        },
+        countOfPersons: {
+            type: Number,
+            required: true,
+        },
+        
     })
     
-    
     onMounted(() => {
-
         const thumbsSplide = thumbs.value?.splide;
 
         if ( thumbsSplide ) {
             main.value?.sync( thumbsSplide );
         }
     })
+
+
 
 </script>
   
@@ -301,6 +346,41 @@
     font-size: .8rem;
     padding-bottom: .8rem;
 }
+
+
+/* list-block */
+.list-block {
+    
+}
+.list-block-grid {
+    display: flex;
+    gap: 1rem;
+}
+.list-block-grid-col {
+    display: flex;
+    flex-flow: column;
+    width: 25%;
+    padding-right: 3rem;
+}
+.item {
+    flex: 1 50px;
+    /* border: 1px solid green; */
+    flex-grow: 1;
+    display: flex;
+}
+.item p {
+    min-height: 3rem;
+}
+
+.list-block-icons {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+    position: relative;
+    top: -3px;
+}
+
+
 
 
 
