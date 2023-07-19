@@ -93,10 +93,10 @@
                     </div>
                     <div class="text-block">
                         <div class="styled-text">{{ roomDetails?.room_type.number_of_beds_per_room }}</div>
-                        <div class="text">Комнаты</div>
+                        <div class="text">{{ pluralRoomsText(roomDetails?.room_type.number_of_beds_per_room) }}</div>
                     </div>
                     <div class="text-block">
-                        <div class="styled-text">{{ roomDetails?.room_type.number_of_persons_per_room }} человека</div>
+                        <div class="styled-text">{{ roomDetails?.room_type.number_of_persons_per_room }} {{ pluralPeopletext(roomDetails?.room_type.number_of_persons_per_room) }}</div>
                         <div class="text">Вместимость номера</div>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
             <div class="cost-block">
                 <div class="cost">{{ roomPrice }} р.</div>
                 
-                <div class="persons-nights">{{ countOfPersons }} чел. / {{ countOfDays }} ночи</div>
+                <div class="persons-nights">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
             </div>
             <div class="btns-block">
                 <div class="bonus text-xs text-center pb-1">3 000 бонусов</div>
@@ -375,6 +375,8 @@
     width: 1.5rem;
     height: 1.5rem;
     margin-right: 1rem;
+    position: relative;
+    top: -3px;
 }
 
 

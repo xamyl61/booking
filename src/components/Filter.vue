@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1>Выберите период проживания и количество гостей</h1>
+
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
             <div class="col-1 grow p-2 lg:p-0" style="width: 20%;">
@@ -192,16 +193,6 @@
             <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
         </div>
 
-        <!-- <div v-if="emptyPersons == 0" class="flex items-center justify-center">
-            <div class="max-w-lg py-8">
-                <div class="">
-                    Такое колличество гостей не вмещаяется в 1 номер. Пожалуйста, распределите гостей на несколько номеров или позвоните нам. <a href="+79999999999">+79999999999</a>
-                </div>
-                <div class="pt-4">
-                    <button class="btn btn-dark ">Перезвоните мне</button>
-                </div>
-            </div>
-        </div> -->
 
         <RoomTypeCard
             :countOfDays="countOfDays"
@@ -237,6 +228,9 @@
     let date = ref()
     let rangeStartDate = ref()
     let rangeEndDate = ref()
+
+    let startDateFormated = ref()
+    let endDateFormated = ref()
     
     
     const adults = ref<any>(2)
@@ -282,6 +276,15 @@
         return formattedDate
     }
 
+    const dateFormateding = (date: Date) => {
+        let year = date.getFullYear();
+        let month = date.toLocaleString("default", { month: "numeric" });
+        let day = date.toLocaleString("default", { day: "numeric" });
+        let formattedDate = year + "-" + month + "-" + day;
+
+        return formattedDate
+    }
+
     const getMonthName = (monthNumber: number) => {
         const date = new Date();
         date.setMonth(monthNumber - 1);
@@ -296,6 +299,9 @@
         date.value = modelData;
         rangeStartDate.value = parseDate(date.value[0]);
         rangeEndDate.value =  parseDate(date.value[1]);
+
+        startDateFormated.value = dateFormateding(date.value[0]);
+        endDateFormated.value =  dateFormateding(date.value[1]);
     }
 
 
@@ -337,7 +343,7 @@
             countOfPersons.value = sumHosted.value
             countOfDays.value = (new Date(date.value[1]).getTime() - new Date(date.value[0]).getTime())/(1000 * 3600 * 24)
             loading.value = true
-            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}`);
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}&date_from=${startDateFormated.value}&date_till=${endDateFormated.value}`);
             const finalRes = await res.json();
             roomTypes.value = finalRes.res;
             if (roomTypes.value == 0) {
@@ -357,6 +363,9 @@
         date.value = [startDate, endDate];
         rangeStartDate.value = parseDate(startDate)
         rangeEndDate.value = parseDate(endDate)
+
+        startDateFormated.value = dateFormateding(startDate)
+        endDateFormated.value = dateFormateding(endDate)
     })
 
   </script>
@@ -390,10 +399,10 @@
         font-family: 'Arial';
     }
     .col-1 {
-        width: 20%;
+        width: 19%;
     }
     .col-2 {
-        width: 440px;
+        width: 450px;
     }
     .col-3 {
         width: 16%;
