@@ -76,13 +76,12 @@
                 </div>
             </div>
             <div class="details">
-                <div class="flex pb-10">
+                <div class="flex justify-between pb-10">
                     <div class="description text-lg">
-                        <!-- {{ roomDetails?.description }} -->
-                        Полутороспальная кровать, кресло-кровать, стол, мини-холодильник, жк-телевизор, сейф, сплит-система телефон, чайная станция, охладитель под шампанское. На балконе: стулья и стол из искусственного ротанга. В комплектации номера гладильная доска и утюг, сушилка для белья.
+                        {{ roomDetails?.description }}
                     </div>
                     <div class="type-of-service ">
-                        Обслуживание производится по программе «Ультра всё включено»
+                        {{ roomDetails?.room_rate_description }}
                     </div>
                 </div>
 
@@ -226,6 +225,8 @@
         title: string,
         room_square: number,
         price: number,
+        description: string,
+        room_rate_description: string,
         room_type: {
             number_of_beds_per_room: number,
             number_of_persons_per_room: number
