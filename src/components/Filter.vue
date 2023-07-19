@@ -4,7 +4,7 @@
 
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
-            <div class="col-1 grow p-2 lg:p-0" style="width: 20%;">
+            <div class="col-1 grow p-2 lg:p-0">
                 <div class=" ">
                     <div class="filter-title">Отель</div>
                     <div class="filter-controls">
@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 xl:w-4/12 lg:w-4/12 md:w-1/2 p-2 lg:p-0" style="width: 440px;">
+            <div class="col-2 xl:w-4/12 lg:w-4/12 md:w-1/2 p-2 lg:p-0">
                 <div class="">
                     <div class="filter-title">Дата заезда</div>
                     <div class="filter-controls">
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3 grow p-2 lg:p-0" style="width: 16%;">
+            <div class="col-3 grow p-2 lg:p-0">
                 <div class="">
                     <div class="filter-title">Размещение</div>
                     <div
@@ -399,10 +399,10 @@
         font-family: 'Arial';
     }
     .col-1 {
-        width: 19%;
+        width: 17%;
     }
     .col-2 {
-        width: 450px;
+        width: 475px;
     }
     .col-3 {
         width: 16%;
