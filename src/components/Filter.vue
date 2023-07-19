@@ -1,10 +1,6 @@
 <template>
     <div>
         <h1>Выберите период проживания и количество гостей</h1>
-        startDateFormated: {{ startDateFormated }}
-        <br>
-        endDateFormated: {{ endDateFormated }}
-
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
             <div class="col-1 grow p-2 lg:p-0">
