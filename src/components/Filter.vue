@@ -3,7 +3,7 @@
         <h1>Выберите период проживания и количество гостей</h1>
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
-            <div class="col-1 grow p-2 lg:p-0">
+            <div class="grow p-2 lg:p-0">
                 <div class=" ">
                     <div class="filter-title">Отель</div>
                     <div class="filter-controls">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 xl:w-4/12 lg:w-4/12 md:w-1/2 p-2 lg:p-0">
+            <div class="datepicker-wrapper p-2 lg:p-0">
                 <div>
                     <div class="filter-title">Дата заезда</div>
                     <div class="filter-controls">
@@ -37,13 +37,13 @@
                         >
                             <template #trigger>
                                 <div class="daterange">
-                                    <div class="daterange-item start-date">
+                                    <div class="daterange-item start-date whitespace-pre">
                                         {{ rangeStartDate }}
                                     </div>
                                     <div class="devide-line">
                                         &#9135;
                                     </div>
-                                    <div class="daterange-item end-date">
+                                    <div class="daterange-item end-date whitespace-pre">
                                         {{ rangeEndDate }}
                                         <IconCalendar/>
                                     </div>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3 grow p-2 lg:p-0">
+            <div class="grow p-2 lg:p-0">
                 <div>
                     <div class="filter-title">Размещение</div>
                     <div
@@ -177,7 +177,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4 grow lg:p-0 btn-wrapper">
+            <div class="lg:p-0 btn-wrapper">
                 <button
                     @click="getRoomTypes"
                     class="btn btn-dark"
@@ -397,18 +397,6 @@
         position: relative;
         font-family: 'Arial';
     }
-    .col-1 {
-        width: 17%;
-    }
-    .col-2 {
-        width: 475px;
-    }
-    .col-3 {
-        width: 16%;
-    }
-    .col-4 {
-
-    }
     .filter-title {
         color: #fff;
         padding-bottom: .5rem;
@@ -447,6 +435,9 @@
 
 
     /* datepicker */
+    .datepicker-wrapper {
+        flex-basis: 30rem;
+    }
     .dp__main {
         height: 100%;
         background: #fff;
