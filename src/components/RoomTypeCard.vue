@@ -46,7 +46,7 @@
                         </div>
                     </Splide>   
                     <div class="leading-tight grow">
-                        <h1 class="">
+                        <h1>
                             <a class="no-underline text-black" href="#">
                                 {{ roomType.title }}
                             </a>
@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="card-foot flex justify-between px-4">
-                        <div class="">
+                        <div>
                             <div class="flex justify-between mb-1 h-4">
                                 <div class="discount-percent text-xs">-20%</div>
                                 <div class="discount-cost text-xs line-through">245 659 р.</div>

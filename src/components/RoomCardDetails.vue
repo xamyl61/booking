@@ -108,7 +108,7 @@
                             v-for="amenity in roomDetails?.amenity_categories"
                             class="list-block-grid-col"
                         >
-                            <div class="">
+                            <div>
                                 <div class="subtitle">{{ amenity?.title }}:</div>
                                 <div
                                     style=""
@@ -138,7 +138,7 @@
                             v-for="amenity in roomDetails?.arrival_service_categories"
                             class="list-block-grid-col"
                         >
-                            <div class="">
+                            <div>
                                 <div class="subtitle">{{ amenity?.title }}:</div>
                                 <div
                                     style=""

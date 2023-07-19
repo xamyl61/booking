@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col-2 xl:w-4/12 lg:w-4/12 md:w-1/2 p-2 lg:p-0">
-                <div class="">
+                <div>
                     <div class="filter-title">Дата заезда</div>
                     <div class="filter-controls">
                         <VueDatePicker
@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="col-3 grow p-2 lg:p-0">
-                <div class="">
+                <div>
                     <div class="filter-title">Размещение</div>
                     <div
                         class="filter-controls accommodation"
@@ -163,7 +163,7 @@
                                    </div>
                                    <div v-if="emptyPersons == 0" class="flex items-center justify-center accommodation-limit-message">
                                         <div class="max-w-lg pt-4">
-                                            <div class="">
+                                            <div>
                                                 Выбрано максимальное колличество гостей для размещения в 1 номере. Если колличество гостей не вмещается в 1 номер, пожалуйста, распределите гостей на несколько номеров или позвоните нам <br>тел. <a href="+79999999999">8 800 250 00 30 </a>
                                             </div>
                                             <div class="pt-4">
