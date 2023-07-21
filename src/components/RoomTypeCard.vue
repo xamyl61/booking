@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="card-foot flex justify-between px-4">
-                        <div>
+                        <div class="shrink-0">
                             <div class="flex justify-between mb-1 h-4">
                                 <div class="discount-percent text-xs">-20%</div>
                                 <div class="discount-cost text-xs line-through">245 659 р.</div>
@@ -90,12 +90,12 @@
                             <div class="cost text-2xl h-9">{{ (roomType.price).toLocaleString('ru-RU') }} р.</div>
                             <div class="person-nights text-xs">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
                         </div>
-                        <div class="pt-3">
+                        <div class="pt-3 w-44">
                             <div class="flex justify-center align-center h-5">
                                 <IconRuble/>
                                 <div class="text-xs pl-1 bonus-counts">3 000 бонусов</div>
                             </div>
-                            <Button  @click="">Выбрать</Button>
+                            <Button  @click="" class="w-full">Выбрать</Button>
                         </div>
                     </div>
                     
@@ -251,9 +251,6 @@
 
     .card-foot .cost {
         font-family: 'Optima Cyr';
-    }
-    .card-foot .btn {
-        width: 11rem;
     }
     .discount-percent {
         font-family: 'Optima Cyr';
