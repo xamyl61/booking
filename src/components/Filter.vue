@@ -13,6 +13,7 @@
                             placeholder="Выберите отель"
                             @change="changeMaxAdult"
                             class="dropdown-custom-styles"
+                            default-expand-all
                         >
                         </el-tree-select>
                     </div>
@@ -117,7 +118,7 @@
                                     </div>
                                    </div>
 
-                                   <div class="accommodation-dropdown-item">
+                                   <!-- <div class="accommodation-dropdown-item">
                                     <div class="left">
                                         <div class="title">Подростки</div>
                                         <div class="dscr">от 12 до 18 лет<br> на дату заезда</div>
@@ -130,7 +131,7 @@
                                             @change="runCounterMaxHosted"
                                         />
                                     </div>
-                                   </div>
+                                   </div> -->
 
                                    <div class="accommodation-dropdown-item">
                                     <div class="left">
@@ -147,7 +148,7 @@
                                     </div>
                                    </div>
 
-                                   <div class="accommodation-dropdown-item">
+                                   <!-- <div class="accommodation-dropdown-item">
                                     <div class="left">
                                         <div class="title">Младенцы</div>
                                         <div class="dscr">до 2 лет<br> на дату заезда</div>
@@ -160,7 +161,7 @@
                                             @change="runCounterMaxHosted"
                                         />
                                     </div>
-                                   </div>
+                                   </div> -->
                                    <div v-if="emptyPersons == 0" class="flex items-center justify-center accommodation-limit-message">
                                         <div class="max-w-lg pt-4">
                                             <div>
@@ -180,7 +181,7 @@
             <div class="lg:p-0 btn-wrapper">
                 <button
                     @click="getRoomTypes"
-                    class="btn btn-dark"
+                    class="btn btn-dark hover:scale-[1.06] ease-in duration-100"
                     :disabled="!choosedHotel"
                 >
                     Найти номер
@@ -322,6 +323,8 @@
                     return myHotel
                 })
 
+                city.title = 'г. ' + city.title
+
                 let newCities = {
                     value: city.guid,
                     label: city.title,
@@ -329,6 +332,7 @@
                 }
                 return newCities
                 })
+                console.log("listCities: ", listCities.value)
         } catch (error) {
             console.log(error)
         }
@@ -395,7 +399,6 @@
         /* padding: 2rem 5rem 1.9rem; */
         background-color: var(--color-primary);
         position: relative;
-        font-family: 'Arial';
     }
     .filter-title {
         color: #fff;
@@ -453,7 +456,7 @@
     }
         .daterange-item {
             height: 100%;
-            
+            font-family: 'Geometria';
             display: flex;
             align-items: center;
             padding: 0.7rem 1rem;
@@ -511,6 +514,7 @@
             font-size: .8rem;
             line-height: 1;
             padding-top: .5rem;
+            font-family: 'Arial';
         }
         .accommodation-limit-message {
             font-size: .7rem;

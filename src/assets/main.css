@@ -28,6 +28,7 @@ body {
     background: var(--color-primary);
     border-radius: 2.5rem;
 }
+
     .btn .icon {
       margin-right: 1.2rem;
     }
@@ -93,7 +94,6 @@ body {
     border-radius: 0!important;
     background: var(--color-primary)!important;
     margin-top: -12px;
-    font-family: 'Arial';
 }
 
     .el-input__inner:focus {
@@ -115,6 +115,9 @@ body {
     }
     .el-tree-select__popper .el-select-dropdown__item {
         color: #fff;
+    }
+    .el-tree-select__popper .el-tree-node__children .el-select-dropdown__item {
+        text-transform: uppercase;
     }
     .el-popper.is-light .el-popper__arrow {
         display: none;
@@ -291,6 +294,11 @@ body {
     .room-type .room-description .icon {
         margin-left: 1rem;
     }
+    .room-type .room-description > div:hover .icon svg {
+        filter: invert(1);
+        fill: #ffff;
+    }
+
 
 
     /* counter */
