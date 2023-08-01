@@ -47,9 +47,12 @@
                     </Splide>   
                     <div class="leading-tight grow">
                         <h1>
-                            <a class="no-underline text-black" href="#">
+                            <span
+                                @click="showRoomDetails(roomType.room_type.guid, (roomType.price).toLocaleString('ru-RU'))"
+                                class="hover:underline text-black cursor-pointer" href="#"
+                            >
                                 {{ roomType.title }}
-                            </a>
+                            </span>
                         </h1>
                     </div>
                     
