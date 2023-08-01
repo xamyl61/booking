@@ -332,7 +332,6 @@
                 }
                 return newCities
                 })
-                console.log("listCities: ", listCities.value)
         } catch (error) {
             console.log(error)
         }
