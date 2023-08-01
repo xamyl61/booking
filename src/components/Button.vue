@@ -49,6 +49,9 @@ const handleClick = function (event: MouseEvent) {
     border-radius: 2.5rem;
     position: relative;
   }
+  .btn:hover {
+    background: #121326;
+  }
 
   .btn_disabled {
     opacity: 0.5;
