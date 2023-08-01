@@ -7,7 +7,7 @@
       </a>
 
       <div class="call">
-        <button class="btn">Перезвоните мне</button>
+        <Button>Перезвоните мне</Button>
       </div>
 
       <a class="phone-link" href="tel:+78889993311">
