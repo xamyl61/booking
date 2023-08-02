@@ -21,7 +21,7 @@
             </div>
             <div class="datepicker-wrapper p-2 lg:p-0">
                 <div>
-                    <div class="filter-title">Дата заезда</div>
+                    <div class="filter-title">Даты заезда и выезда</div>
                     <div class="filter-controls">
                         <VueDatePicker
                             range
@@ -85,7 +85,7 @@
             </div>
             <div class="grow p-2 lg:p-0">
                 <div>
-                    <div class="filter-title">Размещение</div>
+                    <div class="filter-title">Размещение в номере</div>
                     <div
                         class="filter-controls accommodation"
                         
@@ -438,7 +438,7 @@
 
     /* datepicker */
     .datepicker-wrapper {
-        flex-basis: 30rem;
+        flex-basis: 27rem;
     }
     .dp__main {
         height: 100%;
