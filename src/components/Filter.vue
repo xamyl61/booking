@@ -21,7 +21,7 @@
             </div>
             <div class="datepicker-wrapper p-2 lg:p-0">
                 <div>
-                    <div class="filter-title">Даты заезда и выезда</div>
+                    <div class="filter-title">Период проживания</div>
                     <div class="filter-controls">
                         <VueDatePicker
                             range
@@ -85,7 +85,7 @@
             </div>
             <div class="grow p-2 lg:p-0">
                 <div>
-                    <div class="filter-title">Размещение в номере</div>
+                    <div class="filter-title">Количество гостей</div>
                     <div
                         class="filter-controls accommodation"
                         
