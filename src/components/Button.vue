@@ -60,6 +60,9 @@ const handleClick = function (event: MouseEvent) {
   .btn_loading {
     opacity: 0.5;
   }
+  .btn-grey {
+    background-color: #939393;
+  }
 
   .spinner {
     position: absolute;
