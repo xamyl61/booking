@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router'
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import Filter from '@/components/Filter.vue'
+import Booking from '@/components/Booking.vue'
 import { ModalsContainer } from 'vue-final-modal'
 import { useAuthStore } from './stores/auth-store';
 import { onMounted } from 'vue';
@@ -29,6 +30,7 @@ onMounted(() => {
 
     <main class="">
       <RouterView />
+      <Booking/>
       <Filter/>
       <modals-container></modals-container>
     </main>

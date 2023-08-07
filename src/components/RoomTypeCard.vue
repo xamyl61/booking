@@ -1,4 +1,5 @@
 <template>
+    
     <div class="room-type container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
         <div class="flex flex-wrap -mx-1 lg:-mx-4">
             <div
