@@ -109,7 +109,7 @@
                                     class="text-xs pl-1 bonus-counts"
                                 >{{ roomType.price_info.bonus }} бонусов</div>
                             </div>
-                            <Button  @click="" class="w-full">Выбрать</Button>
+                            <Button class="w-full">Выбрать</Button>
                         </div>
                     </div>
                     <div
@@ -119,7 +119,7 @@
                         <div class="shrink-0">
                             <div class="cost h-9 flex items-center">Распродано</div>
                         </div>
-                        <div class="">
+                        <div>
                             <Button class="w-full btn-grey">Доступные даты заезда</Button>
                         </div>
                     </div>
