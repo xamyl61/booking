@@ -77,7 +77,7 @@
                     <div class="flex room-description pr-4">
                         <div
                             @click="showRoomDetails(roomType.room_type.guid, (roomType.price).toLocaleString('ru-RU'))"
-                            class="flex items-center no-underline hover:underline text-black cursor-pointer">
+                            class="flex items-center no-underline hover:underline text-black cursor-pointer text-with-circle-icon">
                             Подробнее о номере
                             <IconArrowLeftInCircle/>
                         </div>

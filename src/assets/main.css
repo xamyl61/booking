@@ -291,13 +291,6 @@ body {
     .room-type .room-description {
         padding: 1rem 1.8rem 2rem;
     }
-    .room-type .room-description .icon {
-        margin-left: 1rem;
-    }
-    .room-type .room-description > div:hover .icon svg {
-        filter: invert(1);
-        fill: #ffff;
-    }
 
 
 
@@ -501,6 +494,14 @@ body {
         display: none;
     }
 
+    /* text-with-circle-icon */
+    .text-with-circle-icon .icon {
+        margin-left: 1rem;
+    }
+    .text-with-circle-icon:hover .icon svg {
+        filter: invert(1);
+        fill: #ffff;
+    }
 
 
 
