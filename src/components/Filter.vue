@@ -33,7 +33,8 @@
                             position="left"
                             :six-weeks="true"
                             :offset="1"
-                            :min-date="new Date()"
+                            :min-date="new Date(choosedHotel?.bookingDateFrom)"
+                            :max-date="new Date(choosedHotel?.bookingDateTill)"
                             @update:model-value="handleDate"
                         >
                             <template #trigger>
@@ -228,6 +229,8 @@
     let date = ref()
     let rangeStartDate = ref()
     let rangeEndDate = ref()
+    let bookingDateFrom = ref()
+    let bookingDateTill = ref()
 
     let startDateFormated = ref()
     let endDateFormated = ref()
@@ -316,7 +319,9 @@
                     let myHotel = {
                         value: {
                             value: hotel.guid,
-                            nuberOfPersonsPerRoom: hotel.number_of_persons_per_room
+                            nuberOfPersonsPerRoom: hotel.number_of_persons_per_room,
+                            bookingDateFrom: hotel.booking_date_from,
+                            bookingDateTill: hotel.booking_date_till
                         },
                         label: hotel.title
                     }
