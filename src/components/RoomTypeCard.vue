@@ -84,21 +84,43 @@
                         
                     </div>
 
-                    <div class="card-foot flex justify-between px-4">
+                    <div
+                        v-if="roomType.is_available"
+                        class="card-foot flex justify-between px-4">
                         <div class="shrink-0">
                             <div class="flex justify-between mb-1 h-4">
-                                <div class="discount-percent text-xs">-20%</div>
-                                <div class="discount-cost text-xs line-through">245 659 р.</div>
+                                <div
+                                    :class="{invisible: !roomType.price_info.discount}"
+                                    class="discount-percent text-xs"
+                                >-{{roomType.price_info.discount}}%</div>
+                                <div
+                                    :class="{invisible: !roomType.price_info.full_price}"
+                                    class="discount-cost text-xs line-through"
+                                >{{ (roomType.price_info.full_price).toLocaleString('ru-RU') }} р.</div>
                             </div>
-                            <div class="cost text-2xl h-9">{{ (roomType.price).toLocaleString('ru-RU') }} р.</div>
+                            <div class="cost text-2xl h-9">{{ (roomType.price_info.price).toLocaleString('ru-RU') }} р.</div>
                             <div class="person-nights text-xs">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
                         </div>
                         <div class="pt-3 w-44">
                             <div class="flex justify-center align-center h-5">
                                 <IconRuble/>
-                                <div class="text-xs pl-1 bonus-counts">3 000 бонусов</div>
+                                <div
+                                    :class="{invisible: !roomType.price_info.bonus}"
+                                    class="text-xs pl-1 bonus-counts"
+                                >{{ roomType.price_info.bonus }} бонусов</div>
                             </div>
-                            <Button  @click="" class="w-full">Выбрать</Button>
+                            <Button class="w-full">Выбрать</Button>
+                        </div>
+                    </div>
+                    <div
+                        v-else
+                        class="card-foot flex justify-between px-4"
+                    >
+                        <div class="shrink-0">
+                            <div class="cost h-9 flex items-center">Распродано</div>
+                        </div>
+                        <div>
+                            <Button class="w-full btn-grey">Доступные даты заезда</Button>
                         </div>
                     </div>
                     
@@ -174,7 +196,14 @@
         ]
         room_square: number
         price: number
+        price_info: {
+            full_price: number
+            discount: number
+            bonus: number
+            price: number
 
+        }
+        is_available: boolean
          
     }
 
