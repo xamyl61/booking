@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import {inject, onMounted, onUnmounted, ref, watch} from 'vue';
-import Modal from '@/components/Modal.vue'
+import { onMounted, onUnmounted, ref, watch} from 'vue';
 import {initFlowbite} from 'flowbite'
 import client from '@/api/client';
 import {useAuthStore} from '@/stores/auth-store';
-import {$vfm} from 'vue-final-modal';
-import {vMaska} from "maska"
 import OtpInput from '@/components/OtpInput.vue'
 import Button from '@/components/Button.vue'
 import Input from '@/components/Input.vue'
 import {toast} from 'vue3-toastify';
+import type ElDrawer from "element-plus";
+import IconClose from "@/components/icons/IconClose.vue";
+import {vMaska} from "maska"
 
 const phone = ref('')
 const email = ref('')
@@ -21,6 +21,7 @@ let intervalId: ReturnType<typeof setInterval>;
 const isLoading = ref(false)
 const authStore = useAuthStore()
 const OTP_CODE_LENGTH = 4;
+const drawerRef = ref<any>()
 
 const activeTab = ref('phone')
 
@@ -38,7 +39,12 @@ watch(code, (newCode) => {
     }
 });
 
+const closeForm = () => {
+    return drawerRef.value?.close();
+}
+
 const onSendCode = async () => {
+
 
     if (activeTab.value === 'phone') {
         await onTryAuth(() => client.post('/users/phone-auth/', {phone: phone.value}));
@@ -99,15 +105,14 @@ const onAuthVerification = async (callback: () => Promise<any>) => {
         localStorage.setItem("user_data", JSON.stringify(response.data.user_data));
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("refresh_token", response.data.refresh_token);
-        showSuccessVerification();
-        await $vfm.hideAll();
+        await showSuccessVerification();
     } catch (e: any) {
         if (e.response.status === 400) {
             showErrorVerification();
             code.value = '';
         } else {
             showMaxAttemptsError();
-            await $vfm.hideAll();
+            await closeForm()
         }
     }
 }
@@ -117,7 +122,6 @@ const onResendCode = () => {
     if (timer.value > 0) {
         return;
     }
-
 
     if (activeTab.value === 'phone') {
         onTryAuth(() => client.post('/users/phone-auth/', {phone: phone.value}));
@@ -134,12 +138,12 @@ const showErrorVerification = () => {
     })
 }
 
-const showSuccessVerification = () => {
+const showSuccessVerification = async () => {
+    await closeForm()
     toast('Вы успешно вошли в личный кабинет', {
         type: 'success',
         position: 'top-center',
     })
-
 }
 
 
@@ -153,16 +157,18 @@ const showMaxAttemptsError = () => {
 
 const verificationStep = () => {
     currentStep.value = 'verification';
-
-
 }
 
 </script>
 
 <template>
-    <Modal>
-        <template v-slot:title>
-            Войти в личный кабинет
+    <el-drawer :show-close="false" ref="drawerRef">
+
+        <template v-slot:header="{close}">
+            <div>
+                Войти в личный кабинет
+            </div>
+            <IconClose class="icon-close" @click="close" />
         </template>
 
         <div class="authentication-form">
@@ -210,14 +216,30 @@ const verificationStep = () => {
 
         </div>
 
-    </Modal>
+    </el-drawer>
 
 </template>
 <style>
+
+.el-drawer__header {
+    background-color: var(--color-primary);
+    height: 100px;
+    color: white;
+    font-size: 16px;
+    text-transform: uppercase;
+    padding-top: 0;
+    padding-left: 2rem;
+}
+
+.icon-close {
+    cursor: pointer;
+}
+
 .authentication-form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding-left: 1rem;
 }
 
 .authentication-form__title {
