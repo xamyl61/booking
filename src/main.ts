@@ -10,7 +10,11 @@ import router from './router'
 import Vue3Toasity, { type ToastContainerOptions } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
 const app = createApp(App)
+app.component('VueDatePicker', VueDatePicker)
 
 app.use(createPinia())
 app.use(ElementPlus)

@@ -161,32 +161,32 @@ body {
 
 
     /* datepicker */
-    .filter-controls .dp__menu_inner.dp__flex_display {
+    .m-datepicker .dp__menu_inner.dp__flex_display {
         padding: 1.5rem;
     }
-    .filter-controls  .dp__menu {
+    .m-datepicker  .dp__menu {
         font-family: 'Geometria';
         border-radius: 0;
         border-color: #fff;
     }
-    .filter-controls .dp__arrow_top {
+    .m-datepicker .dp__arrow_top {
         display: none;
     }
-    .filter-controls  .dp__month_year_row {
+    .m-datepicker  .dp__month_year_row {
         position: static;
     }
-    .filter-controls .dp__menu_inner > .dp__instance_calendar:first-child .datepicker-arrow.arrow-right,
-    .filter-controls .dp__menu_inner > .dp__instance_calendar:nth-child(2) .datepicker-arrow.arrow-left {
+    .m-datepicker .dp__menu_inner > .dp__instance_calendar:first-child .datepicker-arrow.arrow-right,
+    .m-datepicker .dp__menu_inner > .dp__instance_calendar:nth-child(2) .datepicker-arrow.arrow-left {
         display: none;
     }
-    .filter-controls .dp__menu_inner > .dp__instance_calendar:first-child .dp__month_year_row {
+    .m-datepicker .dp__menu_inner > .dp__instance_calendar:first-child .dp__month_year_row {
         padding-left: .4rem;
     }
-    .filter-controls .dp__menu_inner > .dp__instance_calendar:nth-child(2) .dp__month_year_row {
+    .m-datepicker .dp__menu_inner > .dp__instance_calendar:nth-child(2) .dp__month_year_row {
         padding-left: 1.1rem;
     }
     
-    .filter-controls .dp__month_year_row .datepicker-arrow {
+    .m-datepicker .dp__month_year_row .datepicker-arrow {
         background-color: #000;
         width: 2rem;
         height: 2rem;
@@ -198,64 +198,85 @@ body {
         z-index: 1;
         top: 50%;
     }
-    .filter-controls .dp__month_year_row .datepicker-arrow.arrow-right {
+    .m-datepicker .dp__month_year_row .datepicker-arrow.arrow-right {
         right: -2.4rem;
         transform: translate3d(0, -1rem, 0);
     }
-    .filter-controls .dp__month_year_row .datepicker-arrow.arrow-left {
+    .m-datepicker .dp__month_year_row .datepicker-arrow.arrow-left {
         left: -2.4rem;
         transform: translate3d(0, -1rem, 0);
     }
 
 
-    .filter-controls .dp__calendar_header_item {
+    .m-datepicker .dp__calendar_header_item {
         font-weight: 400;
         opacity: .5;
     }
-    .filter-controls .dp__calendar_header_separator {
+    .m-datepicker .dp__calendar_header_separator {
         display: none;
     }
 
 
-    .filter-controls .dp__cell_offset {
+    .m-datepicker .dp__cell_offset {
         opacity: .2;
     }
 
-    .filter-controls .custom-month-year-component {
+    .m-datepicker .custom-month-year-component {
         color: #fff;
         font-size: 1.2rem;
         font-family: 'Optima Cyr';
         text-transform: capitalize;
     }
 
-    .filter-controls .dp__menu.dp__menu_index.dp__theme_light {
+    .m-datepicker.dp__menu.dp__menu_index.dp__theme_light {
         background: var(--color-primary);
     }
 
-    .filter-controls .dp__calendar_header,
-    .filter-controls .dp__calendar_item {
+    .m-datepicker .dp__calendar_header,
+    .m-datepicker .dp__calendar_item {
         color: #fff;
     }
+
+    .m-datepicker .dp__cell_inner.dp__cell_disabled {
+        text-decoration: line-through;
+    }
+
+    /* .m-datepicker.m-single .dp__instance_calendar {
+        padding: 1rem;
+    }
+    .m-datepicker.m-single .dp__month_year_row {
+        justify-content: center;
+    }
+    .m-datepicker.m-single .dp__month_year_row .datepicker-arrow {
+        top: 2.4rem;
+        cursor: pointer;
+    }
+    .m-datepicker.m-single .dp__month_year_row .datepicker-arrow.arrow-left {
+        left: 1rem;
+    }
+    .m-datepicker.m-single .dp__month_year_row .datepicker-arrow.arrow-right {
+        right: 1rem;
+    } */
     
     
     /* current day */
-    .filter-controls .dp__cell_inner {
+    .m-datepicker .dp__cell_inner {
         border-radius: 100%!important;
     }
-    .filter-controls .dp__range_end,
-    .filter-controls .dp__range_start,
-    .filter-controls .dp__active_date {
+    .m-datepicker .dp__range_end,
+    .m-datepicker .dp__range_start,
+    .m-datepicker .dp__active_date {
         background: #fff!important;
         color: var(--color-primary)!important;
     }
-    .filter-controls  .dp__range_between {
+    .m-datepicker .dp__range_between {
         background-color: rgba(255,255,255, .5);
         border: none;
         color: var(--color-primary)!important;
     }
-    .filter-controls .dp__date_hover_end:hover,
-    .filter-controls .dp__date_hover_start:hover,
-    .filter-controls .dp__date_hover:hover {
+    .m-datepicker .dp__date_hover_end:hover,
+    .m-datepicker .dp__date_hover_start:hover,
+    .m-datepicker .dp__date_hover:hover {
         color: var(--color-primary);
     }
 

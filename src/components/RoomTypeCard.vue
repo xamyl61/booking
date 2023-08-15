@@ -2,10 +2,11 @@
     <div class="room-type container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
         <div class="flex flex-wrap -mx-1 lg:-mx-4">
             <div
-                v-for="roomType in roomTypes"
+                v-for="(roomType, index) in roomTypes"
+                :key="roomType.room_type.guid"
                 class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3"
             >
-                <article class="overflow-hidden h-full flex flex-col">
+                <article class="h-full flex flex-col">
                     <Splide 
                         :has-track="false"
                         :options="{ type:  roomType.gallery.length > 0 ? 'loop' : ''}"
@@ -120,10 +121,76 @@
                             <div class="cost h-9 flex items-center">Распродано</div>
                         </div>
                         <div>
-                            <Button class="w-full btn-grey">Доступные даты заезда</Button>
+                            <Button
+                                @click="openDatePickerMenu(roomType.is_available_index, roomType.room_type.guid)"
+                                class="w-full btn-grey"
+                            >
+                                Доступные даты заезда
+                            </Button>
                         </div>
+                        <VueDatePicker
+                            @open="bodyStopScrolling"
+                            @closed="bodyAutoScrolling"
+                            range
+                            multi-calendars
+                            v-model="date"
+                            :enable-time-picker="false"
+                            auto-apply
+                            locale="ru"
+                            :six-weeks="true"
+                            :offset="1"
+                            ref="datepicker"
+                            menu-class-name="m-datepicker"
+                            teleport-center
+                            :allowed-dates="availableRoomsDatesComputed"
+                            no-disabled-range
+                            @update:model-value="$emit('update:date', handleDatePickerChange($event, roomType.room_type.guid))"
+                            :transitions="false"
+                        >
+                            <template #dp-input></template>
+                            <template #trigger>
+                                <div class="daterange">
+                                    <div class="daterange-item start-date whitespace-pre">
+                                        {{ rangeStartDate }}
+                                    </div>
+                                    <div class="devide-line">
+                                        &#9135;
+                                    </div>
+                                    <div class="daterange-item end-date whitespace-pre">
+                                        {{ rangeEndDate }}
+                                        <IconCalendar/>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <template 
+                                #month-year="{
+                                    month,
+                                    year,
+                                    handleMonthYearChange
+                            }">
+                                <div class="custom-month-year-component">
+                                    {{ getMonthName(month) }} {{ year }}
+                                </div>
+                                <div class="icons">
+                                <span 
+                                    class="datepicker-arrow arrow-left" 
+                                    @click="handleMonthYearChange(false)">
+                                    <IconArrowLeftSircle/>
+                                </span>
+                                <span 
+                                    class="datepicker-arrow arrow-right" 
+                                    @click="handleMonthYearChange(true)">
+                                    <IconArrowRightSircle/>
+                                </span>
+                                </div>
+                            </template>
+                        
+                            <template #action-buttons>
+                                <div></div>
+                            </template>
+                        </VueDatePicker>
                     </div>
-                    
                 </article>
             </div>
         </div>
@@ -138,25 +205,29 @@
             <RoomCardDetails
                 :roomDetails="roomDetails"
                 :roomPrice="roomPrice"
-                :countOfDays="countOfDays"
+                :countOfDays="newCountOfDays"
                 :countOfPersons="countOfPersons"
             />
         </el-dialog>
 
     </div>
+
 </template>
   
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { ref, computed, watchEffect, onMounted } from 'vue';
     import type { PropType } from 'vue';
-
+    import type { DatePickerInstance } from "@vuepic/vue-datepicker"
+    
     import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
     import '@splidejs/vue-splide/css';
-
-
+    
+    import VueDatePicker from '@vuepic/vue-datepicker';
     import RoomCardDetails from '@/components/RoomCardDetails.vue';
 
     import IconSlideRight from '@/components/icons/IconSlideRight.vue';
+    import IconArrowLeftSircle from '@/components/icons/IconArrowLeftSircle.vue'
+    import IconArrowRightSircle from '@/components/icons/IconArrowRightSircle.vue'
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue';
     import IconPerson from '@/components/icons/IconPerson.vue';
     import IconSquare from '@/components/icons/IconSquare.vue';
@@ -167,11 +238,25 @@
 
     import plural  from 'plural-ru';
 
+    const date = ref()
+    const newCountOfDays = ref()
+    const startDateFormated = ref()
+    const endDateFormated = ref()
+    const rangeStartDate = ref()
+    const rangeEndDate = ref()
+
+    const datepicker = ref<DatePickerInstance[]>([]);
+
     const peoplePerRoomPlurals = ref('')
     const dialogVisible = ref(false)
-    const roomGuid = ref('')
+    const roomTypeGuid = ref('')
 
     const roomPrice = ref('')
+    const availableRoomsDates = ref([])
+
+    const scroll = ref(true)
+    
+
 
     interface Room {
         title: string
@@ -204,6 +289,7 @@
 
         }
         is_available: boolean
+        is_available_index: number
          
     }
 
@@ -217,8 +303,38 @@
             type: Number,
             default: 1
         },
+        сhildren: {
+            type: Number,
+            default: 0
+        },
+        infants: {
+            type: Number,
+            default: 0
+        },
+        adults: {
+            type: Number,
+            default: 1
+        },
 
     })
+
+    const openDatePickerMenu = (index: number, guid: string) => {
+        if (datepicker.value != null) {
+            const dPicker = datepicker.value
+            dPicker[index]?.openMenu()
+        }
+        getAvailableRooms(guid)
+
+    }
+
+    const getMonthName = (monthNumber: number) => {
+        const date = new Date();
+        date.setMonth(monthNumber);
+
+        return date.toLocaleString('ru', {
+            month: 'long',
+        });
+    }
 
     const pluralPeopletext = (count: number) => {
         return plural(count, 'человек', 'человека', 'человек');
@@ -233,7 +349,7 @@
     }
 
     const showRoomDetails = (guid: string, cost: string) => {
-        dialogVisible.value = true
+        dialogVisible.value = !dialogVisible.value
         roomPrice.value = cost
         getRoomDeatails(guid)
     }
@@ -241,6 +357,7 @@
     const roomDetails = ref()
     async function getRoomDeatails(guid: string) {
         try {
+            newCountOfDays.value = props.countOfDays
             const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${guid}/`);
             const finalRes = await res.json();
             roomDetails.value = finalRes.res;
@@ -249,9 +366,91 @@
         }
     }
 
+    async function getRoomDeatailsByDates() {
+        try {        
+            newCountOfDays.value = (new Date(date.value[1]).getTime() - new Date(date.value[0]).getTime())/(1000 * 3600 * 24)                                                       
+            // countOfDays.value = (new Date(date.value[1]).getTime() - new Date(date.value[0]).getTime())/(1000 * 3600 * 24)                                                       
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/room-type/${roomTypeGuid.value}/?number_of_adults=${props.adults}&number_of_children=${props.сhildren}&date_from=${startDateFormated.value}&date_till=${endDateFormated.value}&number_of_infants=${props.infants}`);
+            const finalRes = await res.json();
+            roomDetails.value = finalRes.res;
+            roomPrice.value = roomDetails.value.price;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function getAvailableRooms(guid: string) {
+        try {
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/available-rooms/${guid}/`);
+            const finalRes = await res.json();
+            availableRoomsDates.value = finalRes.res;
+            return finalRes
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const dateFormateding = (date: Date) => {
+        let year = date.getFullYear();
+        let month = date.toLocaleString("default", { month: "2-digit" });
+        let day = date.toLocaleString("default", { day: "2-digit" });
+        let formattedDate = year + "-" + month + "-" + day;
+
+        return formattedDate
+    }
+
+
+    const availableRoomsDatesComputed = computed(() => {
+        const datesRes = availableRoomsDates.value.map(function (dateItem: any) {
+            return new Date(dateItem.period)
+        })
+        return datesRes
+    }) 
+
+
+    const bodyStopScrolling = () => {
+        date.value = ''
+        scroll.value = false
+    }
+    const bodyAutoScrolling = () => {
+        scroll.value = true
+    }
+
+
+    watchEffect(() => {
+        if(scroll.value){
+            document.documentElement.style.overflow = 'auto'
+            return
+        }
+        
+        document.documentElement.style.overflow = 'hidden'
+    })
+
+    const handleDatePickerChange = (event: Event, guid: string) => {
+        dialogVisible.value = true
+        date.value = event; //  НЕ ПОНЯЛ ПОЧЕМУ ИЗ Event берется(без target...) Календарь так отдает?
+        roomTypeGuid.value = guid;
+        startDateFormated.value = dateFormateding(date.value[0]);
+        endDateFormated.value =  dateFormateding(date.value[1]);
+        getRoomDeatailsByDates()
+    }
+
+    onMounted(() => {
+        newCountOfDays.value = props.countOfDays
+    })
+
+
+
+
+
 </script>
   
 <style scoped>
+/* datepicker */
+.card-foot .dp__main {
+    width: 0;
+}
+/* end datepicker */
 
 .room-type {
         

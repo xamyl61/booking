@@ -36,6 +36,7 @@
                             :min-date="new Date(choosedHotel?.bookingDateFrom)"
                             :max-date="new Date(choosedHotel?.bookingDateTill)"
                             @update:model-value="handleDate"
+                            menu-class-name="m-datepicker"
                         >
                             <template #trigger>
                                 <div class="daterange">
@@ -75,10 +76,9 @@
                                 </div>
                             </template>
                         
-                            <template #action-buttons>
-                                <!-- Empty block to hide select button -->
+                            <!-- <template #action-buttons>
                                 <div></div>
-                            </template>
+                            </template> -->
                         </VueDatePicker>
                         
                     </div>
@@ -198,6 +198,9 @@
         <RoomTypeCard
             :countOfDays="countOfDays"
             :countOfPersons="countOfPersons"
+            :adults="adults"
+            :сhildren="сhildren"
+            :infants="infants"
             :roomTypes="roomTypes"
             v-loading="loading"
             element-loading-text="Идет поиск номеров..."
@@ -356,6 +359,16 @@
             if (roomTypes.value == 0) {
                 showNoRoomsNotification.value = true
             }
+
+            //added index if not available, it needs to open picker
+            let index = 0;
+            roomTypes.value.forEach(function(item:any) {
+                if (!item.is_available) {
+                    item.is_available_index = index++
+                }
+                return roomTypes
+            })
+
         } catch (error) {
             console.log(error)
         } finally {

@@ -86,6 +86,7 @@
                 </div>
 
                 <div class="flex base-detail">
+                    roomDetails?.room_type: {{ roomDetails }}
                     <div class="text-block">
                         <div class="styled-text">{{ roomDetails?.room_square }} м2</div>
                         <div class="text">Площадь</div>
