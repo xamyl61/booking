@@ -76,30 +76,56 @@
                 </div>
             </div>
             <div class="details">
-                <div class="flex justify-between pb-10">
-                    <div class="description text-lg">
-                        {{ roomDetails?.description }}
+
+                <div class="flex justify-between">
+                    <div>
+                        <div class="flex">
+                            <div
+                                v-for="service in roomDetails?.arrival_service_header_items"
+                                class="flex"
+                            >
+                                <img
+                                    class="list-block-icons"
+                                    :class="service.arrival_service.icon ? '' : 'hidden'"
+                                    :src="service.arrival_service.icon"
+                                    alt=""
+                                >
+                                <div class="">{{ service.arrival_service.title }}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between pb-10">
+                            <div class="description text-lg">
+                                {{ roomDetails?.description }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="type-of-service ">
-                        {{ roomDetails?.room_rate_description }}
+
+
+                    <div>
+                        <div class="flex base-detail">
+                            <div class="flex">
+                                <div class="">{{ roomDetails?.room_type.number_of_persons_per_room }} {{ pluralPeopletext(roomDetails?.room_type.number_of_persons_per_room) }}</div>
+                            </div>
+                            <div class="flex">
+                                <div class="">{{ roomDetails?.room_square }} м2</div>
+                            </div>
+                            <div class="flex">
+                                <div class="">{{ roomDetails?.room_type.number_of_beds_per_room }}</div>
+                                <div class="">{{ pluralRoomsText(roomDetails?.room_type.number_of_beds_per_room) }}</div>
+                            </div>
+         
+                        </div>
+                        <div>
+                            <div class="subtitle">Расчётные часы</div>
+                            {{ roomDetails?.checkout_hours }}
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex base-detail">
-                    roomDetails?.room_type: {{ roomDetails }}
-                    <div class="text-block">
-                        <div class="styled-text">{{ roomDetails?.room_square }} м2</div>
-                        <div class="text">Площадь</div>
-                    </div>
-                    <div class="text-block">
-                        <div class="styled-text">{{ roomDetails?.room_type.number_of_beds_per_room }}</div>
-                        <div class="text">{{ pluralRoomsText(roomDetails?.room_type.number_of_beds_per_room) }}</div>
-                    </div>
-                    <div class="text-block">
-                        <div class="styled-text">{{ roomDetails?.room_type.number_of_persons_per_room }} {{ pluralPeopletext(roomDetails?.room_type.number_of_persons_per_room) }}</div>
-                        <div class="text">Вместимость номера</div>
-                    </div>
-                </div>
+
+
+
 
                 <div class="list-block">
 
@@ -111,9 +137,7 @@
                         >
                             <div>
                                 <div class="subtitle">{{ amenity?.title }}:</div>
-                                <div
-                                    style=""
-                                >
+                                <div>
                                     <div
                                         v-for="item in amenity.amenity_items"
                                         class="item flex pb-2 content-center"
@@ -133,17 +157,35 @@
                         </div>
                     </div>
 
-                    <h6 class="list-block-title pt-10 pb-6">{{ roomDetails?.arrival_service_title }}</h6>
-                    <div class="list-block-grid">
+
+
+                    <div
+                        v-for="amenity in roomDetails?.arrival_service_categories"
+                    >
+                        {{ amenity?.title }}
+                        <div
+                        v-for="amenSubCutegory in amenity.arrival_service_sub_categories"
+                            
+                        >
+                            {{ amenSubCutegory?.title }}
+                            <div
+                               v-for="arrivalServiceItem in amenSubCutegory?.arrival_service_items" 
+                            >
+                                {{ arrivalServiceItem?.arrival_service.title }}
+                                {{ arrivalServiceItem?.arrival_service.icon }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="list-block-grid">
                         <div    
                             v-for="amenity in roomDetails?.arrival_service_categories"
                             class="list-block-grid-col"
                         >
                             <div>
                                 <div class="subtitle">{{ amenity?.title }}:</div>
-                                <div
-                                    style=""
-                                >
+                                <div>
                                     <div
                                         v-for="item in amenity.arrival_service_items"
                                         class="item flex pb-2 content-center"
@@ -161,7 +203,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -263,19 +305,31 @@
         arrival_service_categories: [
             {
                 title: string,
-                arrival_service_items: [
+                arrival_service_sub_categories: [
                     {
-                        arrival_service: {
-                            title: string,
-                            icon: {
-                                alt: string,
-                                full_url: string
+                        title: string,
+                        arrival_service_items: [
+                            {
+                                arrival_service: {
+                                    title: string,
+                                    icon: string
+                                }
                             }
-                        }
+                        ]
+                        
                     }
                 ]
             }
-        ]
+        ],
+        arrival_service_header_items: [
+            {
+                arrival_service: {
+                    title: string,
+                    icon: string
+                }
+            }
+        ],
+        checkout_hours: string
     }
 
     const props = defineProps({
@@ -284,7 +338,7 @@
             required: true,
         },
         roomPrice: {
-            type: String,
+            type: Number,
             required: true,
         },
         countOfDays: {
@@ -322,20 +376,7 @@
     flex-shrink: 0;
 }
 
-.base-detail {
 
-}
-.text-block {
-    width: 20%;
-}
-.styled-text {
-    font-family: 'Optima Cyr';
-    font-size: 1.6rem;
-    padding-bottom: .5rem;
-}
-.text-block .text {
-
-}
 
 .list-block-title {
     font-family: 'Optima Cyr';

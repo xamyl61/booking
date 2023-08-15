@@ -49,7 +49,7 @@
                     <div class="leading-tight grow">
                         <h1>
                             <span
-                                @click="showRoomDetails(roomType.room_type.guid, (roomType.price).toLocaleString('ru-RU'))"
+                                @click="showRoomDetails(roomType.room_type.guid, roomType.price)"
                                 class="hover:underline text-black cursor-pointer" href="#"
                             >
                                 {{ roomType.title }}
@@ -76,7 +76,7 @@
 
                     <div class="flex room-description pr-4">
                         <div
-                            @click="showRoomDetails(roomType.room_type.guid, (roomType.price).toLocaleString('ru-RU'))"
+                            @click="showRoomDetails(roomType.room_type.guid, roomType.price)"
                             class="flex items-center no-underline hover:underline text-black cursor-pointer">
                             Подробнее о номере
                             <IconArrowLeftInCircle/>
@@ -251,7 +251,7 @@
     const dialogVisible = ref(false)
     const roomTypeGuid = ref('')
 
-    const roomPrice = ref('')
+    const roomPrice = ref<number>()
     const availableRoomsDates = ref([])
 
     const scroll = ref(true)
@@ -348,7 +348,7 @@
         return plural(count, 'ночь', 'ночи', 'ночей');
     }
 
-    const showRoomDetails = (guid: string, cost: string) => {
+    const showRoomDetails = (guid: string, cost: number) => {
         dialogVisible.value = !dialogVisible.value
         roomPrice.value = cost
         getRoomDeatails(guid)
@@ -368,8 +368,7 @@
 
     async function getRoomDeatailsByDates() {
         try {        
-            newCountOfDays.value = (new Date(date.value[1]).getTime() - new Date(date.value[0]).getTime())/(1000 * 3600 * 24)                                                       
-            // countOfDays.value = (new Date(date.value[1]).getTime() - new Date(date.value[0]).getTime())/(1000 * 3600 * 24)                                                       
+            newCountOfDays.value = (new Date(date.value[1]).getTime() - new Date(date.value[0]).getTime())/(1000 * 3600 * 24)                                                                                                             
             const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/room-type/${roomTypeGuid.value}/?number_of_adults=${props.adults}&number_of_children=${props.сhildren}&date_from=${startDateFormated.value}&date_till=${endDateFormated.value}&number_of_infants=${props.infants}`);
             const finalRes = await res.json();
             roomDetails.value = finalRes.res;
