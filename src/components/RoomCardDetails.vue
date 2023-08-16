@@ -3,6 +3,21 @@
         <div class="room-detail-head">
             <p class="text-2xl">{{ roomDetails?.title }}</p>
         </div>
+
+        <div>
+            <vue-easy-lightbox
+                :visible="visibleRef"
+                :imgs="imgsRef"
+                :index="indexRef"
+                :loop="true"
+                :moveDisabled="true"
+                :rotateDisabled="true"
+                :zoomDisabled="true"
+                @hide="onHide"
+            ></vue-easy-lightbox>
+        </div>
+
+
         <div class="room-detail-body">
             <div class="slider">
                 <Splide 
@@ -46,33 +61,15 @@
                         </ul>
                     </div>
                 </Splide>   
-                <div class="slider-thumblr">
-                    <Splide 
-                        :has-track="false"
-                        :options="thumbsOptions"
-                        :arrows="true"
-                        ref="thumbs"
-                        class="slider-thumblr-splide"
+                <div class="parent">
+                    <div
+                        v-for="(src, index) in imgsRef"
+                        :key="index"
+                        :class="`div${index + 1}`"
+                        @click="() => showMultiple(index)"
                     >
-            
-                        <div
-                            :class="roomDetails?.gallery.length > 0 ? '' : 'hide-arrows'"
-                            class="custom-wrapper"
-                        >
-                            <SplideTrack>
-                                <SplideSlide>
-                                    <img :src="roomDetails?.cover_image.full_url" alt="">
-                                </SplideSlide>
-                    
-                                <SplideSlide
-                                    v-for="room_image in roomDetails?.gallery"
-                                >
-                                    <img :src="room_image.image.full_url" alt="">
-                                </SplideSlide>
-                            </SplideTrack>
-             
-                        </div>
-                    </Splide>
+                        <img :src="src"/>
+                    </div>
                 </div>
             </div>
             <div class="details">
@@ -209,7 +206,7 @@
         </div>
         <div class="room-detail-foot flex justify-end ">
             <div class="cost-block">
-                <div class="cost">{{ roomPrice }} р.</div>
+                <div class="cost">{{ props.roomPrice }} р.</div>
                 
                 <div class="persons-nights">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
             </div>
@@ -222,7 +219,7 @@
 </template>
   
 <script setup lang="ts">
-    import { ref, onMounted, onUnmounted } from 'vue';
+    import { ref, onMounted, computed } from 'vue';
     import type { PropType } from 'vue';
 
     import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
@@ -230,26 +227,34 @@
 
 
     import IconSlideRight from '@/components/icons/IconSlideRight.vue';
-    import IconFen from '@/components/icons/IconFen.vue';
-
     import plural  from 'plural-ru';
 
-    const main   = ref<InstanceType<typeof Splide>>();
-    const thumbs = ref<InstanceType<typeof Splide>>();
 
-    const thumbsOptions = {
-      type        : 'slide',
-      rewind      : true,
-      gap         : '1rem',
-      pagination  : true,
-    //   fixedWidth  : 160,
-    //   fixedHeight : 70,
-      cover       : true,
-      focus       : 'center',
-      isNavigation: true,
-      updateOnMove: true,
-      arrows: false,
-    };
+
+    const visibleRef = ref(false)
+    const indexRef = ref(0) // default 0
+    const imgsRef = ref<string[]>()
+
+
+
+    const main   = ref<InstanceType<typeof Splide>>();
+
+    imgsRef.value = [
+        'https://via.placeholder.com/600/92c952',
+        'https://via.placeholder.com/600/771796',
+        'https://via.placeholder.com/600/24f355',
+        'https://via.placeholder.com/600/d32776',
+        'https://via.placeholder.com/600/92c952'
+    ]
+
+    const imgLightBoxUrlsList = () => {
+        const imgUrlsList = props.roomDetails.gallery.map(gall => {
+            return gall.image.full_url
+        }) 
+        console.log("!!! imgUrlsList: ", imgUrlsList)
+        return imgUrlsList
+    }
+
 
 
     const pluralPeopletext = (count: number) => {
@@ -351,13 +356,29 @@
         },
         
     })
-    
-    onMounted(() => {
-        const thumbsSplide = thumbs.value?.splide;
 
-        if ( thumbsSplide ) {
-            main.value?.sync( thumbsSplide );
-        }
+
+
+
+
+    // const getImageUrlsList = () => {
+    //     imgsRef.value = props.roomDetails.gallery.map(gallery => { return gallery.image.full_url }) 
+    // }
+    
+
+
+    const onShow = () => {
+      visibleRef.value = true
+    }
+
+    const showMultiple = (index: number) => {
+      indexRef.value = index // index of imgList
+      onShow()
+    }
+    const onHide = () => (visibleRef.value = false)
+
+    onMounted(() => {
+        console.log("props: ", props)
     })
 
 
@@ -406,7 +427,6 @@
 }
 .item {
     flex: 1 50px;
-    /* border: 1px solid green; */
     flex-grow: 1;
     display: flex;
 }
@@ -422,6 +442,44 @@
     top: -3px;
 }
 
+
+.vel-img-wrapper {
+    transition: none!important;
+}
+
+.splide {
+    width: 75%;
+}
+
+.parent img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 30%;
+    gap: 0.5vw;
+}
+
+.div1 { 
+    grid-column: 1 / -1;
+    height: 12vw;
+}
+.div2,
+.div3,
+.div4,
+.div5 {
+    height: 6vw;
+}
+
+.slider > .splide .splide__slide img {
+    width: 100%;
+    height: 25vw;
+}
 
 
 
