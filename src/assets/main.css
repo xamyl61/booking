@@ -490,9 +490,8 @@ body {
         display: flex;
     }
 
-    /* slider-thumblr */
-    .slider-thumblr  .splide:not(.is-overflow) .splide__pagination {
-        display: none;
+    .slider-thumblr {
+        width: 30%;
     }
     .slider-thumblr .splide,
     .slider-thumblr .custom-wrapper,
@@ -500,27 +499,65 @@ body {
         height: 100%;
     }
     .slider-thumblr .splide__list {
-        display: block;
         transform: none!important;
-        /* border: 2px solid red; */
-        gap: 1rem;
-
-        height: 100%;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        gap: 0.5vw;
     }
-
-    .slider-thumblr .splide__slide {
-        flex: 1;
-        overflow: auto;
-        border: none!important;
-        margin-right: 0!important;
-        width: 10vw!important;
+    .slider-thumblr .splide__track--nav>.splide__list>.splide__slide {
+        border: transparent!important;
+        margin: 0!important;
     }
-
-    .slider-thumblr .splide__arrows {
+    .slider-thumblr  .splide:not(.is-overflow) .splide__pagination,
+    .slider-thumblr  .splide__pagination.splide__pagination--ltr {
         display: none;
     }
+
+    /* 3 slides */
+    .slider-thumblr .image-in-thumblr-3 .splide__list {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+    .slider-thumblr .image-in-thumblr-3 .splide__list .splide__slide:nth-child(2) {
+        grid-row-start: 1;
+        grid-row-end: 2;
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+
+
+    /* 4 slides */
+    .slider-thumblr .image-in-thumblr-4 .splide__list {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    }
+    .slider-thumblr .image-in-thumblr-4 .splide__list .splide__slide:nth-child(2) {
+        grid-row-start: 1;
+        grid-row-end: 3;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        display: inherit;
+    }
+
+    .slider-thumblr .image-in-thumblr-4 .splide__list .splide__slide:nth-child(3) {
+        grid-row-start: 3;
+        grid-row-end: 5;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        display: inherit;
+    }
+
+    .slider-thumblr .image-in-thumblr-5 .splide__list {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    }
+    .slider-thumblr .image-in-thumblr-5 .splide__list .splide__slide:nth-child(2) {
+        grid-row-start: 1;
+        grid-row-end: 3;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        display: inherit;
+    }
+
 
 
 

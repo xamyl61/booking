@@ -9,7 +9,7 @@
                 <article class="h-full flex flex-col">
                     <Splide 
                         :has-track="false"
-                        :options="{ type:  roomType.gallery.length > 0 ? 'loop' : ''}"
+                        :options="{ rewind: true, type: 'fade'}"
                         :arrows="false"
                     >
 
@@ -351,11 +351,17 @@
         return plural(count, 'ночь', 'ночи', 'ночей');
     }
 
-    const showRoomDetails = (guid: string, cost: number) => {
-        getRoomDeatails(guid)
+    async function showRoomDetails (guid: string, cost: number) {
+        await getRoomDeatails(guid)
         dialogVisible.value = !dialogVisible.value
         roomPrice.value = cost
     }
+
+    // const showRoomDetails = (guid: string, cost: number) => {
+    //     getRoomDeatails(guid)
+    //     dialogVisible.value = !dialogVisible.value
+    //     roomPrice.value = cost
+    // }
 
     const roomDetails = ref()
     async function getRoomDeatails(guid: string) {
@@ -364,6 +370,7 @@
             const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${guid}/`);
             const finalRes = await res.json();
             roomDetails.value = finalRes.res;
+            console.log("!!!! roomDetails.value: ", roomDetails.value)
 
         } catch (error) {
             console.log(error)

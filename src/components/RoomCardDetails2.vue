@@ -22,11 +22,10 @@
             <div class="slider">
                 <Splide 
                     :has-track="false"
+                    :options="{ type:  roomDetails?.gallery.length > 0 ? 'loop' : ''}"
                     :arrows="false"
                     ref="main"
                     class="main-slider"
-                    :updateOnMove="true"
-                    :options="{ rewind: true, type: 'fade'}"
                 >
         
                     <div
