@@ -195,6 +195,8 @@
         </div>
 
         <RoomTypeCard
+            :startDateFormated="rangeStartDate"
+            :endDateFormated="rangeEndDate"
             :countOfDays="countOfDays"
             :countOfPersons="countOfPersons"
             :adults="adults"

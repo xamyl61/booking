@@ -147,7 +147,6 @@
                             @update:model-value="$emit('changeAvailableDates', $event, roomType.room_type.guid)"
                             :transitions="false"
                         >
-                        <!-- @update:model-value="$emit('update:date', handleDatePickerChange($event, roomType.room_type.guid))" -->
                             <template #dp-input></template>
                             <template #trigger>
                                 <div class="daterange">
@@ -204,6 +203,8 @@
             destroy-on-close
         >
             <RoomCardDetails
+                :endDateFormated="props.endDateFormated"
+                :startDateFormated="props.startDateFormated"
                 :roomDetails="roomDetails"
                 :roomPrice="roomPrice"
                 :countOfDays="newCountOfDays"
@@ -318,6 +319,12 @@
             type: Number,
             default: 1
         },
+        startDateFormated: {
+            type: String,
+        },
+        endDateFormated: {
+            type: String,
+        }
 
     })
 
@@ -357,12 +364,6 @@
         roomPrice.value = cost
     }
 
-    // const showRoomDetails = (guid: string, cost: number) => {
-    //     getRoomDeatails(guid)
-    //     dialogVisible.value = !dialogVisible.value
-    //     roomPrice.value = cost
-    // }
-
     const roomDetails = ref()
     async function getRoomDeatails(guid: string) {
         try {
@@ -370,7 +371,6 @@
             const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${guid}/`);
             const finalRes = await res.json();
             roomDetails.value = finalRes.res;
-            console.log("!!!! roomDetails.value: ", roomDetails.value)
 
         } catch (error) {
             console.log(error)
@@ -424,14 +424,6 @@
         
         document.documentElement.style.overflow = 'hidden'
     })
-
-    // const handleDatePickerChange = (event: Event, guid: string) => {
-    //     date.value = event;
-    //     roomTypeGuid.value = guid;
-    //     startDateFormated.value = dateFormateding(date.value[0]);
-    //     endDateFormated.value =  dateFormateding(date.value[1]);
-    //     getRoomDeatailsByDates()
-    // }
 
     onMounted(() => {
         newCountOfDays.value = props.countOfDays

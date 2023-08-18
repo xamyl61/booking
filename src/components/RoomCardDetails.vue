@@ -14,6 +14,7 @@
                 :rotateDisabled="true"
                 :zoomDisabled="true"
                 @hide="onHide"
+                class="m-lightbox"
             ></vue-easy-lightbox>
         </div>
 
@@ -113,26 +114,25 @@
                                 <img
                                     class="list-block-icons"
                                     :class="service.arrival_service.icon ? '' : 'hidden'"
-                                    :src="service.arrival_service.icon"
+                                    :src="service.arrival_service.icon.full_url"
                                     alt=""
                                 >
-                                <IconHome/>
                                 <div>{{ service.arrival_service.title }}</div>
                             </div>
                         </div>
 
-                        <div class="flex justify-between pb-10">
+                        <div class="justify-between  pb-8">
                             <div
                                 :class="{show: showMore}"
-                                class="description text-lg"
+                                class="description bottom-shadow text-lg"
                             >
                                 {{ roomDetails?.description }}
                             </div>
                             <button
-                                class="more"
+                                class="more mt-4"
                                 @click="showMore=!showMore"
                             >
-                                {{ showMore ? 'Свернуть' : 'Подробнее' }}
+                                <b>{{ showMore ? 'Свернуть' : 'Подробнее' }}</b>
                             </button>
                         </div>
                     </div>
@@ -150,13 +150,8 @@
                     </div>
                 </div>
 
-
-
-
-
                 <div class="list-block">
 
-                    <h6 class="list-block-title pt-10 pb-6">{{ roomDetails?.amenity_title }}</h6>
                     <div class="list-block-grid">
                         <div    
                             v-for="amenity in roomDetails?.amenity_categories"
@@ -188,61 +183,49 @@
 
                     <div
                         v-for="amenity in roomDetails?.arrival_service_categories"
+                        class="block"
                     >
-                        {{ amenity?.title }}
-                        <div
-                        v-for="amenSubCutegory in amenity.arrival_service_sub_categories"
-                            
-                        >
-                            {{ amenSubCutegory?.title }}
+                        <div class="list-block-title">{{ amenity?.title }}</div>
+                        <div class="list-block-grid">
                             <div
-                               v-for="arrivalServiceItem in amenSubCutegory?.arrival_service_items" 
+                                v-for="amenSubCutegory in amenity.arrival_service_sub_categories"
+                                class="list-block-grid-col"
                             >
-                                {{ arrivalServiceItem?.arrival_service.title }}
-                                {{ arrivalServiceItem?.arrival_service.icon }}
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- <div class="list-block-grid">
-                        <div    
-                            v-for="amenity in roomDetails?.arrival_service_categories"
-                            class="list-block-grid-col"
-                        >
-                            <div>
-                                <div class="subtitle">{{ amenity?.title }}:</div>
+                                <div class="subtitle">{{ amenSubCutegory?.title }}</div>
                                 <div>
                                     <div
-                                        v-for="item in amenity.arrival_service_items"
-                                        class="item flex pb-2 content-center"
+                                        class=" icon-text"
+                                        v-for="arrivalServiceItem in amenSubCutegory?.arrival_service_items" 
                                     >
-                                        <div>
-                                            <img
-                                                class="list-block-icons"
-                                                :class="item.arrival_service.icon?.full_url ? '' : 'invisible'"
-                                                :src="item.arrival_service.icon?.full_url"
-                                                alt=""
-                                            >
-                                        </div>
-                                        <p>{{ item.arrival_service.title }}</p>
+                                        <img
+                                            class="list-block-icons"
+                                            :class="arrivalServiceItem?.arrival_service.icon ? '' : 'invisible'"
+                                            :src="arrivalServiceItem?.arrival_service.icon?.full_url"
+                                        >
+                                        {{ arrivalServiceItem?.arrival_service.title }}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="room-detail-foot flex justify-end ">
-            <div class="cost-block">
-                <div class="cost">{{ props.roomPrice }} р.</div>
-                
-                <div class="persons-nights">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
+        <div class="room-detail-foot flex justify-between ">
+            <div class="period">
+                <div class="period-title">Период проживания:</div>
+                <div class="period-date">{{ props.startDateFormated }} &nbsp;&#8212;&nbsp; {{ props.endDateFormated }}</div>
             </div>
-            <div class="btns-block">
-                <div class="bonus text-xs text-center pb-1">3 000 бонусов</div>
-                <button class="btn">Выбрать</button>
+            <div class="flex justify-end">
+                <div class="cost-block">
+                    <div class="cost">{{ props.roomPrice }} р.</div>
+                    
+                    <div class="persons-nights">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
+                </div>
+                <div class="btns-block">
+                    <div class="bonus text-xs text-center pb-1">3 000 бонусов</div>
+                    <button class="btn">Выбрать</button>
+                </div>
             </div>
         </div>
     </div>
@@ -264,16 +247,10 @@
     import IconPersons from '@/components/icons/IconPersons.vue';
 
     
-
-    
     const showMore = ref(false) 
-
 
     const visibleRef = ref(false)
     const indexRef = ref(0) // default 0
-    const imgsRef = ref<string[]>()
-
-
 
     const main   = ref<InstanceType<typeof Splide>>();
     const thumbs = ref<InstanceType<typeof Splide>>();
@@ -283,8 +260,6 @@
         rewind      : true,
         gap         : '1rem',
         pagination  : true,
-        //   fixedWidth  : 160,
-        //   fixedHeight : 70,
         cover       : true,
         focus       : 'center',
         isNavigation: true,
@@ -363,7 +338,9 @@
                             {
                                 arrival_service: {
                                     title: string,
-                                    icon: string
+                                    icon: {
+                                        full_url: string
+                                    }
                                 }
                             }
                         ]
@@ -376,7 +353,9 @@
             {
                 arrival_service: {
                     title: string,
-                    icon: string
+                    icon: {
+                        full_url: string
+                    }
                 }
             }
         ],
@@ -400,17 +379,14 @@
             type: Number,
             required: true,
         },
+        startDateFormated: {
+            type: String,
+        },
+        endDateFormated: {
+            type: String,
+        }
         
     })
-
-
-
-
-
-    // const getImageUrlsList = () => {
-    //     imgsRef.value = props.roomDetails.gallery.map(gallery => { return gallery.image.full_url }) 
-    // }
-    
 
 
     const onShow = () => {
@@ -447,6 +423,35 @@
 .description {
     font-size: 1.2rem;
 }
+.description {
+    padding-right: 2rem;
+    font-size: 1.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.description.show {
+    display: block;
+    overflow: auto;
+}
+.bottom-shadow {
+    position: relative;
+}
+.bottom-shadow::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1.4rem;
+    background: rgb(255,255,255);
+    opacity: 0.4;
+}
+.bottom-shadow.show::after {
+    display: none;
+}
 
 
 
@@ -463,6 +468,7 @@
 .list-block-title {
     font-family: 'Optima Cyr';
     font-size: 1.6rem;
+    margin-bottom: 1.6rem;
 }
 .subtitle {
     color: #939393;
@@ -478,20 +484,20 @@
 }
 .list-block-grid {
     display: flex;
-    gap: 1rem;
+    /* gap: 1rem; */
 }
 .list-block-grid-col {
     display: flex;
     flex-flow: column;
-    width: 30%;
+    width: 25%;
     padding-right: 3rem;
 }
-/* .icon-text {
-    flex: 1 50px;
+.icon-text {
+    flex: 1 2.4rem;
     flex-grow: 1;
     display: flex;
     min-height: 3rem;
-} */
+}
 
 
 .header-icon {
@@ -540,5 +546,16 @@
     font-weight: bold;
 }
 
+.period {
+
+}
+.period-title {
+    font-size: 1.2rem;
+    padding-bottom: .5rem;
+    font-family: 'Optima Cyr';
+}
+.period-date {
+    
+}
 
 </style>
