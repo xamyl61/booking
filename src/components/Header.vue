@@ -7,11 +7,11 @@
       </a>
 
       <div class="call">
-        <button class="btn">Перезвоните мне</button>
+        <Button>Перезвоните мне</Button>
       </div>
 
       <a class="phone-link" href="tel:+78889993311">
-        <IconPhoneGold/>
+        <IconPhone/>
         <span class="phone-link_text">+7 (888) 999 33-11</span>
       </a>
 
@@ -19,7 +19,7 @@
         <div v-if="!authStore.authUser">
           <Button @click="onLogin">
             <slot name="icon">
-              <IconPersonGold/>
+              <IconPersonPrimary/>
               </slot>
             <span class="btn-text">Войти в личный кабинет</span>
         </button>
@@ -36,11 +36,11 @@
   
 <script setup lang="ts">
   import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
-  import IconPhoneGold from '@/components/icons/IconPhoneGold.vue'
+  import IconPhone from '@/components/icons/IconPhone.vue'
   import AuthenticationForm from '@/features/authentication/components/AuthenticationForm.vue'
   import { useAuthStore } from '@/stores/auth-store';
   import { $vfm } from 'vue-final-modal';
-  import IconPersonGold from '@/components/icons/IconPersonGold.vue'
+  import IconPersonPrimary from '@/components/icons/IconPersonPrimary.vue'
   import Button from '@/components/Button.vue'
 
   const authStore = useAuthStore()
