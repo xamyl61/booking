@@ -33,8 +33,10 @@
                             position="left"
                             :six-weeks="true"
                             :offset="1"
-                            :min-date="new Date()"
+                            :min-date="new Date(choosedHotel?.bookingDateFrom)"
+                            :max-date="new Date(choosedHotel?.bookingDateTill)"
                             @update:model-value="handleDate"
+                            menu-class-name="m-datepicker"
                         >
                             <template #trigger>
                                 <div class="daterange">
@@ -74,10 +76,9 @@
                                 </div>
                             </template>
                         
-                            <template #action-buttons>
-                                <!-- Empty block to hide select button -->
+                            <!-- <template #action-buttons>
                                 <div></div>
-                            </template>
+                            </template> -->
                         </VueDatePicker>
                         
                     </div>
@@ -193,13 +194,18 @@
             <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
         </div>
 
-
         <RoomTypeCard
+            :startDateFormated="rangeStartDate"
+            :endDateFormated="rangeEndDate"
             :countOfDays="countOfDays"
             :countOfPersons="countOfPersons"
+            :adults="adults"
+            :сhildren="сhildren"
+            :infants="infants"
             :roomTypes="roomTypes"
             v-loading="loading"
             element-loading-text="Идет поиск номеров..."
+            @change-available-dates="changeAvailableDates"
         />
 
     </div>
@@ -215,7 +221,6 @@
     import IconArrowRightSircle from '@/components/icons/IconArrowRightSircle.vue'
     import IconPerson from '@/components/icons/IconPerson.vue'
     import IconSeashell from '@/components/icons/IconSeashell.vue'
-    import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue'
     
     import RoomTypeCard from './RoomTypeCard.vue';
 
@@ -228,6 +233,8 @@
     let date = ref()
     let rangeStartDate = ref()
     let rangeEndDate = ref()
+    let bookingDateFrom = ref()
+    let bookingDateTill = ref()
 
     let startDateFormated = ref()
     let endDateFormated = ref()
@@ -249,6 +256,11 @@
 
     let countOfDays = ref()
     let countOfPersons = ref()
+
+    const changeAvailableDates = (event: Event, roomGuid: string) => {
+        // alert(event)
+        getRoomDeatailsByDates(event, roomGuid)
+    }
     
     const runCounterMaxHosted = () => {   
         sumHosted.value = adults.value + teenagers.value + сhildren.value + infants.value
@@ -316,7 +328,9 @@
                     let myHotel = {
                         value: {
                             value: hotel.guid,
-                            nuberOfPersonsPerRoom: hotel.number_of_persons_per_room
+                            nuberOfPersonsPerRoom: hotel.number_of_persons_per_room,
+                            bookingDateFrom: hotel.booking_date_from,
+                            bookingDateTill: hotel.booking_date_till
                         },
                         label: hotel.title
                     }
@@ -351,6 +365,34 @@
             if (roomTypes.value == 0) {
                 showNoRoomsNotification.value = true
             }
+
+            //added index if not available, it needs to open picker
+            let index = 0;
+            roomTypes.value.forEach(function(item:any) {
+                if (!item.is_available) {
+                    item.is_available_index = index++
+                }
+                return roomTypes
+            })
+
+        } catch (error) {
+            console.log(error)
+        } finally {
+            loading.value = false
+        }
+    }
+
+    async function getRoomDeatailsByDates(event: Event, roomGuid: string) {
+        try {
+            handleDate(event)
+            loading.value = true
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/room-type/${roomGuid}/?number_of_adults=${adults.value}&number_of_children=${сhildren.value}&date_from=${startDateFormated.value}&date_till=${endDateFormated.value}&number_of_infants=${infants.value}`);
+            const finalRes = await res.json();
+            roomTypes.value = finalRes.res;
+            if (roomTypes.value == 0) {
+                showNoRoomsNotification.value = true
+            }
+
         } catch (error) {
             console.log(error)
         } finally {
