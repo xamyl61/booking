@@ -109,7 +109,7 @@
                         <div class="header-icon">
                             <div
                                 v-for="service in roomDetails?.arrival_service_header_items"
-                                class="icon-text"
+                                class="header-icon-item"
                             >
                                 <img
                                     class="list-block-icons"
@@ -126,6 +126,18 @@
                                 :class="{show: showMore}"
                                 class="description bottom-shadow text-lg"
                             >
+
+                                <p v-snip="{ lines: 1, onSnipped }">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci accusantium itaque, sit sequi praesentium at dolores voluptatum natus hic repudiandae dolorem numquam, harum earum quisquam voluptas vel tempore asperiores expedita!
+                                Ratione ad minus veritatis quod provident ipsam aperiam totam, itaque quas quasi eum accusamus rem consectetur, quaerat inventore molestias temporibus explicabo quia ea quo, obcaecati culpa. Dignissimos error rerum rem.
+                                Doloremque rerum dignissimos, error veritatis, incidunt ipsam ut porro nemo facere voluptatem repellat! Labore ea, esse cum, eligendi natus earum consequatur voluptatem beatae vero alias similique ipsam tempore rem asperiores!
+                                Et nobis explicabo perferendis, officia quam obcaecati quo fugit similique consectetur eligendi eaque suscipit mollitia fugiat enim sequi, omnis natus, perspiciatis placeat! Dicta impedit veniam expedita culpa libero beatae eligendi.
+                                Animi, voluptatibus! Libero provident cumque, porro cupiditate necessitatibus, voluptate ratione earum odit itaque perspiciatis blanditiis temporibus. Aliquid, voluptatibus qui! Recusandae dolore fugit quibusdam in soluta commodi pariatur sunt consectetur earum?
+                                Cum placeat sit recusandae quia neque explicabo magni aperiam reiciendis, delectus quidem veniam. Debitis consectetur architecto explicabo sit, dolorum tempore. Quidem fugit molestias beatae non nulla quod nesciunt enim sed!
+                                Totam laudantium sunt quia perspiciatis, repellat ad quos nisi quo neque soluta sequi eos, nihil excepturi nostrum repellendus vitae eum quas illo esse quibusdam modi dolorum natus unde. Odio, ex.
+                                Sunt quisquam labore rem aspernatur sapiente repellendus, ad et! Ad voluptatem iste voluptatum saepe doloremque, aliquid, consequuntur modi molestias alias sapiente nulla praesentium recusandae dolorem ut provident. Rem, voluptatem. Aliquid?
+                                Id possimus, quis ullam voluptas maxime similique accusantium blanditiis enim iste officiis voluptatem iusto eum maiores at. Repudiandae quaerat officia iusto nam eius eligendi a eos distinctio, accusamus architecto quis.
+                                Pariatur, fuga ex! Praesentium dolorum aut, ipsum iste nostrum obcaecati tenetur, laudantium, veritatis voluptatum facere provident itaque quidem! Inventore non quia quisquam nulla delectus itaque, aspernatur laudantium optio adipisci fuga!</p>
+
                                 {{ roomDetails?.description }}
                             </div>
                             <button
@@ -139,9 +151,9 @@
 
                     <div class="right-block">
                         <div class="header-icon">
-                            <div class="icon-text"><IconPersons/> {{ roomDetails?.room_type.number_of_persons_per_room }} {{ pluralPeopletext(roomDetails?.room_type.number_of_persons_per_room) }}</div>
-                            <div class="icon-text"><IconSquare/> {{ roomDetails?.room_square }} м2</div>
-                            <div class="icon-text"><IconHome/> {{ roomDetails?.room_type.number_of_beds_per_room }} {{ pluralRoomsText(roomDetails?.room_type.number_of_beds_per_room) }}</div>
+                            <div class="header-icon-item"><IconPersons/> {{ roomDetails?.room_type.number_of_persons_per_room }} {{ pluralPeopletext(roomDetails?.room_type.number_of_persons_per_room) }}</div>
+                            <div class="header-icon-item"><IconSquare/> {{ roomDetails?.room_square }} м2</div>
+                            <div class="header-icon-item"><IconHome/> {{ roomDetails?.room_type.number_of_beds_per_room }} {{ pluralRoomsText(roomDetails?.room_type.number_of_beds_per_room) }}</div>
                         </div>
                         <div>
                             <div class="subtitle">Расчётные часы</div>
@@ -158,7 +170,6 @@
                             class="list-block-grid-col"
                         >
                             <div>
-                                <div class="subtitle">{{ amenity?.title }}:</div>
                                 <div>
                                     <div
                                         v-for="item in amenity.amenity_items"
@@ -191,7 +202,7 @@
                                 v-for="amenSubCutegory in amenity.arrival_service_sub_categories"
                                 class="list-block-grid-col"
                             >
-                                <div class="subtitle">{{ amenSubCutegory?.title }}</div>
+                                <div class="list-block-subtitle">{{ amenSubCutegory?.title }}</div>
                                 <div>
                                     <div
                                         class=" icon-text"
@@ -254,6 +265,8 @@
 
     const main   = ref<InstanceType<typeof Splide>>();
     const thumbs = ref<InstanceType<typeof Splide>>();
+
+    const hasEllipsis = ref(false)
 
     const thumbsOptions = {
         type        : 'slide',
@@ -409,7 +422,10 @@
     })
 
 
-
+    const onSnipped = (newState: any) => {
+      hasEllipsis.value = newState.hasEllipsis
+      console.log("!!!! hasEllipsis.value: ", hasEllipsis.value)
+    }
 
 </script>
   
@@ -453,10 +469,6 @@
     display: none;
 }
 
-
-
-
-
 .type-of-service {
     flex-basis: 16rem;
     flex-grow: 0;
@@ -465,23 +477,10 @@
 
 
 
-.list-block-title {
-    font-family: 'Optima Cyr';
-    font-size: 1.6rem;
-    margin-bottom: 1.6rem;
-}
-.subtitle {
-    color: #939393;
-    font-weight: 700;
-    font-size: .8rem;
-    padding-bottom: .8rem;
-}
+
 
 
 /* list-block */
-.list-block {
-    
-}
 .list-block-grid {
     display: flex;
     /* gap: 1rem; */
@@ -498,8 +497,19 @@
     display: flex;
     min-height: 3rem;
 }
+.list-block-title {
+    font-family: 'Optima Cyr';
+    font-size: 1.6rem;
+    margin-bottom: 1.6rem;
+}
+.list-block-subtitle {
+    color: #939393;
+    font-weight: 700;
+    font-size: .8rem;
+    padding-bottom: .8rem;
+}
 
-
+/* .header-icon */
 .header-icon {
     display: flex;
     flex-wrap: wrap;
@@ -511,16 +521,19 @@
     display: flex;
     white-space: pre;
 }
-
-
-
-.list-block-icons {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 1rem;
-    position: relative;
-    top: -3px;
+.header-icon-item {
+    display: flex;
+    align-items: center;
+    padding-right: 1.4rem;
 }
+.header-icon-item img,
+.header-icon-item i {
+    margin-right: 1rem;
+}
+
+
+
+
 
 
 .vel-img-wrapper {
