@@ -109,7 +109,7 @@
                         <div class="header-icon">
                             <div
                                 v-for="service in roomDetails?.arrival_service_header_items"
-                                class="icon-text"
+                                class="header-icon-item"
                             >
                                 <img
                                     class="list-block-icons"
@@ -123,25 +123,31 @@
 
                         <div class="justify-between  pb-8">
                             <div
-                                :class="{show: showMore}"
-                                class="description bottom-shadow text-lg"
                             >
-                                {{ roomDetails?.description }}
+                                <div
+                                    class="description bottom-shadow text-lg"
+                                    :class="!showMore ? 'show' : ''"
+                                    v-snip="{ lines: 3, onSnipped }"
+                                >
+                                    {{ roomDetails?.description }}
+                                </div>
+                                <button
+                                    v-if="showMoreBtn"
+                                    class="more mt-4"
+                                    @click="showDscr"
+                                >
+                                    <b>{{ !showMore ? 'Свернуть' : 'Подробнее' }}</b>
+                                </button>
                             </div>
-                            <button
-                                class="more mt-4"
-                                @click="showMore=!showMore"
-                            >
-                                <b>{{ showMore ? 'Свернуть' : 'Подробнее' }}</b>
-                            </button>
+                    
                         </div>
                     </div>
 
                     <div class="right-block">
                         <div class="header-icon">
-                            <div class="icon-text"><IconPersons/> {{ roomDetails?.room_type.number_of_persons_per_room }} {{ pluralPeopletext(roomDetails?.room_type.number_of_persons_per_room) }}</div>
-                            <div class="icon-text"><IconSquare/> {{ roomDetails?.room_square }} м2</div>
-                            <div class="icon-text"><IconHome/> {{ roomDetails?.room_type.number_of_beds_per_room }} {{ pluralRoomsText(roomDetails?.room_type.number_of_beds_per_room) }}</div>
+                            <div class="header-icon-item"><IconPersons/> {{ roomDetails?.room_type.number_of_persons_per_room }} {{ pluralPeopletext(roomDetails?.room_type.number_of_persons_per_room) }}</div>
+                            <div class="header-icon-item"><IconSquare/> {{ roomDetails?.room_square }} м2</div>
+                            <div class="header-icon-item"><IconHome/> {{ roomDetails?.room_type.number_of_beds_per_room }} {{ pluralRoomsText(roomDetails?.room_type.number_of_beds_per_room) }}</div>
                         </div>
                         <div>
                             <div class="subtitle">Расчётные часы</div>
@@ -158,7 +164,6 @@
                             class="list-block-grid-col"
                         >
                             <div>
-                                <div class="subtitle">{{ amenity?.title }}:</div>
                                 <div>
                                     <div
                                         v-for="item in amenity.amenity_items"
@@ -191,7 +196,7 @@
                                 v-for="amenSubCutegory in amenity.arrival_service_sub_categories"
                                 class="list-block-grid-col"
                             >
-                                <div class="subtitle">{{ amenSubCutegory?.title }}</div>
+                                <div class="list-block-subtitle">{{ amenSubCutegory?.title }}</div>
                                 <div>
                                     <div
                                         class=" icon-text"
@@ -247,13 +252,15 @@
     import IconPersons from '@/components/icons/IconPersons.vue';
 
     
-    const showMore = ref(false) 
+    const showMore = ref(true) 
 
     const visibleRef = ref(false)
     const indexRef = ref(0) // default 0
 
     const main   = ref<InstanceType<typeof Splide>>();
     const thumbs = ref<InstanceType<typeof Splide>>();
+
+    const hasEllipsis = ref(false)
 
     const thumbsOptions = {
         type        : 'slide',
@@ -408,8 +415,20 @@
         }
     })
 
+    const showMoreBtn = ref(false)
+    const onSnipped = (newState: any) => {
+        hasEllipsis.value = newState.hasEllipsis
+        if (hasEllipsis.value) {
+            showMoreBtn.value = true
+        }
+    }
 
 
+    const showDscr = () => {
+        showMore.value = !showMore.value
+    }
+
+    
 
 </script>
   
@@ -426,15 +445,11 @@
 .description {
     padding-right: 2rem;
     font-size: 1.2rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
 }
 
 .description.show {
-    display: block;
-    overflow: auto;
+    display: block!important;
+    overflow: auto!important;
 }
 .bottom-shadow {
     position: relative;
@@ -453,10 +468,6 @@
     display: none;
 }
 
-
-
-
-
 .type-of-service {
     flex-basis: 16rem;
     flex-grow: 0;
@@ -465,23 +476,10 @@
 
 
 
-.list-block-title {
-    font-family: 'Optima Cyr';
-    font-size: 1.6rem;
-    margin-bottom: 1.6rem;
-}
-.subtitle {
-    color: #939393;
-    font-weight: 700;
-    font-size: .8rem;
-    padding-bottom: .8rem;
-}
+
 
 
 /* list-block */
-.list-block {
-    
-}
 .list-block-grid {
     display: flex;
     /* gap: 1rem; */
@@ -492,14 +490,32 @@
     width: 25%;
     padding-right: 3rem;
 }
+.list-block-grid-col .icon-text {
+    align-items: center;
+}
+.list-block-grid-col .icon-text img {
+    margin-right: .5rem;
+}
 .icon-text {
     flex: 1 2.4rem;
     flex-grow: 1;
     display: flex;
     min-height: 3rem;
+    align-items: center;
+}
+.list-block-title {
+    font-family: 'Optima Cyr';
+    font-size: 1.6rem;
+    margin-bottom: 1.6rem;
+}
+.list-block-subtitle {
+    color: #939393;
+    font-weight: 700;
+    font-size: .8rem;
+    padding-bottom: .8rem;
 }
 
-
+/* .header-icon */
 .header-icon {
     display: flex;
     flex-wrap: wrap;
@@ -511,16 +527,19 @@
     display: flex;
     white-space: pre;
 }
-
-
-
-.list-block-icons {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 1rem;
-    position: relative;
-    top: -3px;
+.header-icon-item {
+    display: flex;
+    align-items: center;
+    padding-right: 1.4rem;
 }
+.header-icon-item img,
+.header-icon-item i {
+    margin-right: 1rem;
+}
+
+
+
+
 
 
 .vel-img-wrapper {
