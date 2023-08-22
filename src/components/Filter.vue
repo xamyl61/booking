@@ -208,6 +208,23 @@
             @change-available-dates="changeAvailableDates"
         />
 
+        <el-dialog
+            v-model="dialogVisible"
+            width="70%"
+            class="room-detail"
+            align-center
+            destroy-on-close
+        >
+            <RoomCardDetails
+                :endDateFormated="parseDate(new Date(roomType.date_till))"
+                :startDateFormated="parseDate(new Date(roomType.date_from))"
+                :roomDetails="roomDetails"
+                :roomPrice="roomType.price_info.price"
+                :countOfDays="countOfDaysAvailable"
+                :countOfPersons="countOfPersons"
+            />
+        </el-dialog>
+
     </div>
 </template>
 
@@ -223,6 +240,7 @@
     import IconSeashell from '@/components/icons/IconSeashell.vue'
     
     import RoomTypeCard from './RoomTypeCard.vue';
+    import RoomCardDetails from '@/components/RoomCardDetails.vue';
 
     
     
@@ -245,7 +263,10 @@
     const сhildren = ref<any>(0)
     const infants = ref<any>(0)
     
-    const roomTypes = ref<any>([]);
+    const dialogVisible = ref<Boolean>(false)
+    const roomType = ref()
+    const roomTypes = ref<any>([])
+    const roomDetails = ref()
     const showNoRoomsNotification = ref<boolean>(false)
     
     
@@ -255,11 +276,13 @@
 
 
     let countOfDays = ref()
+    const countOfDaysAvailable = ref()
     let countOfPersons = ref()
 
-    const changeAvailableDates = (event: Event, roomGuid: string) => {
-        // alert(event)
-        getRoomDeatailsByDates(event, roomGuid)
+    async function changeAvailableDates(event: Event, roomGuid: string) {
+        await getRoomTypeByDates(event, roomGuid)
+        await getRoomDeatails(roomGuid)
+        dialogVisible.value = true
     }
     
     const runCounterMaxHosted = () => {   
@@ -314,6 +337,17 @@
 
         startDateFormated.value = dateFormateding(date.value[0]);
         endDateFormated.value =  dateFormateding(date.value[1]);
+    }
+
+    async function getRoomDeatails(guid: string) {
+        try {
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${guid}/`);
+            const finalRes = await res.json();
+            roomDetails.value = finalRes.res;
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 
@@ -382,13 +416,13 @@
         }
     }
 
-    async function getRoomDeatailsByDates(event: Event, roomGuid: string) {
+    async function getRoomTypeByDates(availableDate: any, roomGuid: string) {
         try {
-            handleDate(event)
             loading.value = true
-            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/room-type/${roomGuid}/?number_of_adults=${adults.value}&number_of_children=${сhildren.value}&date_from=${startDateFormated.value}&date_till=${endDateFormated.value}&number_of_infants=${infants.value}`);
+            countOfDaysAvailable.value = (new Date(availableDate[1]).getTime() - new Date(availableDate[0]).getTime())/(1000 * 3600 * 24)
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/room-type/${roomGuid}/?number_of_adults=${adults.value}&number_of_children=${сhildren.value}&date_from=${dateFormateding(availableDate[0])}&date_till=${dateFormateding(availableDate[1])}&number_of_infants=${infants.value}`);
             const finalRes = await res.json();
-            roomTypes.value = finalRes.res;
+            roomType.value = finalRes.res;
             if (roomTypes.value == 0) {
                 showNoRoomsNotification.value = true
             }

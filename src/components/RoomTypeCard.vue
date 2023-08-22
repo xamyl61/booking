@@ -133,7 +133,7 @@
                             @closed="bodyAutoScrolling"
                             range
                             multi-calendars
-                            v-model="date"
+                            v-model="changedToAvailableDate"
                             :enable-time-picker="false"
                             auto-apply
                             locale="ru"
@@ -144,7 +144,7 @@
                             teleport-center
                             :allowed-dates="availableRoomsDatesComputed"
                             no-disabled-range
-                            @update:model-value="$emit('changeAvailableDates', $event, roomType.room_type.guid)"
+                            @update:model-value="$emit('changeAvailableDates', changedToAvailableDate, roomType.room_type.guid)"
                             :transitions="false"
                         >
                             <template #dp-input></template>
@@ -244,7 +244,7 @@
 
     import plural  from 'plural-ru';
 
-    const date = ref()
+    const changedToAvailableDate = ref()
     const newCountOfDays = ref()
     const startDateFormated = ref()
     const endDateFormated = ref()
@@ -408,7 +408,7 @@
 
 
     const bodyStopScrolling = () => {
-        date.value = ''
+        changedToAvailableDate.value = ''
         scroll.value = false
     }
     const bodyAutoScrolling = () => {

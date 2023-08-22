@@ -123,29 +123,23 @@
 
                         <div class="justify-between  pb-8">
                             <div
-                                :class="{show: showMore}"
-                                class="description bottom-shadow text-lg"
                             >
-
-                                <p v-snip="{ lines: 1, onSnipped }">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci accusantium itaque, sit sequi praesentium at dolores voluptatum natus hic repudiandae dolorem numquam, harum earum quisquam voluptas vel tempore asperiores expedita!
-                                Ratione ad minus veritatis quod provident ipsam aperiam totam, itaque quas quasi eum accusamus rem consectetur, quaerat inventore molestias temporibus explicabo quia ea quo, obcaecati culpa. Dignissimos error rerum rem.
-                                Doloremque rerum dignissimos, error veritatis, incidunt ipsam ut porro nemo facere voluptatem repellat! Labore ea, esse cum, eligendi natus earum consequatur voluptatem beatae vero alias similique ipsam tempore rem asperiores!
-                                Et nobis explicabo perferendis, officia quam obcaecati quo fugit similique consectetur eligendi eaque suscipit mollitia fugiat enim sequi, omnis natus, perspiciatis placeat! Dicta impedit veniam expedita culpa libero beatae eligendi.
-                                Animi, voluptatibus! Libero provident cumque, porro cupiditate necessitatibus, voluptate ratione earum odit itaque perspiciatis blanditiis temporibus. Aliquid, voluptatibus qui! Recusandae dolore fugit quibusdam in soluta commodi pariatur sunt consectetur earum?
-                                Cum placeat sit recusandae quia neque explicabo magni aperiam reiciendis, delectus quidem veniam. Debitis consectetur architecto explicabo sit, dolorum tempore. Quidem fugit molestias beatae non nulla quod nesciunt enim sed!
-                                Totam laudantium sunt quia perspiciatis, repellat ad quos nisi quo neque soluta sequi eos, nihil excepturi nostrum repellendus vitae eum quas illo esse quibusdam modi dolorum natus unde. Odio, ex.
-                                Sunt quisquam labore rem aspernatur sapiente repellendus, ad et! Ad voluptatem iste voluptatum saepe doloremque, aliquid, consequuntur modi molestias alias sapiente nulla praesentium recusandae dolorem ut provident. Rem, voluptatem. Aliquid?
-                                Id possimus, quis ullam voluptas maxime similique accusantium blanditiis enim iste officiis voluptatem iusto eum maiores at. Repudiandae quaerat officia iusto nam eius eligendi a eos distinctio, accusamus architecto quis.
-                                Pariatur, fuga ex! Praesentium dolorum aut, ipsum iste nostrum obcaecati tenetur, laudantium, veritatis voluptatum facere provident itaque quidem! Inventore non quia quisquam nulla delectus itaque, aspernatur laudantium optio adipisci fuga!</p>
-
-                                {{ roomDetails?.description }}
+                                <div
+                                    class="description bottom-shadow text-lg"
+                                    :class="!showMore ? 'show' : ''"
+                                    v-snip="{ lines: 3, onSnipped }"
+                                >
+                                    {{ roomDetails?.description }}
+                                </div>
+                                <button
+                                    v-if="showMoreBtn"
+                                    class="more mt-4"
+                                    @click="showDscr"
+                                >
+                                    <b>{{ !showMore ? 'Свернуть' : 'Подробнее' }}</b>
+                                </button>
                             </div>
-                            <button
-                                class="more mt-4"
-                                @click="showMore=!showMore"
-                            >
-                                <b>{{ showMore ? 'Свернуть' : 'Подробнее' }}</b>
-                            </button>
+                    
                         </div>
                     </div>
 
@@ -258,7 +252,7 @@
     import IconPersons from '@/components/icons/IconPersons.vue';
 
     
-    const showMore = ref(false) 
+    const showMore = ref(true) 
 
     const visibleRef = ref(false)
     const indexRef = ref(0) // default 0
@@ -421,11 +415,20 @@
         }
     })
 
-
+    const showMoreBtn = ref(false)
     const onSnipped = (newState: any) => {
-      hasEllipsis.value = newState.hasEllipsis
-      console.log("!!!! hasEllipsis.value: ", hasEllipsis.value)
+        hasEllipsis.value = newState.hasEllipsis
+        if (hasEllipsis.value) {
+            showMoreBtn.value = true
+        }
     }
+
+
+    const showDscr = () => {
+        showMore.value = !showMore.value
+    }
+
+    
 
 </script>
   
@@ -442,15 +445,11 @@
 .description {
     padding-right: 2rem;
     font-size: 1.2rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
 }
 
 .description.show {
-    display: block;
-    overflow: auto;
+    display: block!important;
+    overflow: auto!important;
 }
 .bottom-shadow {
     position: relative;
@@ -491,11 +490,18 @@
     width: 25%;
     padding-right: 3rem;
 }
+.list-block-grid-col .icon-text {
+    align-items: center;
+}
+.list-block-grid-col .icon-text img {
+    margin-right: .5rem;
+}
 .icon-text {
     flex: 1 2.4rem;
     flex-grow: 1;
     display: flex;
     min-height: 3rem;
+    align-items: center;
 }
 .list-block-title {
     font-family: 'Optima Cyr';
