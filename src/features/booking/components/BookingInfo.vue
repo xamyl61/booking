@@ -4,9 +4,9 @@
         <span>Бронь № {{ booking.number }}</span>
       </div>
       <div class="booking-info__actions">
-        <el-button type="primary" size="small">Распечатать</el-button>
-        <el-button type="primary" size="small">Скачать</el-button>
-        <el-button type="primary" size="small">Редактировать данные</el-button>
+        <el-button round type="info" size="default">Распечатать</el-button>
+        <el-button round type="info" size="default">Скачать</el-button>
+        <el-button round type="info" size="default">Редактировать данные</el-button>
       </div>
   </div>
 
@@ -33,17 +33,23 @@ const props = defineProps({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  border: 1px solid var(--color-primary);
-  border-radius: 5px;
 
   &__number {
-    font-size: 1.5rem;
+    font-family: 'Geometria', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 26px;
   }
 
   &__actions {
     display: flex;
-    gap: 1rem;
+
+    :deep(.el-button) {
+      background-color: #EEEAEA;
+      border-color: #EEEAEA;
+      color: black;
+    }
+
   }
 }
 </style>

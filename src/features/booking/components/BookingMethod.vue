@@ -1,12 +1,12 @@
 <template>
     <div class="booking-method">
         <div class="booking-method__info">
-            <span>{{method.method === BookingPayMethod.Full ? '100%' : `${method.part}%`}}</span>
+            <span class="booking-method__info_bold">{{method.method === BookingPayMethod.Full ? '100%' : `${method.part}%`}}</span>
             <span>{{description}}</span>
         </div>
         <div class="booking-method__cost">
             <span>{{Format.formatCurrency(totalCost)}}</span>
-            <el-button type="primary" size="small">Выбрать</el-button>
+            <el-button round type="primary" size="default">Выбрать</el-button>
         </div>
     </div>
 </template>
@@ -50,19 +50,35 @@ const totalCost = computed(() => {
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    border: 1px solid var(--color-primary);
-    border-radius: 5px;
+    border: 1px solid #EEEAEA;
 
     &__info {
         display: flex;
-        flex-direction: column;
         gap: 1rem;
+
+        &_bold {
+            font-weight: 700;
+        }
     }
 
     &__cost {
         display: flex;
         gap: 1rem;
         align-items: center;
+
+        & span {
+            font-family: "Optima Cyr",serif;
+            font-size: 30px;
+            font-weight: 400;
+            line-height: 35px;
+        }
+
+        :deep(.el-button) {
+            background-color: #215C66;
+            border-color: #215C66;
+            color: white;
+            width: 170px;
+        }
     }
 }
 </style>

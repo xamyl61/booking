@@ -1,14 +1,20 @@
 <template>
-  <h3>Проверьте ваше бронирование</h3>
+    <div class="booking-complete">
+        <div class="booking-complete__title">Проверьте ваше бронирование</div>
 
-  <BookingInfo :booking="bookingInfo" />
+        <div class="booking-complete__container">
+            <BookingInfo :booking="bookingInfo" />
+        </div>
 
-    <div class="booking-room__container">
-        <BookingRoom v-for="room in bookingRooms" :room="room" />
+        <div class="booking-complete__container">
+            <BookingRoom v-for="room in bookingRooms" :room="room" />
+        </div>
+
+        <div class="booking-complete__container">
+            <BookingPay :pay="bookingPay" />
+        </div>
+
     </div>
-
-  <BookingPay :pay="bookingPay" />
-
 </template>
 
 <script setup lang="ts">
@@ -50,9 +56,21 @@ const bookingPay = ref({
 </script>
 
 <style scoped lang="scss">
-.booking-room__container {
+
+.booking-complete {
+
+  &__title {
+    font-family: "Optima Cyr",serif;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 400;
+  }
+
+  &__container {
     display: flex;
     flex-direction: column;
+    margin: 1rem 0;
     gap: 1rem;
+  }
 }
 </style>

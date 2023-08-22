@@ -29,7 +29,6 @@ onMounted(() => {
 
     <main class="">
       <RouterView />
-      <Filter/>
       <modals-container></modals-container>
     </main>
 
