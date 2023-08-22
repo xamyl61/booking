@@ -17,7 +17,7 @@
   </div>
 
   <div class="booking-room__photo">
-    <img src="https://picsum.photos/400/200" alt="room photo">
+    <img src="https://via.placeholder.com/400x200" alt="room photo">
   </div>
 
 </div>
