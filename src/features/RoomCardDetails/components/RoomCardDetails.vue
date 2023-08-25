@@ -488,7 +488,7 @@
 .list-block-grid {
     position: relative;
 }
-.list-block-grid:after {
+.hide-list .list-block-grid:after {
     content: "";
     height: 2.4rem;
     left: 0;
