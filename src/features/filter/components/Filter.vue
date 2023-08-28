@@ -204,8 +204,8 @@
     import IconPerson from '@/components/icons/IconPerson.vue'
     import IconSeashell from '@/components/icons/IconSeashell.vue'
     
-    import RoomTypeCard from './RoomTypeCard.vue';
-    import RoomCardDetails from '@/components/RoomCardDetails.vue';
+    import RoomCardDetails from '@/features/RoomCardDetails/components/RoomCardDetails.vue';
+    import RoomTypeCard from '@/features/RoomTypeCard/components/RoomTypeCard.vue'
 
     
     
