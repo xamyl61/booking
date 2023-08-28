@@ -266,7 +266,7 @@ const dpOpen = ref(false);
 const datepicker = ref<DatePickerInstance[]>([]);
 
 
-function isDateInArray(targetDate, dateArray) {
+const isDateInArray = (targetDate: any, dateArray: any) => {
     const targetDateWithoutTime = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
 
     for (const date of dateArray) {
@@ -283,7 +283,7 @@ function isDateInArray(targetDate, dateArray) {
 
 const maxDate = ref()
 
-const onRangeStart = (value) => {
+const onRangeStart = (value: any) => {
 
     let date = new Date(value)
     date.setDate(date.getDate() + 1)
