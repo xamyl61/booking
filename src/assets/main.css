@@ -503,6 +503,42 @@ body {
         fill: #ffff;
     }
 
+    /* select-services */
+    .select-services {
+        padding-top: 2rem;
+    }
+    .select-services  .el-collapse {
+        border-top: 0;
+        padding-top: 1rem;
+    }
+    .select-services .el-collapse-item__arrow {
+        margin: 0 0 1.1rem 1rem;
+    }
+    .select-services .el-collapse-item__header {
+        height: auto;
+        align-items: end;
+        border: none;
+    }
+
+    /* .booking-sidebar */
+    .booking-sidebar .el-collapse-item__header {
+        padding: 0 1.4rem;
+        background: #EEEAEA;
+        position: relative;
+    }
+    .booking-sidebar .el-collapse-item__content {
+        padding: .8rem 1.4rem;
+    }
+    .booking-sidebar .icon-trash {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+    .booking-sidebar .el-collapse-item__arrow {
+        margin: -0.2rem 0 0 1rem;
+    }
 
 
     
