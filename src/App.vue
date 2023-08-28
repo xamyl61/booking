@@ -2,7 +2,6 @@
 import { RouterView } from 'vue-router'
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
-import Filter from '@/features/filter/components/Filter.vue'
 import { ModalsContainer } from 'vue-final-modal'
 import { useAuthStore } from './stores/auth-store';
 import { onMounted } from 'vue';

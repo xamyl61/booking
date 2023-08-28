@@ -240,7 +240,7 @@ import {Splide, SplideSlide, SplideTrack} from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 
 import VueDatePicker from '@vuepic/vue-datepicker';
-import RoomCardDetails from '@/components/RoomCardDetails.vue';
+import RoomCardDetails from '@/features/RoomCardDetails/components/RoomCardDetails.vue';
 
 
 import IconSlideRight from '@/components/icons/IconSlideRight.vue';
