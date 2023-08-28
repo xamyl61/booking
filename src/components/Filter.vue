@@ -75,10 +75,6 @@
                                 </span>
                                 </div>
                             </template>
-                        
-                            <!-- <template #action-buttons>
-                                <div></div>
-                            </template> -->
                         </VueDatePicker>
                         
                     </div>
@@ -118,22 +114,6 @@
                                         />
                                     </div>
                                    </div>
-
-                                   <!-- <div class="accommodation-dropdown-item">
-                                    <div class="left">
-                                        <div class="title">Подростки</div>
-                                        <div class="dscr">от 12 до 18 лет<br> на дату заезда</div>
-                                    </div>
-                                    <div class="right">
-                                        <el-input-number
-                                            v-model="teenagers"
-                                            :min="0"
-                                            :max="teenagers + emptyPersons"
-                                            @change="runCounterMaxHosted"
-                                        />
-                                    </div>
-                                   </div> -->
-
                                    <div class="accommodation-dropdown-item">
                                     <div class="left">
                                         <div class="title">Дети</div>
@@ -148,21 +128,6 @@
                                         />
                                     </div>
                                    </div>
-
-                                   <!-- <div class="accommodation-dropdown-item">
-                                    <div class="left">
-                                        <div class="title">Младенцы</div>
-                                        <div class="dscr">до 2 лет<br> на дату заезда</div>
-                                    </div>
-                                    <div class="right">
-                                        <el-input-number
-                                            v-model="infants"
-                                            :min="0"
-                                            :max="infants + emptyPersons"
-                                            @change="runCounterMaxHosted"
-                                        />
-                                    </div>
-                                   </div> -->
                                    <div v-if="emptyPersons == 0" class="flex items-center justify-center accommodation-limit-message">
                                         <div class="max-w-lg pt-4">
                                             <div>
