@@ -188,31 +188,36 @@
 
                     <div
                         v-for="amenity in roomDetails?.arrival_service_categories"
-                        class="block"
+                        class="block amenity"
                     >
-                        <div class="list-block-title">{{ amenity?.title }}</div>
-                        <div class="list-block-grid">
-                            <div
-                                v-for="amenSubCutegory in amenity.arrival_service_sub_categories"
-                                class="list-block-grid-col"
-                            >
-                                <div class="list-block-subtitle">{{ amenSubCutegory?.title }}</div>
-                                <div>
-                                    <div
-                                        class=" icon-text"
-                                        v-for="arrivalServiceItem in amenSubCutegory?.arrival_service_items" 
-                                    >
-                                        <img
-                                            class="list-block-icons"
-                                            :class="arrivalServiceItem?.arrival_service.icon ? '' : 'invisible'"
-                                            :src="arrivalServiceItem?.arrival_service.icon?.full_url"
+                        <ShowHideMore :amenity="amenity">
+                            <div class="list-block-title">{{ amenity?.title }}</div>
+                            <div class="list-block-grid">
+                                <div
+                                    v-for="amenSubCutegory in amenity.arrival_service_sub_categories"
+                                    class="list-block-grid-col"
+                                >
+                    
+                                    <div class="list-block-subtitle">{{ amenSubCutegory?.title }}</div>
+                                    <div>
+                                        <div
+                                            class=" icon-text"
+                                            v-for="arrivalServiceItem in amenSubCutegory?.arrival_service_items" 
                                         >
-                                        {{ arrivalServiceItem?.arrival_service.title }}
+                                            <img
+                                                class="list-block-icons"
+                                                :class="arrivalServiceItem?.arrival_service.icon ? '' : 'invisible'"
+                                                :src="arrivalServiceItem?.arrival_service.icon?.full_url"
+                                            >
+                                            {{ arrivalServiceItem?.arrival_service.title }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </ShowHideMore>
                     </div>
+
+                   
                 </div>
             </div>
         </div>
@@ -243,10 +248,13 @@
     import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
     import '@splidejs/vue-splide/css';
 
+    import ShowHideMore from '@/components/ShowHideMore.vue';
+    
 
-    import IconSlideRight from '@/components/icons/IconSlideRight.vue';
+
     import plural  from 'plural-ru';
-
+    
+    import IconSlideRight from '@/components/icons/IconSlideRight.vue';
     import IconHome from '@/components/icons/IconHome.vue';
     import IconSquare from '@/components/icons/IconSquare.vue';
     import IconPersons from '@/components/icons/IconPersons.vue';
@@ -447,6 +455,7 @@
     font-size: 1.2rem;
 }
 
+
 .description.show {
     display: block!important;
     overflow: auto!important;
@@ -468,13 +477,31 @@
     display: none;
 }
 
+.amenity {
+    padding-bottom: 2rem;
+}
 .type-of-service {
     flex-basis: 16rem;
     flex-grow: 0;
     flex-shrink: 0;
 }
+.list-block-grid {
+    position: relative;
+}
+.hide-list .list-block-grid:after {
+    content: "";
+    height: 2.4rem;
+    left: 0;
+    right: 0;
+    position: absolute;
+    background: #fff;
+    opacity: 0.4;
+    bottom: 0;
+}
 
-
+.show-all .list-block-grid:after {
+    display: none;
+}
 
 
 

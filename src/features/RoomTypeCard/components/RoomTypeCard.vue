@@ -227,7 +227,7 @@
     import '@splidejs/vue-splide/css';
     
     import VueDatePicker from '@vuepic/vue-datepicker';
-    import RoomCardDetails from '@/components/RoomCardDetails.vue';
+    import RoomCardDetails from '@/features/RoomCardDetails/components/RoomCardDetails.vue';
 
 
 
