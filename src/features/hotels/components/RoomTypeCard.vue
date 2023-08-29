@@ -240,7 +240,7 @@ import {Splide, SplideSlide, SplideTrack} from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 
 import VueDatePicker from '@vuepic/vue-datepicker';
-import RoomCardDetails from '@/features/RoomCardDetails/components/RoomCardDetails.vue';
+import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
 
 
 import IconSlideRight from '@/components/icons/IconSlideRight.vue';
@@ -520,11 +520,6 @@ onMounted(() => {
 }
 
 /* end datepicker */
-
-.room-type {
-
-}
-
 .room-type article {
     border: 1px solid #EAEAEA;
 }

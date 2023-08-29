@@ -204,8 +204,8 @@ import IconArrowRightSircle from '@/components/icons/IconArrowRightSircle.vue'
 import IconPerson from '@/components/icons/IconPerson.vue'
 import IconSeashell from '@/components/icons/IconSeashell.vue'
 
-import RoomCardDetails from '@/features/RoomCardDetails/components/RoomCardDetails.vue';
-import RoomTypeCard from '@/features/RoomTypeCard/components/RoomTypeCard.vue'
+import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
+import RoomTypeCard from '@/features/hotels/components/RoomTypeCard.vue'
 
 
 
@@ -501,9 +501,6 @@ h1 {
     align-items: center;
     padding: 0.7rem 1rem;
 }
-.daterange-item.start-date {
-
-}
 .daterange-item.end-date {
     flex-grow: 1;
 }
@@ -568,9 +565,6 @@ h1 {
 }
 
 /* room-type */
-.room-type {
-
-}
 .room-type article {
     border: 1px solid #EAEAEA;
 }
