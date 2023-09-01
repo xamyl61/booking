@@ -228,13 +228,13 @@
             </div>
             <div class="flex justify-end">
                 <div class="cost-block">
-                    <div class="cost">{{ props.roomPrice }} р.</div>
+                    <div class="cost">{{ props.roomPrice.toLocaleString('ru-RU') }} р.</div>
                     
                     <div class="persons-nights">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
                 </div>
                 <div class="btns-block">
-                    <div class="bonus text-xs text-center pb-1">3 000 бонусов</div>
-                    <button @click="$router.push({name: 'booking', params: {title: 'la la'}})" class="btn">Выбрать</button>
+                    <div class="bonus text-xs text-center pb-1">{{ props.bonus }} бонусов</div>
+                    <button class="btn">Выбрать</button>
                 </div>
             </div>
         </div>
@@ -399,6 +399,9 @@
         },
         endDateFormated: {
             type: String,
+        },
+        bonus: {
+            type: Number,
         }
         
     })

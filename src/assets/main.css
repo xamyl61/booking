@@ -158,6 +158,9 @@ body {
     .el-tree-node__expand-icon.is-leaf {
         display: none;
     }
+    .el-select-dropdown__item.selected {
+        color: #fff!important;
+    }
 
 
     /* datepicker */
