@@ -286,19 +286,26 @@ const maxDate = ref()
 
 const onRangeStart = (value: any) => {
 
+    const maxIteration = 30;
     let date = new Date(value)
-    date.setDate(date.getDate() + 1)
 
-    if (!isDateInArray(date, availableRoomsDatesComputed.value)) {
-        additionalRoomsDates.value = [date]
-        highlightDates.value = [
-            {
-                date: date,
-                type: 'dot',
-                color: 'yellow'
-            }]
-        maxDate.value = date
+    for(let i = 0; i < maxIteration; i++) {
+        date.setDate(date.getDate() + 1)
+
+        if (!isDateInArray(date, availableRoomsDatesComputed.value)) {
+            additionalRoomsDates.value = [date]
+            highlightDates.value = [
+                {
+                    date: date,
+                    type: 'dot',
+                    color: 'yellow'
+                }]
+            maxDate.value = date
+
+            return
+        }
     }
+
 }
 
 const dialogVisible = ref(false)
