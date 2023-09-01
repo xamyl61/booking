@@ -50,7 +50,7 @@
                     <div class="leading-tight grow">
                         <h1>
                             <span
-                                    @click="showRoomDetails(roomType.room_type.guid, roomType.price)"
+                                    @click="showRoomDetails(roomType.room_type.guid, roomType.price, roomType.price_info.bonus)"
                                     class="hover:underline text-black cursor-pointer" href="#"
                             >
                                 {{roomType.title}}
@@ -79,7 +79,7 @@
 
                     <div class="flex room-description pr-4">
                         <div
-                                @click="showRoomDetails(roomType.room_type.guid, roomType.price)"
+                                @click="showRoomDetails(roomType.room_type.guid, roomType.price, roomType.price_info.bonus)"
                                 class="flex items-center no-underline hover:underline text-black cursor-pointer">
                             Подробнее о номере
                             <IconArrowLeftInCircle/>
@@ -223,6 +223,7 @@
                     :roomPrice="roomPrice"
                     :countOfDays="newCountOfDays"
                     :countOfPersons="countOfPersons"
+                    :bonus="bonusVal"
             />
         </el-dialog>
 
@@ -303,6 +304,8 @@ const onRangeStart = (value: any) => {
 const dialogVisible = ref(false)
 
 const roomPrice = ref<number>(0)
+const bonusVal = ref<number>(0)
+    
 const availableRoomsDates = ref([])
 const selectedRoomGuid = ref('')
 
@@ -372,6 +375,7 @@ const props = defineProps({
     endDateFormated: {
         type: String,
     }
+    
 
 })
 
@@ -413,10 +417,11 @@ const pluralNightText = (count: number) => {
     return plural(count, 'ночь', 'ночи', 'ночей');
 }
 
-async function showRoomDetails(guid: string, cost: number) {
+async function showRoomDetails(guid: string, cost: number, bonus: number) {
     await getRoomDeatails(guid)
     dialogVisible.value = !dialogVisible.value
     roomPrice.value = cost
+    bonusVal.value = bonus
 }
 
 const roomDetails = ref()
@@ -485,6 +490,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.devide-line {
+    display: none;
+}
 .backdrop {
     z-index: 3000;
     background-color: var(--el-overlay-color-lighter);
