@@ -234,7 +234,7 @@
                 </div>
                 <div class="btns-block">
                     <div class="bonus text-xs text-center pb-1">3 000 бонусов</div>
-                    <button class="btn">Выбрать</button>
+                    <button @click="$router.push({name: 'booking', params: {title: 'la la'}})" class="btn">Выбрать</button>
                 </div>
             </div>
         </div>

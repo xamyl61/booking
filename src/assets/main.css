@@ -241,6 +241,37 @@ body {
         text-decoration: line-through;
     }
 
+    /* datepicker header */
+    .m-datepicker .dp__overlay {
+        background: var(--color-primary);
+        color: #fff;
+    }
+    .m-datepicker .dp__overlay_cell_active.dp__overlay_cell_pad {
+        background-color: #fff;
+        color: #000;
+    }
+    .m-datepicker  .dp__month_year_wrap {
+        justify-content: center;
+    }
+    .m-datepicker  .dp__month_year_wrap .dp__btn {
+        color: #fff;
+        width: 3.5rem;
+    }
+    .m-datepicker .dp__month_year_wrap .dp__btn:hover {
+        color: #000;;
+    }
+    .m-datepicker .dp__inner_nav {
+        width: 1.6rem;
+        background: #fff;
+        height: 1.6rem;
+    }
+    .m-datepicker .dp__inner_nav .dp__icon {
+        stroke: #000;
+        fill: #000;
+    }
+
+
+
     /* .m-datepicker.m-single .dp__instance_calendar {
         padding: 1rem;
     }
@@ -603,5 +634,34 @@ body {
         margin: -0.2rem 0 0 1rem;
     }
 
+
+    /* m-dialog__service-dscr */
+    .m-dialog__service-dscr  {
+        max-width: 1000px;
+        height: 98vh;
+        margin: 1vh auto!important;
+    }
+    .m-dialog__service-dscr .el-dialog__header {
+        padding: 0;
+    }
+    .m-dialog__service-dscr .el-dialog__body {
+        height: 100%;
+        padding: 0;
+        
+    }
+    .m-dialog__service-dscr .el-dialog__headerbtn {
+        width: 1.6rem;
+        height: 1.6rem;
+        top: 1rem;
+        right: 0.5rem;
+        border: 1px solid var(--color-primary);
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .m-dialog__service-dscr .el-dialog__headerbtn svg path {
+        fill: var(--color-primary);
+    }
 
     

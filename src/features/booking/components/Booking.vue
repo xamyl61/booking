@@ -2,7 +2,7 @@
     <div>
         <BookingHeader/>
         <div class="booking-block container mx-auto">
-            <div class="flex gap-4">
+            <div class="flex gap-6">
                 <div class="booking-main grow">
                     <BookingRoomsSelected/>
                     <hr>
@@ -40,6 +40,14 @@
     import BookingHeader from "@/features/booking/components/BookingHeader.vue";
 
     import IconRuble from '@/components/icons/IconRuble.vue';
+
+
+    const props = defineProps({
+        id: {
+            type: String,
+        }
+        
+    })
   </script>
     
   <style scoped>
@@ -69,11 +77,6 @@
     .bonus {
         color: rgba(147, 147, 147, 1);
     }
-
-    
-
-
-    
 
     /* .booking-sidebar */
     .booking-sidebar {

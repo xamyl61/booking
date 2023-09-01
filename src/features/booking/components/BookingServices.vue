@@ -1,6 +1,11 @@
 <script setup lang="ts">
+    import { ref } from 'vue';
     import Button from '@/components/Button.vue';
     import IconHome from '@/components/icons/IconHome.vue';
+    import BookingServiceDetail from '@/features/booking/components/BookingServiceDetail.vue';
+
+
+    const dialogVisible = ref(false)
 
     
 </script>
@@ -20,7 +25,7 @@
                 <div class="services">
                     <div class="service">
                         <div class="service-offer flex items-center">
-                            <div class="name">Единство души и тела</div>
+                            <div class="name" @click="dialogVisible = true">Единство души и тела 1</div>
                             <div class="days">
                                 <select name="" id="">
                                 <option value="1">1 день</option>
@@ -38,7 +43,7 @@
 
                     <div class="service">
                         <div class="service-offer flex items-center">
-                            <div class="name">Единство души и тела</div>
+                            <div class="name">Единство души и тела 2</div>
                             <div class="days">
                                 <select name="" id="">
                                     <option value="1">1 день</option>
@@ -158,6 +163,22 @@
             </el-collapse-item>
         </el-collapse>
     </div>
+
+    
+
+    <el-dialog
+        v-model="dialogVisible"
+        title="Tips"
+        width="90%"
+        class="m-dialog__service-dscr"
+    >
+        
+        <template #header="{ close, titleId, titleClass }">
+            <div class="my-header"></div>
+        </template>
+        <BookingServiceDetail/>
+    </el-dialog>
+
 </div>
 </template>
 
@@ -208,6 +229,8 @@ $font-family_1: 'Optima Cyr';
 		font-family: $font-family_1;
 	}
 }
+
+
 
 </style>
 
