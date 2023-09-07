@@ -50,6 +50,7 @@
                     <div class="leading-tight grow">
                         <h1>
                             <span
+                                    
                                     @click="showRoomDetails(roomType.room_type.guid, roomType.price, roomType.price_info.bonus)"
                                     class="hover:underline text-black cursor-pointer" href="#"
                             >
@@ -224,6 +225,11 @@
                     :countOfDays="newCountOfDays"
                     :countOfPersons="countOfPersons"
                     :bonus="bonusVal"
+                    :сhildren="сhildren"
+                    :dateFrom="props.dateFrom"
+                    :dateTill="props.dateTill"
+                    :choosedHotelGuid="choosedHotelGuid.value"
+                    :adults="adults"
             />
         </el-dialog>
 
@@ -313,6 +319,7 @@ const dialogVisible = ref(false)
 const roomPrice = ref<number>(0)
 const bonusVal = ref<number>(0)
     
+    
 const availableRoomsDates = ref([])
 const selectedRoomGuid = ref('')
 
@@ -381,6 +388,18 @@ const props = defineProps({
     },
     endDateFormated: {
         type: String,
+    },
+    dateFrom: {
+        type: String,
+        required: true
+    },
+    dateTill: {
+        type: String,
+        required: true
+    },
+    choosedHotelGuid: {
+        type: Object,
+        required: true
     }
     
 

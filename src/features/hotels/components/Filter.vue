@@ -1,4 +1,6 @@
 <template>
+    choosedHotel: {{ choosedHotel }}
+    adults: {{ adults }}
     <div>
         <h1>Выберите период проживания и количество гостей</h1>
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
@@ -171,6 +173,9 @@
                 v-loading="loading"
                 element-loading-text="Идет поиск номеров..."
                 @change-available-dates="changeAvailableDates"
+                :dateFrom="startDateFormated"
+                :dateTill="endDateFormated"
+                :choosedHotelGuid="choosedHotel"
         />
 
         <el-dialog
@@ -187,6 +192,11 @@
                     :roomPrice="roomType.price_info.price"
                     :countOfDays="countOfDaysAvailable"
                     :countOfPersons="countOfPersons"
+                    :сhildren="сhildren"
+                    :dateFrom="startDateFormated"
+                    :dateTill="endDateFormated"
+                    :choosedHotelGuid="choosedHotel"
+                    :adults="adults"
             />
         </el-dialog>
 
@@ -225,7 +235,7 @@ let endDateFormated = ref()
 
 const adults = ref<any>(2)
 const teenagers = ref<any>(0)
-const сhildren = ref<any>(0)
+const сhildren = ref(0)
 const infants = ref<any>(0)
 
 const dialogVisible = ref<Boolean>(false)
@@ -256,6 +266,7 @@ const runCounterMaxHosted = () => {
 }
 
 const changeMaxAdult = () => {
+    console.log("choosedHotel.value: ", choosedHotel.value)
     roomTypes.value = []
     maxHostedPeople.value = choosedHotel.value.nuberOfPersonsPerRoom
     adults.value = 2

@@ -38,19 +38,19 @@
 <template>
     <div>
         <div class="enter-guest-details mt-10">
-            maskedValue: {{ maskedValue }}
+            <!-- maskedValue: {{ maskedValue }}
             <div v-for="item in [0,1,2,3]">
 
                 <Input
                     v-model="maskedValue['input-' + item]"
                     :dataMaska="'#-#'"
                     placeholder="3-3"/>
-            </div>
+            </div> -->
 
             <h3 class="title-line">Введите данные гостей</h3>
             <div class="my-4"><b class="text-sm">Гость 1. Взрослый</b></div>
             <div class="grid grid-cols-3 gap-4">
-                <!-- <div class="">
+                <div class="">
                     <Input v-model="firstName" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Фамилия" />
                 </div>
                 <div class="">
@@ -58,7 +58,7 @@
                 </div>
                 <div class="">
                     <Input v-model="patronymic" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Отчество" />
-                </div> -->
+                </div>
                 <div class="">
                     <VueDatePicker
                             v-model="date"
@@ -82,7 +82,7 @@
             </div>
         </div>
         <div class="mb-10">
-            <Button class="btn ml-auto mt-10 btn-with-border">Добавить номер</Button>
+            <Button class="btn ml-auto mt-10 btn-with-border">Добавить гостя</Button>
         </div>
     </div>
 </template>

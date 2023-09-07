@@ -1,13 +1,60 @@
 <script setup lang="ts">
+	import { ref } from 'vue';
+
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue';
     import IconTrash from '@/components/icons/IconTrash.vue';
     import IconHeart from '@/components/icons/IconHeart.vue';
     import IconRuble from '@/components/icons/IconRuble.vue';
 
+	import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
+
+
+	const dialogVisible = ref(false)
+
+
+
+	const props = defineProps({
+        dateFrom: {
+            type: String,
+            required: true
+        },
+        dateTill: {
+            type: String,
+            required: true
+        },
+		roomPrice: {
+            type: Number,
+            required: true
+        },
+		bonus: {
+			type: Number,
+            required: true
+		},
+        roomDetails: {
+            type: Object,
+            required: true,
+        },
+        
+    })
+
+	const parseDate = (date: Date) => {
+		let month = date.toLocaleString("default", { month: "long" });
+		let day = date.toLocaleString("default", { day: "numeric" });
+		let weekday = date.toLocaleString("default", { weekday: "short" });
+		let formattedDate = day  + " " + month + ", " + weekday;
+
+		return formattedDate
+	}
+
+	const showRoomDetails = () => {
+		dialogVisible.value = true
+	}
+
 </script>
 
 <template>
     <div class="booking-rooms">
+		
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-header flex justify-between items-center">
                 <div class="title">Номер 1</div>
@@ -21,15 +68,21 @@
                         <IconHeart/>
                         <IconHeart/>
                     </div>
-                    <img src="@/assets/room1.jpg" alt="">
+                    <!-- <img src="@/assets/room1.jpg" alt=""> -->
+					<img
+						class="list-block-icons"
+						:src="props.roomDetails.cover_image.full_url"
+						alt=""
+					>
                 </div>
                 <div class="booking-rooms-item-dscr flex grow">
                     <div class="flex justify-between items-center grow">
                         <div>
-                            <div class="title">Standart (2-местный 1-комнатный)</div>
-                            <div class="date">12 июля, ср - 13 июля, чт</div>
+                            <div class="title">{{ props.roomDetails.room_type.title }}</div>
+                            <div class="date">{{ parseDate(new Date(props.dateFrom)) }} - {{ parseDate(new Date(props.dateTill)) }}</div>
                             <div class="time"><span>с 12:00</span> <span class="ml-16">до 15:00</span></div>
                             <div
+								@click="showRoomDetails"
                                 class="flex items-center no-underline hover:underline text-black cursor-pointer text-with-circle-icon">
                                 Подробнее о номере
                                 <IconArrowLeftInCircle/>
@@ -37,10 +90,10 @@
                         </div>
 
                         <div class="cost-wr text-center">
-                            <div class="cost cost text-3xl h-9">192 420 р.</div>
+                            <div class="cost cost text-3xl h-9">{{ props.roomPrice.toLocaleString('ru-RU') }} р.</div>
                             <div class="bonus flex justify-center align-center h-5">
                                 <IconRuble/>
-                                <div class="text-xs pl-1 bonus-counts">2138 бонусов</div>
+                                <div class="text-xs pl-1 bonus-counts">{{ props.bonus }} бонусов</div>
                             </div>
                         </div>
                     </div>
@@ -48,6 +101,30 @@
             </div>
         </div>
     </div>
+
+	<el-dialog
+                v-model="dialogVisible"
+                width="70%"
+                class="room-detail"
+                align-center
+                destroy-on-close
+        >
+		aaaaa
+            <!-- <RoomCardDetails
+                    :endDateFormated="props.endDateFormated"
+                    :startDateFormated="props.startDateFormated"
+                    :roomDetails="roomDetails"
+                    :roomPrice="roomPrice"
+                    :countOfDays="newCountOfDays"
+                    :countOfPersons="countOfPersons"
+                    :bonus="bonusVal"
+                    :сhildren="сhildren"
+                    :dateFrom="props.dateFrom"
+                    :dateTill="props.dateTill"
+                    :choosedHotelGuid="choosedHotelGuid.value"
+                    :adults="adults"
+            /> -->
+        </el-dialog>
 </template>
 
 
@@ -71,6 +148,14 @@
 }
 .booking-rooms-item-image {
 	position: relative;
+	width: 39%;
+	img {
+		max-width: 100%;
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+		max-height: 14rem;
+	}
 }
 .booking-rooms-item-header {
 	background: rgba(238, 234, 234, 1);

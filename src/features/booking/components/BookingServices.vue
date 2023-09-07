@@ -7,25 +7,37 @@
 
     const dialogVisible = ref(false)
 
+    const props = defineProps({
+        avaliableServices: {
+            type: Object
+        }
+        
+    })
+
     
 </script>
 
 <template>
 <div class="select-services">
+    avaliableServices: {{ props.avaliableServices }}
+
+
+
+
     <div class="title-line">Выберите услуги</div>
         <div class="demo-collapse">
-        <el-collapse >
-            <el-collapse-item name="1">
+        <el-collapse v-for="(services, index) in props.avaliableServices">
+            <el-collapse-item name="{{ index }}">
                 <template #title>
                     <div>
-                        <div class="title flex items-center"><IconHome/> <b class="pl-4 text-lg">Экскурсии</b></div>
-                        <div class="dscr ">Выберите экскурсии себе по душе</div>
+                        <div class="title flex items-center"><IconHome/> <b class="pl-4 text-lg">{{ services.category_title }}</b></div>
+                        <div class="dscr ">{{ services.category_title }}</div>
                     </div>
                 </template>
-                <div class="services">
+                <div class="services" v-for="service in services.res">
                     <div class="service">
                         <div class="service-offer flex items-center">
-                            <div class="name" @click="dialogVisible = true">Единство души и тела 1</div>
+                            <div class="name" @click="dialogVisible = true">{{ service.title }}</div>
                             <div class="days">
                                 <select name="" id="">
                                 <option value="1">1 день</option>
@@ -33,130 +45,11 @@
                                 <option value="3">1 дня</option>
                             </select>
                             </div>
-                            <div class="cost">20 000 р.</div>
+                            <div class="cost">{{ service.price[0]?.price }} р.</div>
                             <button class="btn">Выбрать</button>
                         </div>
                         <div class="adding-to-order">
                             <div>Укажите гостей, которые будут пользоваться услугой. Услуги персонифицированы.</div>
-                        </div>
-                    </div>
-
-                    <div class="service">
-                        <div class="service-offer flex items-center">
-                            <div class="name">Единство души и тела 2</div>
-                            <div class="days">
-                                <select name="" id="">
-                                    <option value="1">1 день</option>
-                                    <option value="2">2 дня</option>
-                                    <option value="3">1 дня</option>
-                                </select>
-                            </div>
-                            <div class="cost">20 000 р.</div>
-                            <button class="btn">Выбрать</button>
-                        </div>
-                        <div class="adding-to-order">
-                            <div>Укажите гостей, которые будут пользоваться услугой. Услуги персонифицированы.</div>
-                            <div class="guests">
-                                <div class="guest flex items-center py-4">
-                                    <div class="mr-4">
-                                        <input class="mr-4" type="checkbox" id="g1">
-                                        <label for="g1">Гость 1. Иванов Иван Иванович.</label>
-                                    </div>
-                                    <select name="" id="">
-                                        <option value="1">1 день</option>
-                                        <option value="2">2 дня</option>
-                                        <option value="3">3 дня</option>
-                                    </select>
-                                </div>
-                                <div class="guest flex items-center">
-                                    <div class="mr-4">
-                                        <input class="mr-4" type="checkbox" id="g2">
-                                        <label for="g2">Гость 1. Иванов Иван Иванович.</label>
-                                    </div>
-                                    <select name="" id="">
-                                        <option value="1">1 день</option>
-                                        <option value="2">2 дня</option>
-                                        <option value="3">3 дня</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="finaly flex items-center">
-                                <div class="cost mr-10 ml-auto">20 000 р.</div>
-                                <button class="btn">Добавить в заказ</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </el-collapse-item>
-            <el-collapse-item name="2">
-                <template #title>
-                    <div>
-                        <div class="title flex items-center"><IconHome/> <b class="pl-4 text-lg">Для детей</b></div>
-                        <div class="dscr ">Выберите экскурсии себе по душе</div>
-                    </div>
-                </template>
-                <div class="services">
-                    <div class="service">
-                        <div class="service-offer flex items-center">
-                            <div class="name">Единство души и тела</div>
-                            <div class="days">
-                                <select name="" id="">
-                                <option value="1">1 день</option>
-                                <option value="2">2 дня</option>
-                                <option value="3">1 дня</option>
-                            </select>
-                            </div>
-                            <div class="cost">20 000 р.</div>
-                            <button class="btn">Выбрать</button>
-                        </div>
-                        <div class="adding-to-order">
-                            <div>Укажите гостей, которые будут пользоваться услугой. Услуги персонифицированы.</div>
-                        </div>
-                    </div>
-
-                    <div class="service">
-                        <div class="service-offer flex items-center">
-                            <div class="name">Единство души и тела</div>
-                            <div class="days">
-                                <select name="" id="">
-                                    <option value="1">1 день</option>
-                                    <option value="2">2 дня</option>
-                                    <option value="3">1 дня</option>
-                                </select>
-                            </div>
-                            <div class="cost">20 000 р.</div>
-                            <button class="btn">Выбрать</button>
-                        </div>
-                        <div class="adding-to-order">
-                            <div>Укажите гостей, которые будут пользоваться услугой. Услуги персонифицированы.</div>
-                            <div class="guests">
-                                <div class="guest flex items-center">
-                                    <div class="mr-4">
-                                        <input class="mr-4" type="checkbox" id="g1">
-                                        <label for="g1">Гость 1. Иванов Иван Иванович.</label>
-                                    </div>
-                                    <select name="" id="">
-                                        <option value="1">1 день</option>
-                                        <option value="2">2 дня</option>
-                                        <option value="3">3 дня</option>
-                                    </select>
-                                </div>
-                                <div class="guest flex items-center">
-                                    <div class="mr-4">
-                                        <input class="mr-4" type="checkbox" id="g2">
-                                        <label for="g2">Гость 1. Иванов Иван Иванович.</label>
-                                    </div>
-                                    <select name="" id="">
-                                        <option value="1">1 день</option>
-                                        <option value="2">2 дня</option>
-                                        <option value="3">3 дня</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="finaly flex items-center">
-                                <div class="cost mr-10 ml-auto">20 000 р.</div>
-                                <button class="btn">Добавить в заказ</button>
-                            </div>
                         </div>
                     </div>
                 </div>

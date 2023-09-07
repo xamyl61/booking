@@ -4,13 +4,21 @@
         <div class="booking-block container mx-auto">
             <div class="flex gap-6">
                 <div class="booking-main grow">
-                    <BookingRoomsSelected/>
+                    <BookingRoomsSelected
+                        :dateFrom="dateFrom"
+                        :dateTill="dateTill"
+                        :roomPrice="roomPrice"
+                        :bonus="bonus"
+                        :roomDetails="roomDetails"
+                    />
                     <hr>
                     <BookingRoomsMoreComfort/>
                     <hr>
                     <BookingAddGuestData/>
                     <hr>
-                    <BookingServices/>
+                    <BookingServices
+                        :avaliableServices="avaliableServices"
+                    />
                 </div>
                 <div class="booking-sidebar">
                     <div class="booking-sidebar-inner">
@@ -45,7 +53,36 @@
     const props = defineProps({
         id: {
             type: String,
-        }
+        },
+        сhildren: {
+            type: Number,
+            required: true
+        },
+        roomDetails: {
+            type: Object,
+            required: true
+        },
+        avaliableServices: {
+            type: Object
+        },
+        dateFrom: {
+            type: String,
+            required: true
+        },
+        dateTill: {
+            type: String,
+            required: true
+        },
+        roomPrice: {
+            type: Number,
+            required: true
+        },
+        bonus: {
+            type: Number,
+            required: true
+        },
+
+        
         
     })
   </script>

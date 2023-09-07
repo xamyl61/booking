@@ -1,5 +1,6 @@
 <template>
     <div>
+        adults: {{ adults }}
         <div class="room-detail-head">
             <p class="text-2xl">{{ roomDetails?.title }}</p>
         </div>
@@ -234,7 +235,7 @@
                 </div>
                 <div class="btns-block">
                     <div class="bonus text-xs text-center pb-1">{{ props.bonus }} бонусов</div>
-                    <button class="btn">Выбрать</button>
+                    <button @click="openBooking(props.roomDetails, props.сhildren, props.adults, props.dateFrom, props.dateTill, props.choosedHotelGuid, props.bonus, props.roomPrice)" class="btn">Выбрать</button>
                 </div>
             </div>
         </div>
@@ -243,6 +244,8 @@
   
 <script setup lang="ts">
     import { ref, onMounted, computed } from 'vue';
+
+    import { useRouter } from "vue-router";
     import type { PropType } from 'vue';
 
     import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide';
@@ -281,6 +284,29 @@
         updateOnMove: true,
         arrows: false,
     };
+
+    const dateFormateding = (date: Date) => {
+        let year = date.getFullYear();
+        let month = date.toLocaleString("default", { month: "2-digit" });
+        let day = date.toLocaleString("default", { day: "2-digit" });
+        let formattedDate = year + "-" + month + "-" + day;
+
+        return formattedDate
+    }
+
+    const router = useRouter()
+
+    const openBooking = (roomDetails: object, сhildren: number, adults: number, dateFrom: string, dateTill: string, choosedHotelGuid: string, bonus: number, roomPrice: number) => {
+        router.push({name: 'booking', query: {
+            roomDetails: JSON.stringify(roomDetails),
+            сhildren: сhildren,
+            adults: adults,
+            dateFrom: dateFrom,
+            dateTill: dateTill,
+            choosedHotelGuid: choosedHotelGuid,
+            bonus: bonus,
+            roomPrice: roomPrice}})
+    }
 
     const imgLightBoxUrlsList = () => {
         const imgUrlsList = props.roomDetails.gallery.map(gall => {
@@ -390,6 +416,10 @@
             type: Number,
             required: true,
         },
+        сhildren: {
+            type: Number,
+            required: true,
+        },
         countOfPersons: {
             type: Number,
             required: true,
@@ -402,7 +432,25 @@
         },
         bonus: {
             type: Number,
-        }
+            default: 0
+        },
+        choosedHotelGuid: {
+            type: String,
+            required: true,
+        },
+        dateFrom: {
+            type: String,
+            required: true,
+        },
+        dateTill: {
+            type: String,
+            required: true,
+        },
+        adults: {
+            type: Number,
+            required: true,
+        },
+        
         
     })
 
