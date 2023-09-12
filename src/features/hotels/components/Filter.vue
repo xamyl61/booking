@@ -147,7 +147,7 @@
             <div class="lg:p-0 btn-wrapper">
                 <button
                         @click="getRoomTypes"
-                        class="btn btn-dark hover:scale-[1.06] ease-in duration-100"
+                        class="btn btn-yellow hover:scale-[1.06] ease-in duration-100"
                         :disabled="!choosedHotel"
                 >
                     Найти номер
