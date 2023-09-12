@@ -10,16 +10,28 @@
         <Button>Перезвоните мне</Button>
       </div>
 
+
+
       <a class="phone-link" href="tel:+78889993311">
         <IconPhone/>
         <span class="phone-link_text">+7 (888) 999 33-11</span>
       </a>
 
       <div class="login">
-        <div v-if="authStore.isAuthenticated">
+        <div class="dropdown" v-if="authStore.isAuthenticated">
+
             <Button @click="onLogout" class="btn">
                 <span class="btn-text">{{displayName}}</span>
             </Button>
+                <div class="dropdown-menu">
+                    <a @click="router.push({name: 'lk'})" href="#">Мой профиль</a>
+                    <a href="#">Мои бронирования</a>
+                    <a href="#">Бонусный счет</a>
+                    <a @click="onLogout" href="#">Выйти</a>
+                </div>
+
+
+
         </div>
         <div v-else>
             <Button :disabled="authStore.isLoading" @click="onLogin">
@@ -76,7 +88,7 @@
 
 </script>
   
-<style scoped>
+<style scoped lang="scss">
   .header {
     font-size: 1rem;
     padding: 0 1.3rem;
@@ -124,4 +136,38 @@
     .login .authorization:hover {
       border-color: transparent;
     }
+
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    width: 100%;
+    background-color: #EEEAEA;
+    font-size: 14px;
+  }
+
+  .dropdown-menu a {
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+  }
+
+  .dropdown-menu a:hover {
+    background-color: #f1f1f1;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
 </style>
