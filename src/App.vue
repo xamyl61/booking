@@ -3,22 +3,15 @@ import { RouterView } from 'vue-router'
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import { ModalsContainer } from 'vue-final-modal'
-import { useAuthStore } from './stores/auth-store';
 import { onMounted } from 'vue';
+import useAuth from "@/features/authentication/composables/useAuth";
 
-const authStore = useAuthStore()
-
-const initStore = () => {
-  const user_data = localStorage.getItem('user_data');
-
-  if(!user_data) return;
-  const user = JSON.parse(user_data)
-  authStore.setAuthUser(user)
-}
+const auth = useAuth()
 
 onMounted(() => {
-  initStore()
+    auth.init()
 })
+
 
 </script>
 

@@ -2,7 +2,6 @@
 import { onMounted, onUnmounted, ref, watch} from 'vue';
 import {initFlowbite} from 'flowbite'
 import client from '@/api/client';
-import {useAuthStore} from '@/stores/auth-store';
 import OtpInput from '@/components/OtpInput.vue'
 import Button from '@/components/Button.vue'
 import Input from '@/components/Input.vue'
@@ -10,6 +9,8 @@ import {toast} from 'vue3-toastify';
 import type ElDrawer from "element-plus";
 import IconClose from "@/components/icons/IconClose.vue";
 import {vMaska} from "maska"
+import useAuth from "@/features/authentication/composables/useAuth";
+import {setAccessToken, setRefreshToken} from "@/utils/token";
 
 const phone = ref('')
 const email = ref('')
@@ -19,7 +20,7 @@ const buttonText = ref('Отправить код повторно');
 const timer = ref(0);
 let intervalId: ReturnType<typeof setInterval>;
 const isLoading = ref(false)
-const authStore = useAuthStore()
+const auth = useAuth()
 const OTP_CODE_LENGTH = 4;
 const drawerRef = ref<any>()
 
@@ -100,11 +101,12 @@ const onTryAuth = async (callback: () => Promise<any>) => {
 const onAuthVerification = async (callback: () => Promise<any>) => {
     try {
         const response = await callback();
-        authStore.setAuthUser(response.data.user_data);
 
-        localStorage.setItem("user_data", JSON.stringify(response.data.user_data));
-        localStorage.setItem("access_token", response.data.access_token);
-        localStorage.setItem("refresh_token", response.data.refresh_token);
+        setAccessToken(response.data.access_token);
+        setRefreshToken(response.data.refresh_token);
+
+        await auth.init();
+
         await showSuccessVerification();
     } catch (e: any) {
         if (e.response.status === 400) {

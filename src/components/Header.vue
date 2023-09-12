@@ -16,18 +16,18 @@
       </a>
 
       <div class="login">
-        <div v-if="!authStore.authUser">
-          <Button @click="onLogin">
-            <slot name="icon">
-              <IconPersonPrimary/>
-              </slot>
-            <span class="btn-text">Войти в личный кабинет</span>
-        </button>
+        <div v-if="authStore.isAuthenticated">
+            <Button @click="onLogout" class="btn">
+                <span class="btn-text">{{displayName}}</span>
+            </Button>
         </div>
         <div v-else>
-          <Button @click="onLogout" class="btn">
-            <span class="btn-text">Выйти</span>
-          </Button>
+            <Button :disabled="authStore.isLoading" @click="onLogin">
+                <slot name="icon">
+                    <IconPersonPrimary/>
+                </slot>
+                <span class="btn-text">Войти в личный кабинет</span>
+            </button>
         </div>
       </div>
     </div>
@@ -42,8 +42,13 @@
   import { $vfm } from 'vue-final-modal';
   import IconPersonPrimary from '@/components/icons/IconPersonPrimary.vue'
   import Button from '@/components/Button.vue'
+  import {useRoute, useRouter} from "vue-router";
+  import {removeTokens} from "@/utils/token";
+  import {computed} from "vue";
 
   const authStore = useAuthStore()
+  const route = useRoute()
+  const router = useRouter()
 
   const onLogin = () => {
   
@@ -51,9 +56,22 @@
 
   }
 
+  const displayName = computed(() => {
+
+    if(!authStore.user?.last_name) {
+      return 'Личный кабинет'
+    }
+
+    return authStore.user?.last_name + ' ' + authStore.user?.first_name
+  })
+
   const onLogout = () => {
     authStore.$reset()
-    localStorage.clear();
+    removeTokens()
+
+    if(route.meta.requiresAuth) {
+      router.push({name: 'home'})
+    }
   }
 
 </script>
