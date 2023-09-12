@@ -14,6 +14,14 @@
 
 
 	const props = defineProps({
+		adults: {
+			type: Number,
+            required: true
+		},
+		сhildren: {
+			type: Number,
+            required: true
+		},
         dateFrom: {
             type: String,
             required: true
@@ -54,7 +62,6 @@
 
 <template>
     <div class="booking-rooms">
-		
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-header flex justify-between items-center">
                 <div class="title">Номер 1</div>
@@ -109,21 +116,18 @@
                 align-center
                 destroy-on-close
         >
-		aaaaa
-            <!-- <RoomCardDetails
-                    :endDateFormated="props.endDateFormated"
-                    :startDateFormated="props.startDateFormated"
-                    :roomDetails="roomDetails"
-                    :roomPrice="roomPrice"
-                    :countOfDays="newCountOfDays"
-                    :countOfPersons="countOfPersons"
-                    :bonus="bonusVal"
-                    :сhildren="сhildren"
-                    :dateFrom="props.dateFrom"
-                    :dateTill="props.dateTill"
-                    :choosedHotelGuid="choosedHotelGuid.value"
-                    :adults="adults"
-            /> -->
+            <RoomCardDetails
+				:roomDetails="props.roomDetails"
+				:roomPrice="roomPrice"
+				:countOfDays="3"
+				:countOfPersons="3"
+				:bonus="bonus"
+				:сhildren="сhildren"
+				:dateFrom="props.dateFrom"
+				:dateTill="props.dateTill"
+				:adults="adults"
+				:showButton="false"
+            />
         </el-dialog>
 </template>
 

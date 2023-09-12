@@ -1,6 +1,5 @@
 <template>
     <div>
-        adults: {{ adults }}
         <div class="room-detail-head">
             <p class="text-2xl">{{ roomDetails?.title }}</p>
         </div>
@@ -225,7 +224,7 @@
         <div class="room-detail-foot flex justify-between ">
             <div class="period">
                 <div class="period-title">Период проживания:</div>
-                <div class="period-date">{{ props.startDateFormated }} &nbsp;&#8212;&nbsp; {{ props.endDateFormated }}</div>
+                <div class="period-date">{{ parseDate(new Date(props.dateFrom)) }} &nbsp;&#8212;&nbsp; {{ parseDate(new Date(props.dateTill)) }}</div>
             </div>
             <div class="flex justify-end">
                 <div class="cost-block">
@@ -233,7 +232,7 @@
                     
                     <div class="persons-nights">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
                 </div>
-                <div class="btns-block">
+                <div class="btns-block" v-if="showButton">
                     <div class="bonus text-xs text-center pb-1">{{ props.bonus }} бонусов</div>
                     <button @click="openBooking(props.roomDetails, props.сhildren, props.adults, props.dateFrom, props.dateTill, props.choosedHotelGuid, props.bonus, props.roomPrice)" class="btn">Выбрать</button>
                 </div>
@@ -285,11 +284,12 @@
         arrows: false,
     };
 
-    const dateFormateding = (date: Date) => {
+    const parseDate = (date: Date) => {
         let year = date.getFullYear();
-        let month = date.toLocaleString("default", { month: "2-digit" });
-        let day = date.toLocaleString("default", { day: "2-digit" });
-        let formattedDate = year + "-" + month + "-" + day;
+        let month = date.toLocaleString("default", { month: "long" });
+        let day = date.toLocaleString("default", { day: "numeric" });
+        let weekday = date.toLocaleString("default", { weekday: "short" });
+        let formattedDate = day  + " " + month + " " + year + "г., " + weekday;
 
         return formattedDate
     }
@@ -436,7 +436,7 @@
         },
         choosedHotelGuid: {
             type: String,
-            required: true,
+            default: ''
         },
         dateFrom: {
             type: String,
@@ -450,7 +450,10 @@
             type: Number,
             required: true,
         },
-        
+        showButton: {
+            type: Boolean,
+            default: true
+        }
         
     })
 

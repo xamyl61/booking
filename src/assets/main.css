@@ -667,4 +667,17 @@ body {
         fill: var(--color-primary);
     }
 
+    /* booking-main */
+    .booking-main .dp__input {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        height: 2.6rem;
+        border-radius: 0;
+    }
+    .booking-main .dp__input::placeholder {
+        font-size: .875rem;
+        font-family: "Geometria";
+        color: rgb(17, 24, 39);
+    }
+
     

@@ -6,6 +6,7 @@
 
 
     const dialogVisible = ref(false)
+    const serviceDetails = ref<object>()
 
     const props = defineProps({
         avaliableServices: {
@@ -14,16 +15,16 @@
         
     })
 
+    const showServiceDetail = (details: object) => {
+        dialogVisible.value = true
+        serviceDetails.value = details
+    }
+
     
 </script>
 
 <template>
 <div class="select-services">
-    avaliableServices: {{ props.avaliableServices }}
-
-
-
-
     <div class="title-line">Выберите услуги</div>
         <div class="demo-collapse">
         <el-collapse v-for="(services, index) in props.avaliableServices">
@@ -37,13 +38,13 @@
                 <div class="services" v-for="service in services.res">
                     <div class="service">
                         <div class="service-offer flex items-center">
-                            <div class="name" @click="dialogVisible = true">{{ service.title }}</div>
+                            <div class="name" @click="showServiceDetail(service)">{{ service.title }}</div>
                             <div class="days">
                                 <select name="" id="">
-                                <option value="1">1 день</option>
-                                <option value="2">2 дня</option>
-                                <option value="3">1 дня</option>
-                            </select>
+                                    <option value="1">1 день</option>
+                                    <option value="2">2 дня</option>
+                                    <option value="3">1 дня</option>
+                                </select>
                             </div>
                             <div class="cost">{{ service.price[0]?.price }} р.</div>
                             <button class="btn">Выбрать</button>
@@ -69,7 +70,7 @@
         <template #header="{ close, titleId, titleClass }">
             <div class="my-header"></div>
         </template>
-        <BookingServiceDetail/>
+        <BookingServiceDetail :serviceDetails="serviceDetails"/>
     </el-dialog>
 
 </div>

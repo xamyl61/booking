@@ -107,6 +107,14 @@ $border-color_1: var(--color-primary);
 }
 .booking-rooms-item-image {
 	position: relative;
+	width: 39%;
+	img {
+		max-width: 100%;
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+		max-height: 14rem;
+	}
 }
 .booking-rooms-item-header {
 	background: rgba(238, 234, 234, 1);

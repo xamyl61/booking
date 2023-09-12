@@ -5,8 +5,10 @@
             <div class="flex gap-6">
                 <div class="booking-main grow">
                     <BookingRoomsSelected
-                        :dateFrom="dateFrom"
-                        :dateTill="dateTill"
+                        :adults="adults"
+                        :сhildren="сhildren"
+                        :dateFrom=" dateFrom"
+                        :dateTill=" dateTill"
                         :roomPrice="roomPrice"
                         :bonus="bonus"
                         :roomDetails="roomDetails"
@@ -14,21 +16,63 @@
                     <hr>
                     <BookingRoomsMoreComfort/>
                     <hr>
-                    <BookingAddGuestData/>
+                    <div>
+                        paymentGuest: {{ paymentGuest }}
+                    </div>
+
+                    <BookingAddGuestData
+                        :adults="adults"
+                        :сhildren="сhildren"
+                        @update-guest-info="updateGuestInfo"
+                    />
                     <hr>
                     <BookingServices
                         :avaliableServices="avaliableServices"
                     />
+
+                    <h3 class="title-line">Введите данные плательщика</h3>
+                    <div>Будет открыт бонусный счет</div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="">
+                            <Input v-model="first_name" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Фамилия" />
+                        </div>
+                        <div class="">
+                            <Input v-model="last_name" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Имя" />
+                        </div>
+                        <div class="">
+                            <Input v-model="middle_name" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Отчество" />
+                        </div>
+                        <div class="">
+                            <VueDatePicker
+                                    v-model="date"
+                                    :enable-time-picker="false"
+                                    auto-apply
+                                    locale="ru"
+                                    position="left"
+                                    :six-weeks="true"
+                                    :offset="1"
+                                    menu-class-name="m-datepicker"
+                            >
+
+                            </VueDatePicker>
+                        </div>
+                        <div class="">
+                            <Input v-model="email" v-maska data-maska="" placeholder="_____@__" />
+                        </div>
+                        <div class="">
+                            <Input v-model="phone" v-maska data-maska="+7 ### ###-##-##" placeholder="+7 ___ ___ __ __" />
+                        </div>
+                    </div>
                 </div>
                 <div class="booking-sidebar">
                     <div class="booking-sidebar-inner">
                         <div class="headline">Ваше бронирование</div>
-                        <BookingReservationList/>
+                        <BookingReservationList :reseravationList="reseravationList"/>
                         <div class="cost">
                             <div class="line">Стоимость</div>
                             <div class="price">
-                                <div class="cost">192 420 р.</div>
-                                <div class="bonus"><IconRuble/> 3000 бонусов</div>
+                                <div class="cost">{{roomPrice.toLocaleString('ru-RU')}} р.</div>
+                                <div class="bonus"><IconRuble/> {{ bonus }} бонусов</div>
                             </div>
                         </div>
                         <div class="footline">Забронировать</div>
@@ -40,6 +84,8 @@
 </template>
 
 <script setup lang="ts">
+    import { onMounted, reactive, ref } from "vue";
+
     import BookingRoomsSelected from "@/features/booking/components/BookingRoomsSelected.vue";
     import BookingRoomsMoreComfort from "@/features/booking/components/BookingRoomsMoreComfort.vue";
     import BookingAddGuestData from "@/features/booking/components/BookingAddGuestData.vue";
@@ -47,12 +93,39 @@
     import BookingReservationList from "@/features/booking/components/BookingReservationList.vue";
     import BookingHeader from "@/features/booking/components/BookingHeader.vue";
 
+    import Input from '@/components/Input.vue'
+
     import IconRuble from '@/components/icons/IconRuble.vue';
+
+
+
+    const first_name = ref('')
+    const last_name = ref('')
+    const middle_name = ref('')
+    const email = ref('')
+    const date = ref('')
+    const phone = ref('')
+
+
+
+    const paymentGuest = reactive({
+        first_name: first_name,
+        last_name: last_name,
+        middle_name: middle_name,
+        email: email,
+        date: date,
+        phone: phone
+    })
+
 
 
     const props = defineProps({
         id: {
             type: String,
+        },
+        adults: {
+            type: Number,
+            required: true
         },
         сhildren: {
             type: Number,
@@ -81,9 +154,21 @@
             type: Number,
             required: true
         },
+    })
 
-        
-        
+
+    const reseravationList = reactive({
+        dateFrom: props.dateFrom,
+        dateTill: props.dateTill ,
+        roomTitle: props.roomDetails.room_type.title,
+    })
+
+    const updateGuestInfo = (event: Event) => {
+        console.log(event)
+    }
+
+    onMounted(() => {
+        window.scrollTo(0,0)
     })
   </script>
     

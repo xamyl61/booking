@@ -265,8 +265,6 @@ import plural from 'plural-ru';
 
 const changedToAvailableDate = ref()
 const newCountOfDays = ref()
-const startDateFormated = ref()
-const endDateFormated = ref()
 const rangeStartDate = ref()
 const rangeEndDate = ref()
 const dpOpen = ref(false);

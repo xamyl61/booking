@@ -1,18 +1,25 @@
 <script setup lang="ts">
 
+import { reactive, ref } from "vue";
+
+const props = defineProps({
+    serviceDetails: {
+            type: Object,
+        },
+    })
+
     
 </script>
 
 <template>
     <div class="sercice-dscr">
+       
         <div class="sercice-dscr__img">
-            <img src="@/assets/Photo33.jpg" alt="">
+            <img :src="props.serviceDetails?.paid_service_image?.full_url" alt="">
         </div>
         <div class="sercice-dscr__cont">
-            <div class="title">Единство души и тела</div>
-            <p>
-                Программа направлена на восстановление сил и снятие психо-эмоционального напряжения.       Ожидаемый результат: снятие психо-эмоционального напряжения, расслабление и прилив сил.В случае наличия противопоказаний процедуры могут быть заменены на альтернативные в рамках стоимости программы.
-            </p>
+            <div class="title"> {{ props.serviceDetails?.title }}</div>
+            <p>{{ props.serviceDetails?.description }}</p>
         </div>
     </div>
 </template>

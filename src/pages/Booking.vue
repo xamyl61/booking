@@ -1,20 +1,9 @@
-<template>
-        <br>
-        route.query.choosedHotelGuid: {{ $route.query.choosedHotelGuid }}
-        <br>
-        route.query.bonus: {{ $route.query.bonus }}
-        <br>
-        route.query.roomPrice: {{ $route.query.roomPrice }}
-        <br>
-        route.query.adults: {{ $route.query.adults }}
-        <br>
-        route.query.roomDetails: {{ roomDetails }}
-        
-        
+<template>    
         <Booking
+                :adults="Number(route.query.adults)"
+                :сhildren="Number(route.query.сhildren)"
                 :avaliableServices="avaliableServices"
                 :roomDetails="JSON.parse(String(route.query.roomDetails))"
-                :сhildren="Number(route.query.сhildren)"
                 :dateFrom="String(route.query.dateFrom)"
                 :dateTill="String(route.query.dateTill)"
                 :roomPrice="Number(route.query.roomPrice)"
@@ -32,7 +21,6 @@
 
         const route = useRoute();
         const avaliableServices = ref<[]>()
-        const roomDetails = ref()        
 
 
         async function getServices() {
