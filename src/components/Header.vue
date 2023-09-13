@@ -143,15 +143,17 @@
   .dropdown-menu {
     display: none;
     position: absolute;
-    top: 100%;
+    top: 20px;
     left: 0;
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 999;
     width: 100%;
     background-color: #EEEAEA;
     font-size: 14px;
+
+    z-index: 888;
+    padding-top: 1rem;
   }
 
   .dropdown-menu a {
@@ -166,5 +168,9 @@
 
   .dropdown:hover .dropdown-menu {
     display: block;
+  }
+
+  .btn {
+    z-index: 999;
   }
 </style>
