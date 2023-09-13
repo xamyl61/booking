@@ -20,7 +20,7 @@
       <div class="login">
         <div class="dropdown" v-if="authStore.isAuthenticated">
 
-            <Button @click="onLogout" class="btn">
+            <Button class="btn">
                 <span class="btn-text">{{displayName}}</span>
             </Button>
                 <div class="dropdown-menu">
@@ -29,9 +29,6 @@
                     <a href="#">Бонусный счет</a>
                     <a @click="onLogout" href="#">Выйти</a>
                 </div>
-
-
-
         </div>
         <div v-else>
             <Button :disabled="authStore.isLoading" @click="onLogin">
