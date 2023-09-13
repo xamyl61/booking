@@ -6,10 +6,11 @@
             <BookingInfo :booking="bookingInfo" />
         </div>
 
+        
         <div class="booking-complete__container">
             <BookingRoom v-for="room in bookingRooms" :room="room" />
         </div>
-
+        
         <div class="booking-complete__container">
             <BookingPay :pay="bookingPay" />
         </div>

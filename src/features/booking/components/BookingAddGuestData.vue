@@ -19,10 +19,6 @@
     })
 
 
-
-
-
-
     onMounted(() => {
         for(var i = 0; i < props.adults + props.сhildren; i++) {
             guests.value.push({
@@ -52,13 +48,13 @@
                 </div>
                 <div class="grid grid-cols-3 gap-4">
                     <div class="">
-                        <Input @input="$emit('updateGuestInfo', guests)" v-model="guest.first_name" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Фамилия" />
+                        <Input @input="$emit('updateGuestInfo', $event, guests)" v-model="guest.first_name" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Фамилия" />
                     </div>
                     <div class="">
-                        <Input @input="$emit('updateGuestInfo', guests)" v-model="guest.last_name" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Имя" />
+                        <Input @input="$emit('updateGuestInfo', $event, guests)" v-model="guest.last_name" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Имя" />
                     </div>
                     <div class="">
-                        <Input @input="$emit('updateGuestInfo', guests)" v-model="guest.middle_name" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Отчество" />
+                        <Input @input="$emit('updateGuestInfo', $event, guests)" v-model="guest.middle_name" v-maska data-maska="A" data-maska-tokens="A:[а-яА-Яa-zA-Z]:multiple" placeholder="Отчество" />
                     </div>
                     <div class="">
                         <VueDatePicker
@@ -71,16 +67,16 @@
                                 :offset="1"
                                 menu-class-name="m-datepicker"
                                 :placeholder="'Дата рождения'"
-                                @update:model-value="$emit('updateGuestInfo', guests)"
+                                @update:model-value="$emit('updateGuestInfo', $event, guests)"
                         >
 
                         </VueDatePicker>
                     </div>
                     <div class="">
-                        <Input @input="$emit('updateGuestInfo', guests)" v-model="guest.email" v-maska data-maska="" placeholder="_____@__" />
+                        <Input @input="$emit('updateGuestInfo', $event, guests)" v-model="guest.email" v-maska data-maska="" placeholder="_____@__" />
                     </div>
                     <div class="">
-                        <Input @input="$emit('updateGuestInfo', guests)" v-model="guest.phone" v-maska data-maska="+7 ### ###-##-##" placeholder="+7 ___ ___ __ __" />
+                        <Input @input="$emit('updateGuestInfo', $event, guests)" v-model="guest.phone" v-maska data-maska="+7 ### ###-##-##" placeholder="+7 ___ ___ __ __" />
                     </div>
                 </div>
             </div>

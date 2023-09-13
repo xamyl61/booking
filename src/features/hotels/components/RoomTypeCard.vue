@@ -120,7 +120,8 @@
                                 >{{roomType.price_info.bonus}} бонусов
                                 </div>
                             </div>
-                            <Button class="w-full">Выбрать</Button>
+                            <button
+                                @click="openBooking(roomType.room_type.guid, props.сhildren, props.adults, props.dateFrom, props.dateTill, choosedHotelGuid.value, bonusVal, roomType.price_info.price)" class="btn w-full">Выбрать</button>
                         </div>
                     </div>
                     <div
@@ -262,6 +263,7 @@ import IconRuble from '@/components/icons/IconRuble.vue';
 import Button from '@/components/Button.vue';
 
 import plural from 'plural-ru';
+import { useRouter } from 'vue-router';
 
 const changedToAvailableDate = ref()
 const newCountOfDays = ref()
@@ -495,6 +497,20 @@ const bodyAutoScrolling = () => {
     highlightDates.value = []
     maxDate.value = null
     scroll.value = true
+}
+
+const router = useRouter()
+const openBooking = async (roomTypeGuid: string, сhildren: number, adults: number, dateFrom: string, dateTill: string, choosedHotelGuid: string, bonus: number, roomPrice: number) => {
+    await getRoomDeatails(roomTypeGuid)
+    router.push({name: 'booking', query: {
+        roomDetails: JSON.stringify(roomDetails.value),
+        сhildren: сhildren,
+        adults: adults,
+        dateFrom: dateFrom,
+        dateTill: dateTill,
+        choosedHotelGuid: choosedHotelGuid,
+        bonus: bonus,
+        roomPrice: roomPrice}})
 }
 
 

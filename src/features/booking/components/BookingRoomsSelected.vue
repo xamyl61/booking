@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { ref } from 'vue';
+	import { ref, type PropType } from 'vue';
 
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue';
     import IconTrash from '@/components/icons/IconTrash.vue';
@@ -7,6 +7,8 @@
     import IconRuble from '@/components/icons/IconRuble.vue';
 
 	import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
+
+	import type {IRoomDetails} from "@/features/hotels/types/IRoomDetails";
 
 
 	const dialogVisible = ref(false)
@@ -39,7 +41,7 @@
             required: true
 		},
         roomDetails: {
-            type: Object,
+            type: Object as PropType<IRoomDetails>,
             required: true,
         },
         
@@ -85,7 +87,7 @@
                 <div class="booking-rooms-item-dscr flex grow">
                     <div class="flex justify-between items-center grow">
                         <div>
-                            <div class="title">{{ props.roomDetails.room_type.title }}</div>
+                            <div class="title">{{ props.roomDetails.title }}</div>
                             <div class="date">{{ parseDate(new Date(props.dateFrom)) }} - {{ parseDate(new Date(props.dateTill)) }}</div>
                             <div class="time"><span>с 12:00</span> <span class="ml-16">до 15:00</span></div>
                             <div
