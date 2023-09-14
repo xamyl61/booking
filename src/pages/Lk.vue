@@ -7,7 +7,7 @@
             <el-tab-pane label="Мои бронирования" name="myBooking">
                 <MyBooking />
             </el-tab-pane>
-            <el-tab-pane disabled label="Бонусный счет" name="myBonus">
+            <el-tab-pane label="Бонусный счет" name="myBonus">
                 <MyBonus />
             </el-tab-pane>
         </el-tabs>
@@ -16,12 +16,21 @@
 
 <script setup lang="ts">
 
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import MyProfile from "@/features/lk/components/MyProfile.vue";
 import MyBooking from "@/features/lk/components/MyBooking.vue";
 import MyBonus from "@/features/lk/components/MyBonus.vue";
+import {useRoute} from "vue-router";
 
 const activeTab = ref('myProfile')
+
+const route = useRoute()
+
+watch(route, (to) => {
+    if(to.query.tab) {
+        activeTab.value = to.query.tab as string
+    }
+}, {flush: 'pre', immediate: true, deep: true})
 
 </script>
 

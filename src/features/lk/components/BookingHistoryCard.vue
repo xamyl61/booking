@@ -33,6 +33,7 @@ import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
   cursor: pointer;
   padding: 30px 40px 30px 40px;
   border: 1px solid #EEEAEA;
+  align-items: center;
 
   &__item {
     &_bold {
