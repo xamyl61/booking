@@ -1,10 +1,10 @@
 <template>
-    <div class="container mx-auto mt-3">
+    <div class="container container-fluid mx-auto mt-3">
         <el-tabs type="card" v-model="activeTab">
             <el-tab-pane label="Мой профиль" name="myProfile">
                 <MyProfile />
             </el-tab-pane>
-            <el-tab-pane disabled label="Мои бронирования" name="myBooking">
+            <el-tab-pane label="Мои бронирования" name="myBooking">
                 <MyBooking />
             </el-tab-pane>
             <el-tab-pane disabled label="Бонусный счет" name="myBonus">
@@ -50,5 +50,18 @@ const activeTab = ref('myProfile')
     border: solid 1px #EEEAEA;
     border-top: none;
 }
+
+@media (min-width: 1280px) {
+    .container {
+        max-width: 1080px;
+    }
+}
+
+@media (min-width: 1536px) {
+    .container-fluid {
+        max-width: 1336px;
+    }
+}
+
 
 </style>

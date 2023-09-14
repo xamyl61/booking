@@ -21,12 +21,15 @@
         <div class="dropdown" v-if="authStore.isAuthenticated">
 
             <Button class="btn">
+                <slot name="icon">
+                    <IconPersonPrimary/>
+                </slot>
                 <span class="btn-text">{{displayName}}</span>
             </Button>
                 <div class="dropdown-menu">
                     <a @click="router.push({name: 'lk'})" href="#">Мой профиль</a>
                     <a href="#">Мои бронирования</a>
-                    <a href="#">Бонусный счет</a>
+                    <a href="#">Бонусный счет: 0 бонусов</a>
                     <a @click="onLogout" href="#">Выйти</a>
                 </div>
         </div>
@@ -143,23 +146,29 @@
   .dropdown-menu {
     display: none;
     position: absolute;
-    top: 20px;
+    top: 17px;
     left: 0;
-    border: 1px solid #ddd;
+    border: 1px solid #215c66;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     width: 100%;
     background-color: #EEEAEA;
     font-size: 14px;
-
     z-index: 888;
-    padding-top: 1rem;
+    padding-top: 1.1rem;
   }
 
   .dropdown-menu a {
     display: block;
     padding: 10px 20px;
     color: #333;
+    border-bottom: 1px solid #215c66;
+
+    &:last-of-type {
+      border-radius: 10px;
+      border-bottom: none;
+    }
+
   }
 
   .dropdown-menu a:hover {

@@ -46,8 +46,25 @@
             <div class="my-profile__submit">
                 <Button @click="submitForm(ruleFormRef)">Сохранить</Button>
             </div>
-
         </div>
+
+
+        <LkHeader>
+            <template #title>
+                Мои предпочтения
+            </template>
+            <template #icon>
+                <ShellIcon />
+            </template>
+        </LkHeader>
+
+
+        <div class="my-profile__content">
+            <div class="my-profile__title">
+                Временно не доступно
+            </div>
+        </div>
+
     </div>
 
 
@@ -64,6 +81,7 @@ import type {IUser} from "@/features/authentication/types/IUser";
 import Button from "@/components/Button.vue";
 import {updateUser} from "@/features/lk/api";
 import {toast} from "vue3-toastify";
+import ShellIcon from "@/features/lk/components/Icons/ShellIcon.vue";
 
 const isLoading = ref(false)
 
@@ -185,6 +203,14 @@ const initForm = async () => {
       display: flex;
       justify-content: center;
       margin-top: 2rem;
+  }
+
+  &__title {
+      font-family: Geometria, sans-serif;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 25px;
+      text-align: left;
   }
 }
 </style>
