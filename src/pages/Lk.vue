@@ -33,6 +33,11 @@ const activeTab = ref('myProfile')
 }
 
 :deep(.el-tabs__item) {
+    font-family: Optima Cyr,serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    text-align: center;
     background-color: #EEEAEA;
     color: black;
 }

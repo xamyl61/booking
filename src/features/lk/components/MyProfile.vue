@@ -201,8 +201,8 @@ const initForm = async () => {
 
   &__submit {
       display: flex;
-      justify-content: center;
-      margin-top: 2rem;
+      justify-content: left;
+      margin-top: 1.5rem;
   }
 
   &__title {
