@@ -1,5 +1,6 @@
 <template>
     <div>
+        bookingRoomStore.useBookingRoom: {{ bookingRoomStore.useBookingList }}
         <h1>Выберите период проживания и количество гостей</h1>
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
@@ -214,6 +215,9 @@ import IconSeashell from '@/components/icons/IconSeashell.vue'
 
 import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
 import RoomTypeCard from '@/features/hotels/components/RoomTypeCard.vue'
+
+import { useBookingRoomsStore } from '@/stores/booking-store';        
+const bookingRoomStore = useBookingRoomsStore()
 
 
 

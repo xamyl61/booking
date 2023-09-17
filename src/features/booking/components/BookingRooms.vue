@@ -1,15 +1,12 @@
 <template>
     <div>
+        <!-- <div style="border: 1px solid red;">
+        {{ props.booking }}
+        </div> -->
         <BookingRoomsSelected
-            :adults="adults"
-            :сhildren="сhildren"
-            :dateFrom=" dateFrom"
-            :dateTill=" dateTill"
-            :roomPrice="roomPrice"
-            :bonus="bonus"
-            :roomDetails="roomDetails"
+            :booking="booking"
         />
-        <hr>
+        <!-- <hr>
         <BookingRoomsMoreComfort/>
         <hr>
 
@@ -18,7 +15,7 @@
             :adults="adults"
             :сhildren="сhildren"
             @update-guest-info="updateGuestInfo"
-        />
+        /> -->
     </div>
 </template>
 
@@ -30,6 +27,7 @@
     import BookingAddGuestData from "@/features/booking/components/BookingAddGuestData.vue";
 
     import type {IRoomDetails} from "@/features/hotels/types/IRoomDetails";
+    import type {IBookingInfoData} from "@/features/booking/types/IBookingInfoData";
 
 
     const paymentsInfo = ref()
@@ -39,48 +37,52 @@
 
 
     const props = defineProps({
-        id: {
-            type: String,
-        },
-        adults: {
-            type: Number,
+        booking: {
+            type: Object as PropType<IBookingInfoData>,
             required: true
-        },
-        сhildren: {
-            type: Number,
-            required: true
-        },
-        roomDetails: {
-            type: Object as PropType<IRoomDetails>,
-            required: true
-        },
-        avaliableServices: {
-            type: Object
-        },
-        dateFrom: {
-            type: String,
-            required: true
-        },
-        dateTill: {
-            type: String,
-            required: true
-        },
-        roomPrice: {
-            type: Number,
-            required: true
-        },
-        bonus: {
-            type: Number,
-            required: true
-        },
+        }
+        // id: {
+        //     type: String,
+        // },
+        // adults: {
+        //     type: Number,
+        //     required: true
+        // },
+        // сhildren: {
+        //     type: Number,
+        //     required: true
+        // },
+        // roomDetails: {
+        //     type: Object as PropType<IRoomDetails>,
+        //     required: true
+        // },
+        // avaliableServices: {
+        //     type: Object
+        // },
+        // dateFrom: {
+        //     type: String,
+        //     required: true
+        // },
+        // dateTill: {
+        //     type: String,
+        //     required: true
+        // },
+        // roomPrice: {
+        //     type: Number,
+        //     required: true
+        // },
+        // bonus: {
+        //     type: Number,
+        //     required: true
+        // },
     })
 
 
-    const reseravationList = reactive({
-        dateFrom: props.dateFrom,
-        dateTill: props.dateTill ,
-        roomTitle: props.roomDetails.title,
-    })
+    // const reseravationList = reactive({
+    //     dateFrom: props.dateFrom,
+    //     dateTill: props.dateTill ,
+    //     roomTitle: props.roomDetails.title,
+    // })
 
     const updateGuestInfo = (event: Event, guests: any) => {
         guestsInfo.value = guests

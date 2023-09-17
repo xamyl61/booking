@@ -9,6 +9,7 @@
 	import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
 
 	import type {IRoomDetails} from "@/features/hotels/types/IRoomDetails";
+	import type {IBookingInfoData} from "@/features/booking/types/IBookingInfoData";
 
 
 	const dialogVisible = ref(false)
@@ -16,34 +17,40 @@
 
 
 	const props = defineProps({
-		adults: {
-			type: Number,
+
+		booking: {
+            type: Object as PropType<IBookingInfoData>,
             required: true
-		},
-		сhildren: {
-			type: Number,
-            required: true
-		},
-        dateFrom: {
-            type: String,
-            required: true
-        },
-        dateTill: {
-            type: String,
-            required: true
-        },
-		roomPrice: {
-            type: Number,
-            required: true
-        },
-		bonus: {
-			type: Number,
-            required: true
-		},
-        roomDetails: {
-            type: Object as PropType<IRoomDetails>,
-            required: true,
-        },
+        }
+
+		// adults: {
+		// 	type: Number,
+        //     required: true
+		// },
+		// сhildren: {
+		// 	type: Number,
+        //     required: true
+		// },
+        // dateFrom: {
+        //     type: String,
+        //     required: true
+        // },
+        // dateTill: {
+        //     type: String,
+        //     required: true
+        // },
+		// roomPrice: {
+        //     type: Number,
+        //     required: true
+        // },
+		// bonus: {
+		// 	type: Number,
+        //     required: true
+		// },
+        // roomDetails: {
+        //     type: Object as PropType<IRoomDetails>,
+        //     required: true,
+        // },
         
     })
 
@@ -63,6 +70,9 @@
 </script>
 
 <template>
+	<div>
+
+	</div>
     <div class="booking-rooms">
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-header flex justify-between items-center">
@@ -77,18 +87,17 @@
                         <IconHeart/>
                         <IconHeart/>
                     </div>
-                    <!-- <img src="@/assets/room1.jpg" alt=""> -->
 					<img
 						class="list-block-icons"
-						:src="props.roomDetails.cover_image.full_url"
+						:src="props.booking.roomDetails.cover_image.full_url"
 						alt=""
 					>
                 </div>
                 <div class="booking-rooms-item-dscr flex grow">
                     <div class="flex justify-between items-center grow">
                         <div>
-                            <div class="title">{{ props.roomDetails.title }}</div>
-                            <div class="date">{{ parseDate(new Date(props.dateFrom)) }} - {{ parseDate(new Date(props.dateTill)) }}</div>
+                            <div class="title">{{ props.booking.roomDetails.title }}</div>
+                            <div class="date">{{ parseDate(new Date(props.booking.dateFrom)) }} - {{ parseDate(new Date(props.booking.dateTill)) }}</div>
                             <div class="time"><span>с 12:00</span> <span class="ml-16">до 15:00</span></div>
                             <div
 								@click="showRoomDetails"
@@ -99,10 +108,10 @@
                         </div>
 
                         <div class="cost-wr text-center">
-                            <div class="cost cost text-3xl h-9">{{ props.roomPrice.toLocaleString('ru-RU') }} р.</div>
+                            <div class="cost cost text-3xl h-9">{{ props.booking.roomPrice.toLocaleString('ru-RU') }} р.</div>
                             <div class="bonus flex justify-center align-center h-5">
                                 <IconRuble/>
-                                <div class="text-xs pl-1 bonus-counts">{{ props.bonus }} бонусов</div>
+                                <div class="text-xs pl-1 bonus-counts">{{ props.booking.bonus }} бонусов</div>
                             </div>
                         </div>
                     </div>
@@ -111,7 +120,7 @@
         </div>
     </div>
 
-	<el-dialog
+	<!-- <el-dialog
                 v-model="dialogVisible"
                 width="70%"
                 class="room-detail"
@@ -130,7 +139,7 @@
 				:adults="adults"
 				:showButton="false"
             />
-        </el-dialog>
+        </el-dialog> -->
 </template>
 
 

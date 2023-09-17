@@ -265,6 +265,10 @@ import Button from '@/components/Button.vue';
 import plural from 'plural-ru';
 import { useRouter } from 'vue-router';
 
+
+import { useBookingRoomsStore } from '@/stores/booking-store';        
+const bookingRoomsStore = useBookingRoomsStore()
+
 const changedToAvailableDate = ref()
 const newCountOfDays = ref()
 const rangeStartDate = ref()
@@ -501,7 +505,20 @@ const bodyAutoScrolling = () => {
 
 const router = useRouter()
 const openBooking = async (roomTypeGuid: string, сhildren: number, adults: number, dateFrom: string, dateTill: string, choosedHotelGuid: string, bonus: number, roomPrice: number) => {
+    
     await getRoomDeatails(roomTypeGuid)
+    const bookingInfoData = reactive({
+        adults: adults,
+        сhildren: сhildren,
+        roomDetails: roomDetails,
+        dateFrom: dateFrom,
+        dateTill: dateTill,
+        roomPrice: roomPrice,
+        bonus: bonus,
+        choosedHotel: choosedHotelGuid
+    })
+    bookingRoomsStore.setBookingRoom(bookingInfoData)
+
     router.push({name: 'booking', query: {
         roomDetails: JSON.stringify(roomDetails.value),
         сhildren: сhildren,

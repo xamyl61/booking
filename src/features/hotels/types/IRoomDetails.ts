@@ -6,7 +6,8 @@ export interface IRoomDetails {
     room_rate_description: string,
     room_type: {
         number_of_beds_per_room: number,
-        number_of_persons_per_room: number
+        number_of_persons_per_room: number,
+        guid: string
     },
     cover_image: {
         full_url: string
