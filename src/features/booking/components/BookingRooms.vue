@@ -1,21 +1,27 @@
 <template>
     <div>
-        <!-- <div style="border: 1px solid red;">
-        {{ props.booking }}
-        </div> -->
         <BookingRoomsSelected
             :booking="booking"
+            :index="index"
         />
-        <!-- <hr>
-        <BookingRoomsMoreComfort/>
+        <hr>
+        <BookingRoomsMoreComfort
+            :roomGuid=booking.roomDetails.room_type.guid
+            :booking="booking"
+        />
         <hr>
 
+        <!-- @update-guest-info="updateGuestInfo" -->
 
+        <!-- <button
+                    class="btn"
+                    @click="bookingStore.updateBookingRoomGuestsData(guestsInfo, index)"
+                >Добавить данные гостей</button> -->
         <BookingAddGuestData
-            :adults="adults"
-            :сhildren="сhildren"
+            :booking="booking"
             @update-guest-info="updateGuestInfo"
-        /> -->
+        />
+
     </div>
 </template>
 
@@ -30,6 +36,10 @@
     import type {IBookingInfoData} from "@/features/booking/types/IBookingInfoData";
 
 
+    import { useBookingRoomsStore } from "@/stores/booking-store";
+
+    const bookingStore = useBookingRoomsStore()
+
     const paymentsInfo = ref()
     const guestsInfo = ref()
 
@@ -39,6 +49,10 @@
     const props = defineProps({
         booking: {
             type: Object as PropType<IBookingInfoData>,
+            required: true
+        },
+        index: {
+            type: Number,
             required: true
         }
         // id: {
@@ -83,9 +97,12 @@
     //     dateTill: props.dateTill ,
     //     roomTitle: props.roomDetails.title,
     // })
-
+    
+    const emit = defineEmits(['updateGuests'])
     const updateGuestInfo = (event: Event, guests: any) => {
         guestsInfo.value = guests
+
+        emit('updateGuests', guestsInfo)
     }
 
 

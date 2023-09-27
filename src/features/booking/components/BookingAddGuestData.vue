@@ -1,26 +1,34 @@
 <script setup lang="ts">
-    import { ref, onMounted, reactive } from 'vue';
+    import { ref, onMounted, reactive, type PropType } from 'vue';
     import { vMaska } from "maska"
     import VueDatePicker from '@vuepic/vue-datepicker';
     import Button from '@/components/Button.vue';
     import Input from '@/components/Input.vue'
 
+    import { useBookingRoomsStore } from '@/stores/booking-store';
+    import type { IBookingInfoData } from '@/features/booking/types/IBookingInfoData';
+    
+    const adults = ref<number>(0)
+    const сhildren = ref<number>(0)
 
     const guests = ref<any>([])
+
     const props = defineProps({
-        adults: {
-            type: Number,
+        booking: {
+            type: Object as PropType<IBookingInfoData>,
             required: true
         },
-        сhildren: {
-            type: Number,
-            required: true
-        }
     })
+
+    const bookingStore = useBookingRoomsStore()
+
 
 
     onMounted(() => {
-        for(var i = 0; i < props.adults + props.сhildren; i++) {
+        adults.value = props.booking.adults
+        сhildren.value = props.booking.сhildren
+
+        for(var i = 0; i < adults.value + сhildren.value; i++) {
             guests.value.push({
                 first_name: '',
                 last_name: '',
@@ -39,6 +47,7 @@
         <div class="enter-guest-details mt-10">
             <h3 class="title-line">Введите данные гостей</h3>
             <div v-for="(guest, index) in guests">
+                
                 <div class="my-4">
                     <b class="text-sm">
                         Гость {{ index + 1 }}.
@@ -80,9 +89,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="mb-10">
-            <!-- <Button class="btn ml-auto mt-10 btn-with-border">Добавить гостя</Button> -->
         </div>
     </div>
 </template>

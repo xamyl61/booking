@@ -1,4 +1,6 @@
 <script setup lang="ts">
+	import { onMounted, reactive, ref, type PropType } from 'vue';
+	import plural from 'plural-ru';
     import Button from '@/components/Button.vue';
     import IconHeart from '@/components/icons/IconHeart.vue';
     import IconRuble from '@/components/icons/IconRuble.vue';
@@ -7,11 +9,91 @@
     import IconHome from '@/components/icons/IconHome.vue';
     import IconPeopleGroup from '@/components/icons/IconPeopleGroup.vue';
 
+	
+	import { useFilterStore } from '@/stores/filter-params-store';
+	
+	import type {IBookingInfoData} from "@/features/booking/types/IBookingInfoData";
+	
+	const date = ref()
+	const nights = ref()
+	const dateFrom = ref()
+	const dateTill = ref()
+	const filterStore = useFilterStore()
+	const roomMoreComfort = ref()
+
+	const loading = ref(false)
+
+	
+
+	const props = defineProps({
+        roomGuid: {
+            type: String
+        },
+		booking: {
+            type: Object as PropType<IBookingInfoData>,
+            required: true
+        }
+    })
+
+	const dateFormateding = (date: Date) => {
+		let year = date.getFullYear();
+		let month = date.toLocaleString("default", { month: "2-digit" });
+		let day = date.toLocaleString("default", { day: "2-digit" });
+		let formattedDate = year + "-" + month + "-" + day;
+
+		return formattedDate
+	}
+
+
+	async function getAdditionalRoomType() {
+		try {
+			loading.value = true
+			const res = await fetch(`https://backmb.aleancollection.ru/api/v2/rooms-request/additional-room-type/${props.roomGuid}/?number_of_adults=${filterStore.filter?.adults}&number_of_children=${filterStore.filter?.сhildren}&date_from=${dateFrom.value}&date_till=${dateTill.value}&number_of_infants=0`);
+			const finalRes = await res.json();
+			// roomMoreComfort.value = finalRes.res;
+			return finalRes;
+		} catch (error) {
+			console.log(error)
+		} finally {
+			loading.value = false
+		}
+	}
+
+	const parseDate = (date: Date) => {
+        let month = date.toLocaleString("default", { month: "long" });
+        let day = date.toLocaleString("default", { day: "numeric" });
+        let formattedDate = day  + " " + month;
+
+        return formattedDate
+    }
+
+	const pluralNightText = (count: number) => {
+		return plural(count, 'ночь', 'ночи', 'ночей');
+	}
+
+	onMounted(async () => {
+        if (filterStore.filter) {
+			date.value = filterStore.filter.date
+
+			const startDate = new Date(date.value[0]);
+			const endDate = new Date(date.value[1])
+			dateFrom.value = dateFormateding(startDate)
+			dateTill.value = dateFormateding(endDate)
+		}
+		// await getAdditionalRoomType()
+		roomMoreComfort.value = await getAdditionalRoomType()
+		console.log("roomMoreComfort: ", roomMoreComfort)
+		nights.value = ((new Date(props.booking.dateTill)).getTime() - (new Date(props.booking.dateFrom)).getTime())/(1000 * 3600 * 24) 
+    })
+
 
 </script>
 
 <template>
-    <div class="more-comfort-block">
+    <div class="more-comfort-block" v-loading="loading">
+		<!-- roomGuid: {{ props.roomGuid }}
+		<br>
+		roomMoreComfort: {{ roomMoreComfort }} -->
         <div class="title-line">Повысьте комфорт!</div>
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-content flex">
@@ -22,15 +104,15 @@
                         <IconHeart/>
                         <IconHeart/>
                     </div>
-                    <img src="@/assets/room1.jpg" alt="">
+					<img :src="roomMoreComfort?.res.cover_image.full_url" alt="">
                 </div>
                 <div class="booking-rooms-item-dscr flex grow">
                     <div class="flex justify-between items-center grow">
                         <div>
-                            <div class="title">Superior 2-местный</div>
+                            <div class="title">{{ roomMoreComfort?.res.room_type.title }}</div>
                             <div class="params flex">
-                                <div class="flex items-center"><IconPeopleGroup/> 3 человека</div>
-                                <div class="flex items-center"><IconHome/> 21 м2</div>
+                                <div class="flex items-center"><IconPeopleGroup/> {{ roomMoreComfort?.res.room_type.number_of_persons_per_room }} человека</div>
+                                <div class="flex items-center"><IconHome/> {{ roomMoreComfort?.res.room_type.room_square }} м2</div>
                                 <div class="flex items-center"><IconSquare/> 2 комнаты</div>
                             </div>
                             <div
@@ -38,8 +120,9 @@
                                 Подробнее о номере
                                 <IconArrowLeftInCircle/>
                             </div>
-                            <div class="plus-cost">всего + 20 000 р.</div>
-                            <div class="nights">за 6 ночей</div>
+                            <div class="plus-cost">всего + {{ roomMoreComfort?.difference }} р.</div>
+                            <div class="nights">за {{ nights }} {{ pluralNightText(nights) }}</div>
+							
                         </div>
 
                         <div class="cost-wr text-center">
@@ -47,7 +130,7 @@
                                 <IconRuble/>
                                 <div class="text-xs pl-1 bonus-counts">2138 бонусов</div>
                             </div>
-                            <Button class="btn">Да, поменять номер</Button>
+                            <Button class="btn whitespace-pre">Поменять номер</Button>
                         </div>
                     </div>
                 </div>

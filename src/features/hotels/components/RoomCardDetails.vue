@@ -298,7 +298,6 @@
 
     const openBooking = (roomDetails: object, сhildren: number, adults: number, dateFrom: string, dateTill: string, choosedHotelGuid: string, bonus: number, roomPrice: number) => {
         router.push({name: 'booking', query: {
-            roomDetails: JSON.stringify(roomDetails),
             сhildren: сhildren,
             adults: adults,
             dateFrom: dateFrom,

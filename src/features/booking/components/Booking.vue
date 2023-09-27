@@ -1,32 +1,28 @@
 <template>
     <div>
-        <div>
-            <!-- avaliableServices: {{ avaliableServices }}
-            <br>
-            bookingInfoData: {{ bookingInfoData }} -->
-            
-            <!-- bookingInfo: {{ bookingInfoData.roomDetails }}
-            <br>
-            paymentsInfo: {{ paymentsInfo }}
-            <br>
-            guestsInfo: {{ guestsInfo }} -->
-            <br>
-            <!-- roomDetails.room_type.guid: {{ roomDetails.room_type.guid }} -->
-        </div>
-        <BookingHeader/>
-        
+        <BookingHeader/>   
             <div class="booking-block container mx-auto">
             <div v-if="show" class="flex gap-6">
                 <div class="booking-main grow">
                     <BookingRooms
-                        v-for="booking in bookingInfoData"
+                        v-for="(booking, index) in store.useBookingList"
                         :booking="booking"
+                        :index="index + 1"
                     />
+                    <div class="mb-10">
+                        <Button @click="router.push('/')" class="btn ml-auto mt-10 btn-with-border">Добавить гостя</Button>
+                    </div>
+                    <BookingServices :avaliableServices="avaliableServices"/>
+                    <BookingPaymentData/>
                 </div>
                 <div class="booking-sidebar">
                     <div class="booking-sidebar-inner">
                         <div class="headline">Ваше бронирование</div>
-                        <!-- <BookingReservationList :reseravationList="reseravationList"/> -->
+                        <BookingReservationList
+                            v-for="(booking, index) in store.useBookingList"
+                            :booking="booking"
+                            :index="index + 1"
+                        />
                         <div class="cost">
                             <div class="line">Стоимость</div>
                             <div class="price">
@@ -45,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-    import { onMounted, reactive, ref, type PropType } from "vue";
+    import { onMounted, ref, type PropType } from "vue";
 
     
     import BookingRooms from "@/features/booking/components/BookingRooms.vue";
@@ -59,69 +55,35 @@
     import BookingHeader from "@/features/booking/components/BookingHeader.vue";
     import BookingComplete from "@/features/booking/components/BookingComplete.vue";
     import BookingPaymentData from "@/features/booking/components/BookingPaymentData.vue";
+    
+    import IconRuble from '@/components/icons/IconRuble.vue';
+    import { useBookingRoomsStore } from "@/stores/booking-store";
 
     import type {IRoomDetails} from "@/features/hotels/types/IRoomDetails";
     import type {IBookingInfoData} from "@/features/booking/types/IBookingInfoData";
 
+    import { useFilterStore } from '@/stores/filter-params-store';
+    import { useRouter } from "vue-router";
+
+    const router = useRouter()
     
-
-    
-
-    
-
-    import IconRuble from '@/components/icons/IconRuble.vue';
-
+    const store = useBookingRoomsStore()
+    const filterStore = useFilterStore()
     const avaliableServices = ref<[]>()
 
     const paymentsInfo = ref()
-    const guestsInfo = ref()
+    const guestsInfo = ref<[]>()
 
     const show = ref(true)
+    const index = ref()
+
 
     // const props = defineProps({
-    //     id: {
-    //         type: String,
-    //     },
-    //     adults: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     сhildren: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     roomDetails: {
-    //         type: Object as PropType<IRoomDetails>,
-    //         required: true
-    //     },
-    //     avaliableServices: {
-    //         type: Object
-    //     },
-    //     dateFrom: {
-    //         type: String,
-    //         required: true
-    //     },
-    //     dateTill: {
-    //         type: String,
-    //         required: true
-    //     },
-    //     roomPrice: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     bonus: {
-    //         type: Number,
+    //     bookingInfoData: {
+    //         type: Object as PropType<IBookingInfoData[]>,
     //         required: true
     //     }
     // })
-
-
-    const props = defineProps({
-        bookingInfoData: {
-            type: Object as PropType<IBookingInfoData[]>,
-            required: true
-        }
-    })
 
 
     // const reseravationList = reactive({
@@ -129,9 +91,13 @@
     //     dateTill: props.dateTill ,
     //     roomTitle: props.roomDetails.title,
     // })
-
-    const updateGuestInfo = (event: Event, guests: any) => {
-        guestsInfo.value = guests
+    // const a = ref<object[]>([])
+    const updateGuestInfo = (guests: Array<[]>) => {
+        // console.log("!!!guests: ", guests)
+        console.log(guests)
+        // a.value = [...a.value, ...guests]
+        // console.log(a.value)
+        // guestsInfo.value = [...guestsInfo.value, ...guests]
     }
 
     const updatePaymentData = (event: Event, payments: any) => {
@@ -142,20 +108,22 @@
         show.value = false
     }
 
-    // async function getServices() {
-    //         try {
-    //                 const res = await fetch(`https://backmb.aleancollection.ru/api/v1/paid-services/${props.bookingInfoData.choosedHotel}/?number_of_children=${props.bookingInfoData.сhildren}&date_from=${props.bookingInfoData.dateFrom}&date_till=${props.bookingInfoData.dateTill}`);
-    //                 const finalRes = await res.json();
-    //                 avaliableServices.value = finalRes.res;
+    async function getServices() {
+            try {
+                    const chosedHotelString = JSON.parse(JSON.stringify(filterStore.filter?.choosedHotel)).value 
+                    const res = await fetch(`https://backmb.aleancollection.ru/api/v1/paid-services/${chosedHotelString}/?number_of_children=${filterStore.filter?.сhildren}&date_from=${'2023-09-23'}&date_till=${'2023-09-29'}`);
+                    
+                    const finalRes = await res.json();
+                    avaliableServices.value = finalRes.res;
 
-    //         } catch (error) {
-    //                 console.log(error)
-    //         }
-    // }
+            } catch (error) {
+                    console.log(error)
+            }
+    }
 
 
     onMounted(() => {
-        // getServices()
+        getServices()
         window.scrollTo(0,0)
     })
   </script>

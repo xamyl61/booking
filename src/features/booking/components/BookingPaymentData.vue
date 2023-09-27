@@ -29,7 +29,7 @@
 </script>
 
 <template>
-    <div>
+    <div class="my-10">
         <h3 class="title-line">Введите данные плательщика</h3>
         <div>Будет открыт бонусный счет</div>
         <div class="grid grid-cols-3 gap-4">

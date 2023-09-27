@@ -121,7 +121,7 @@
                                 </div>
                             </div>
                             <button
-                                @click="openBooking(roomType.room_type.guid, props.сhildren, props.adults, props.dateFrom, props.dateTill, choosedHotelGuid.value, bonusVal, roomType.price_info.price)" class="btn w-full">Выбрать</button>
+                                @click="openBooking(roomType.room_type.guid, props.сhildren, props.adults, props.dateFrom, props.dateTill, choosedHotelGuid.value, roomType.price_info.bonus, roomType.price_info.price)" class="btn w-full">Выбрать</button>
                         </div>
                     </div>
                     <div
@@ -137,7 +137,7 @@
                                     @click="openDatePickerMenu(roomType.is_available_index, roomType.room_type.guid)"
                                     class="w-full btn-grey"
                             >
-                                Доступные даты заезда
+                                Доступные даты
                             </Button>
                         </div>
                         <VueDatePicker
@@ -265,6 +265,9 @@ import Button from '@/components/Button.vue';
 import plural from 'plural-ru';
 import { useRouter } from 'vue-router';
 
+import type {IRoomType} from "@/features/hotels/types/IRoomType";
+
+
 
 import { useBookingRoomsStore } from '@/stores/booking-store';        
 const bookingRoomsStore = useBookingRoomsStore()
@@ -330,43 +333,11 @@ const selectedRoomGuid = ref('')
 
 const scroll = ref(true)
 
-interface Room {
-    title: string
-    room_type: {
-        guid: string
-        number_of_persons_per_room: number
-        number_of_adults: number
-        number_of_beds_per_room: number
 
-    }
-    cover_image: {
-        full_url: string
-        url: string
-    }
-    gallery: [
-        {
-            image: {
-                full_url: string
-                url: string
-            }
-        }
-    ]
-    room_square: number
-    price: number
-    price_info: {
-        full_price: number
-        discount: number
-        bonus: number
-        price: number
-
-    }
-    is_available: boolean
-    is_available_index: number
-
-}
 
 const props = defineProps({
-    roomTypes: Object as PropType<Room[]>,
+
+    roomTypes: Object as PropType<IRoomType[]>,
     countOfDays: {
         type: Number,
         default: 1
@@ -403,7 +374,7 @@ const props = defineProps({
     },
     choosedHotelGuid: {
         type: Object,
-        required: true
+        default: {}
     }
     
 
@@ -462,6 +433,7 @@ async function getRoomDeatails(guid: string) {
         const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${guid}/`);
         const finalRes = await res.json();
         roomDetails.value = finalRes.res;
+        return finalRes.res
 
     } catch (error) {
         console.log(error)
@@ -506,28 +478,22 @@ const bodyAutoScrolling = () => {
 const router = useRouter()
 const openBooking = async (roomTypeGuid: string, сhildren: number, adults: number, dateFrom: string, dateTill: string, choosedHotelGuid: string, bonus: number, roomPrice: number) => {
     
-    await getRoomDeatails(roomTypeGuid)
-    const bookingInfoData = reactive({
+    const response = await getRoomDeatails(roomTypeGuid)
+    console.log("!!! bonus: ", bonus)
+    const bookingInfoData = {
         adults: adults,
         сhildren: сhildren,
-        roomDetails: roomDetails,
+        roomDetails: response,
         dateFrom: dateFrom,
         dateTill: dateTill,
         roomPrice: roomPrice,
         bonus: bonus,
-        choosedHotel: choosedHotelGuid
-    })
+        choosedHotel: choosedHotelGuid,
+        guestsData: []
+    }
     bookingRoomsStore.setBookingRoom(bookingInfoData)
 
-    router.push({name: 'booking', query: {
-        roomDetails: JSON.stringify(roomDetails.value),
-        сhildren: сhildren,
-        adults: adults,
-        dateFrom: dateFrom,
-        dateTill: dateTill,
-        choosedHotelGuid: choosedHotelGuid,
-        bonus: bonus,
-        roomPrice: roomPrice}})
+    router.push("booking")
 }
 
 

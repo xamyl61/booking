@@ -3,18 +3,23 @@
 
     import plural from 'plural-ru';
 
-    import type {IBookingReservationList} from "@/features/booking/types/IBookingReservationList";
-
     import IconTrash from '@/components/icons/IconTrash.vue';
     import IconCloseCircle from '@/components/icons/IconCloseCircle.vue';
+    import type { IBookingInfoData } from "@/features/booking/types/IBookingInfoData";
+    import { useBookingRoomsStore } from '@/stores/booking-store';
+    
+    const bookingStore = useBookingRoomsStore()
 
     const activeNames = ref(['11', '22'])
     const nights = ref(0)
 
     const props = defineProps({
-        reseravationList: {
-            type: Object as PropType<IBookingReservationList>,
+        booking: {
+            type: Object as PropType<IBookingInfoData>,
             required: true
+        },
+        index: {
+            type: Number
         }
     })
 
@@ -32,7 +37,7 @@
 
 
     onMounted(() => {
-        nights.value = ((new Date(props.reseravationList.dateTill)).getTime() - (new Date(props.reseravationList.dateFrom)).getTime())/(1000 * 3600 * 24)
+        nights.value = ((new Date(props.booking.dateTill)).getTime() - (new Date(props.booking.dateFrom)).getTime())/(1000 * 3600 * 24)
     })
 
 
@@ -44,15 +49,17 @@
             <el-collapse-item name="11">
                 <template #title>
                     <div class="">
-                        <div class="room-title">Номер 1</div>
-                        <IconTrash/>
+                        <div class="room-title">Номер {{ props.index }}</div>
+                        <IconTrash
+                            @click="bookingStore.removeRoomFromBooking(props.booking.roomDetails.room_type.guid)"
+                        />
                     </div>
                 </template>
                 <div>
                     <div><b>{{ nights }} {{ pluralNightText(nights) }}</b></div>
-                    <div>{{ parseDate(new Date(reseravationList.dateFrom)) }} - {{ parseDate(new Date(reseravationList.dateTill)) }}</div>
+                    <div>{{ parseDate(new Date(props.booking.dateFrom)) }} - {{ parseDate(new Date(props.booking.dateTill)) }}</div>
                     <div class="py-2"><b>Номер</b></div>
-                    <div>{{ reseravationList.roomTitle }}</div>
+                    <div>{{ props.booking.roomDetails.title }}</div>
                     <div class="py-2"><b>Гости</b></div>
                     <div>1 взрослый на основном месте</div>
                     <div class="py-2"><b>Выбранные услуги</b></div>

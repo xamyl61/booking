@@ -2,9 +2,9 @@
     <div>
         <div class="header-line">
             <div class="container mx-auto flex justify-between ">
-                <div class="left">Выбрать номер</div>
+                <div class="left" @click="router.push('/')">Выбрать номер</div>
                 <div class="center">Данные о гостях</div>
-                <div class="left">Завершить бронирование</div>
+                <div class="left" @click="router.push('/complete')">Завершить бронирование</div>
             </div>
         </div>
     </div>
@@ -12,6 +12,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+
 
 
 

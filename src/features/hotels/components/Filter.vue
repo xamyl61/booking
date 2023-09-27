@@ -1,7 +1,16 @@
 <template>
     <div>
-        bookingRoomStore.useBookingRoom: {{ bookingRoomStore.useBookingList }}
-        <h1>Выберите период проживания и количество гостей</h1>
+        <!-- bookingStore {{ bookingStore }} -->
+        <div
+            class="booking-room-list container mx-auto"
+            v-if="bookingStore.useBookingList.length"
+        >
+            <RoomsBooking
+                v-for="bookingRoom in bookingStore.useBookingList"
+                :bookingRoom="bookingRoom"
+            />
+        </div>
+        <h1 v-else>Выберите период проживания и количество гостей</h1>
         <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
             <div class="grow p-2 lg:p-0">
@@ -85,14 +94,13 @@
                 <div>
                     <div class="filter-title">Количество гостей</div>
                     <div
-                            class="filter-controls accommodation"
-
+                        class="filter-controls accommodation"
                     >
-                        <el-dropdown
+                            <el-dropdown
                                 trigger="click"
                                 placement="bottom-start"
                                 :class="{'disabled': !choosedHotel}"
-                        >
+                            >
                             <span class="el-dropdown-link">
                                 <span v-if="sumHosted == 1">1 гость</span>
                                 <span v-else>{{ sumHosted }} гостей</span>
@@ -108,10 +116,10 @@
                                         </div>
                                         <div class="right">
                                             <el-input-number
-                                                    v-model="adults"
-                                                    :min="1"
-                                                    :max="adults + emptyPersons"
-                                                    @change="runCounterMaxHosted"
+                                                v-model="adults"
+                                                :min="1"
+                                                :max="adults + emptyPersons"
+                                                @change="runCounterMaxHosted"
                                             />
                                         </div>
                                     </div>
@@ -122,10 +130,10 @@
                                         </div>
                                         <div class="right">
                                             <el-input-number
-                                                    v-model="сhildren"
-                                                    :min="0"
-                                                    :max="сhildren + emptyPersons"
-                                                    @change="runCounterMaxHosted"
+                                                v-model="сhildren"
+                                                :min="0"
+                                                :max="сhildren + emptyPersons"
+                                                @change="runCounterMaxHosted"
                                             />
                                         </div>
                                     </div>
@@ -161,20 +169,21 @@
         </div>
 
         <RoomTypeCard
-                :startDateFormated="rangeStartDate"
-                :endDateFormated="rangeEndDate"
-                :countOfDays="countOfDays"
-                :countOfPersons="countOfPersons"
-                :adults="adults"
-                :сhildren="сhildren"
-                :infants="infants"
-                :roomTypes="roomTypes"
-                v-loading="loading"
-                element-loading-text="Идет поиск номеров..."
-                @change-available-dates="changeAvailableDates"
-                :dateFrom="startDateFormated"
-                :dateTill="endDateFormated"
-                :choosedHotelGuid="choosedHotel"
+            :startDateFormated="rangeStartDate"
+            :endDateFormated="rangeEndDate"
+            :countOfDays="countOfDays"
+            :countOfPersons="countOfPersons"
+            :adults="adults"
+            :сhildren="сhildren"
+            :infants="infants"
+            :roomTypes="roomTypes"
+            :dateFrom="startDateFormated"
+            :dateTill="endDateFormated"
+            :choosedHotelGuid="choosedHotel"
+
+            v-loading="loading"
+            @change-available-dates="changeAvailableDates"
+            element-loading-text="Идет поиск номеров..."
         />
 
         <el-dialog
@@ -203,7 +212,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 
@@ -215,9 +224,20 @@ import IconSeashell from '@/components/icons/IconSeashell.vue'
 
 import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
 import RoomTypeCard from '@/features/hotels/components/RoomTypeCard.vue'
+import RoomsBooking from '@/features/hotels/components/RoomsBooking.vue'
 
-import { useBookingRoomsStore } from '@/stores/booking-store';        
-const bookingRoomStore = useBookingRoomsStore()
+
+import { useBookingRoomsStore } from '@/stores/booking-store';
+import { useFilteredRoomsStore } from '@/stores/filtered-room-store';
+import { useFilterStore } from '@/stores/filter-params-store';
+
+
+const bookingStore = useBookingRoomsStore()
+const roomsStore = useFilteredRoomsStore()
+const filterStore = useFilterStore()
+
+
+
 
 
 
@@ -229,14 +249,14 @@ let date = ref()
 let rangeStartDate = ref()
 let rangeEndDate = ref()
 
-let startDateFormated = ref()
-let endDateFormated = ref()
+let startDateFormated = ref('')
+let endDateFormated = ref('')
 
 
-const adults = ref<any>(2)
+const adults = ref<number>(2)
 const teenagers = ref<any>(0)
-const сhildren = ref(0)
-const infants = ref<any>(0)
+const сhildren = ref<number>(0)
+const infants = ref<number>(0)
 
 const dialogVisible = ref<Boolean>(false)
 const roomType = ref()
@@ -245,14 +265,29 @@ const roomDetails = ref()
 const showNoRoomsNotification = ref<boolean>(false)
 
 
-let maxHostedPeople = ref<any>(0)
-let sumHosted = ref<any>(adults.value)
-let emptyPersons = ref<any>(1)
+let maxHostedPeople = ref<number>(0)
+let sumHosted = ref<number>(adults.value)
+let emptyPersons = ref<number>(1)
 
 
 let countOfDays = ref()
 const countOfDaysAvailable = ref()
 let countOfPersons = ref()
+
+
+// const filteredRoomsdata = reactive({
+//     startDateFormated: rangeStartDate,
+//     endDateFormated: rangeEndDate,
+//     countOfDays: countOfDays,
+//     countOfPersons: countOfPersons,
+//     adults: adults,
+//     сhildren: сhildren,
+//     infants: infants,
+//     roomTypes: roomTypes,
+//     dateFrom: startDateFormated,
+//     dateTill: endDateFormated,
+//     choosedHotelGuid: choosedHotel,
+// })
 
 async function changeAvailableDates(event: Event, roomGuid: string) {
     await getRoomTypeByDates(event, roomGuid)
@@ -266,8 +301,7 @@ const runCounterMaxHosted = () => {
 }
 
 const changeMaxAdult = () => {
-    console.log("choosedHotel.value: ", choosedHotel.value)
-    roomTypes.value = []
+    // roomTypes.value = excludeBookingRooms()
     maxHostedPeople.value = choosedHotel.value.nuberOfPersonsPerRoom
     adults.value = 2
     teenagers.value = 0
@@ -305,14 +339,26 @@ const getMonthName = (monthNumber: number) => {
     });
 }
 
+const filter = reactive({
+    choosedHotel: choosedHotel,
+    date: date,
+    adults: adults,
+    сhildren: сhildren,
+    sumHosted: sumHosted,
+    maxHostedPeople: maxHostedPeople,
+    emptyPersons: emptyPersons,
+    infants: infants
+})
 
-const handleDate = (modelData:any) => {
-    date.value = modelData;
+
+const handleDate = () => {
+    // date.value = modelData;
     rangeStartDate.value = parseDate(date.value[0]);
     rangeEndDate.value =  parseDate(date.value[1]);
 
     startDateFormated.value = dateFormateding(date.value[0]);
     endDateFormated.value =  dateFormateding(date.value[1]);
+
 }
 
 async function getRoomDeatails(guid: string) {
@@ -361,8 +407,8 @@ async function getCities() {
     }
 
 }
-getCities()
 
+// const storeRoomFiltered = use
 
 async function getRoomTypes() {
     try {
@@ -372,6 +418,9 @@ async function getRoomTypes() {
         const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}&date_from=${startDateFormated.value}&date_till=${endDateFormated.value}`);
         const finalRes = await res.json();
         roomTypes.value = finalRes.res;
+        // roomsStore.$reset()
+        // roomsStore.setRooms(roomTypes.value)
+        filterStore.setFilter(filter)
         if (roomTypes.value == 0) {
             showNoRoomsNotification.value = true
         }
@@ -410,16 +459,48 @@ async function getRoomTypeByDates(availableDate: any, roomGuid: string) {
     }
 }
 
+// const excludeBookingRooms = () => {
+//     return roomsStore.filteredRooms.filter(room => !bookingStore.selectedRooms.includes(room.room_type.guid))
+// }
+
 
 onMounted(() => {
-    const startDate = new Date();
-    const endDate = new Date(new Date().setDate(startDate.getDate() + 1));
-    date.value = [startDate, endDate];
-    rangeStartDate.value = parseDate(startDate)
-    rangeEndDate.value = parseDate(endDate)
+    // if (roomsStore.filteredRooms.length) {
+    //     roomTypes.value = excludeBookingRooms()
+    // }
+    if (filterStore.filter) {
+        date.value = filterStore.filter.date
+        const startDate = new Date(date.value[0]);
+        const endDate = new Date(date.value[1])
 
-    startDateFormated.value = dateFormateding(startDate)
-    endDateFormated.value = dateFormateding(endDate)
+        rangeStartDate.value = parseDate(startDate)
+        rangeEndDate.value = parseDate(endDate)
+
+        startDateFormated.value = dateFormateding(startDate)
+        endDateFormated.value = dateFormateding(endDate)
+    } else {
+        const startDate = new Date();
+        const endDate = new Date(new Date().setDate(startDate.getDate() + 1))
+        date.value = [startDate, endDate];
+
+        rangeStartDate.value = parseDate(startDate)
+        rangeEndDate.value = parseDate(endDate)
+
+        startDateFormated.value = dateFormateding(startDate)
+        endDateFormated.value = dateFormateding(endDate)
+    }
+
+    getCities()
+    if (filterStore.filter) {
+        choosedHotel.value = filterStore.filter.choosedHotel
+        adults.value = filterStore.filter.adults
+        сhildren.value = filterStore.filter.сhildren
+        sumHosted.value = filterStore.filter.sumHosted
+        maxHostedPeople.value = filterStore.filter.maxHostedPeople
+        emptyPersons.value = filterStore.filter.emptyPersons
+    }
+
+    // filterStore.filter
 })
 
 </script>
@@ -595,7 +676,9 @@ h1 {
     padding-right: .8rem;
 }
 
-
+.booking-room-list {
+    padding: 2rem 7rem 1.5rem;
+}
 
 
 
