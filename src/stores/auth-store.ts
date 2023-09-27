@@ -1,21 +1,35 @@
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { IUser } from '@/features/authentication/types/IUser';
 
 export type AuthStoreState = {
-  authUser: IUser | null;
+  user: IUser | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
 };
 
 export const useAuthStore = defineStore({
   id: 'authStore',
   state: () =>
     ({
-      authUser: null,
+      user: null,
+        isAuthenticated: false,
+        isLoading: false,
     } as AuthStoreState),
   getters: {},
   actions: {
-    setAuthUser(user: IUser | null) {
-      this.authUser = user;
+    login(user: IUser) {
+        this.user = user;
+        this.isAuthenticated = true;
     },
+    setUser(user: IUser) {
+      this.user = user;
+    },
+    logout() {
+      this.user = null;
+        this.isAuthenticated = false;
+    },
+    setLoading(isLoading: boolean) {
+        this.isLoading = isLoading;
+    }
   },
 });

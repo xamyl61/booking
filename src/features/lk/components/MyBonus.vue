@@ -1,0 +1,135 @@
+<template>
+    <div class="my-bonus">
+        <LkHeader>
+            <template #title>
+                Информация о счете
+            </template>
+            <template #icon>
+                <BirdIcon />
+            </template>
+        </LkHeader>
+
+        <div class="my-bonus__content">
+            <div class="my-bonus__loyalte">
+                Ознакомьтесь подробнее с нашей <span class="my-bonus__loyalte_under">программой лояльности</span>
+            </div>
+            <div class="my-bonus__number">
+                Номер бонусного счета:
+                <span class="my-bonus__number_bold">40395673</span>
+            </div>
+            <div class="my-bonus__account">
+                Текущий баланс бонусного счета:
+                <span class="my-bonus__account_bold">500 руб.</span>
+            </div>
+        </div>
+
+
+        <LkHeader>
+            <template #title>
+                История списаний
+            </template>
+            <template #icon>
+                <ShellIcon />
+            </template>
+        </LkHeader>
+
+        <div class="my-bonus__content">
+
+            <div class="my-bonus__filter">
+                <el-button type="info" size="default">За все время</el-button>
+            </div>
+
+            <WriteOffCard />
+        </div>
+
+    </div>
+</template>
+
+<script setup lang="ts">
+
+import LkHeader from "@/features/lk/components/LkHeader.vue";
+import BirdIcon from "@/features/lk/components/Icons/BirdIcon.vue";
+import ShellIcon from "@/features/lk/components/Icons/ShellIcon.vue";
+import WriteOffCard from "@/features/lk/components/WriteOffCard.vue";
+</script>
+
+<style scoped lang="scss">
+.my-bonus {
+    padding-top: 50px;
+
+    &__content {
+        padding: 3rem 5rem 2rem 5rem;
+    }
+
+    &__submit {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    &__filter {
+        margin-bottom: 1rem;
+    }
+
+    &__title {
+        font-family: Geometria, sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 25px;
+        text-align: left;
+    }
+
+    &__account {
+        font-family: Optima Cyr,serif;
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 30px;
+        margin-top: 1.5rem;
+
+        &_bold {
+            font-weight: 700;
+            line-height: 30px;
+        }
+    }
+
+    &__number {
+        font-family: Optima Cyr,serif;
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 30px;
+        margin-top: 1.5rem;
+
+        &_bold {
+            font-weight: 700;
+            line-height: 30px;
+        }
+    }
+
+    &__loyalte {
+
+        font-family: Geometria,serif;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 25px;
+        text-align: left;
+
+
+        &_under {
+            text-decoration: underline;
+            color: #045575;
+            cursor: pointer;
+        }
+    }
+}
+
+:deep(.el-button) {
+    font-family: Geometria,serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+    background-color: #215C66;
+    border-radius: 0;
+    height: 50px;
+}
+</style>

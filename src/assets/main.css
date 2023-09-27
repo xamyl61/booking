@@ -30,10 +30,14 @@ body {
 }
 
     .btn .icon {
-      margin-right: 1.2rem;
+      margin-right: 0.5rem;
     }
     .btn.btn-dark {
         background-color: #000;
+    }
+    .btn.btn-yellow {
+        background-color: #F7C87D;
+        color: #000;
     }
 
 .arrow-up {
@@ -190,7 +194,7 @@ body {
     }
     
     .m-datepicker .dp__month_year_row .datepicker-arrow {
-        background-color: #000;
+        background-color: #F7C87D;
         width: 2rem;
         height: 2rem;
         border-radius: 100%;
@@ -200,6 +204,10 @@ body {
         position: absolute;
         z-index: 1;
         top: 50%;
+    }
+    .m-datepicker .dp__month_year_row .datepicker-arrow  svg path {
+        fill: #000;
+        stroke: #000;
     }
     .m-datepicker .dp__month_year_row .datepicker-arrow.arrow-right {
         right: -2.4rem;

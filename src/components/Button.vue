@@ -50,7 +50,8 @@ const handleClick = function (event: MouseEvent) {
     position: relative;
   }
   .btn:hover {
-    background: #121326;
+    background: #F7C87D;
+    color: #000;
   }
 
   .btn_disabled {
