@@ -64,6 +64,15 @@ const handleClick = function (event: MouseEvent) {
   .btn-grey {
     background-color: #939393;
   }
+  .btn-with-border {
+    background: none;
+    border: 1px solid var(--color-primary);
+    color: #000;
+  }
+  .btn-with-border:hover {
+    background: none;
+    color: #000;
+  }
 
   .spinner {
     position: absolute;

@@ -252,6 +252,37 @@ body {
         text-decoration: line-through;
     }
 
+    /* datepicker header */
+    .m-datepicker .dp__overlay {
+        background: var(--color-primary);
+        color: #fff;
+    }
+    .m-datepicker .dp__overlay_cell_active.dp__overlay_cell_pad {
+        background-color: #fff;
+        color: #000;
+    }
+    .m-datepicker  .dp__month_year_wrap {
+        justify-content: center;
+    }
+    .m-datepicker  .dp__month_year_wrap .dp__btn {
+        color: #fff;
+        width: 3.5rem;
+    }
+    .m-datepicker .dp__month_year_wrap .dp__btn:hover {
+        color: #000;;
+    }
+    .m-datepicker .dp__inner_nav {
+        width: 1.6rem;
+        background: #fff;
+        height: 1.6rem;
+    }
+    .m-datepicker .dp__inner_nav .dp__icon {
+        stroke: #000;
+        fill: #000;
+    }
+
+
+
     /* .m-datepicker.m-single .dp__instance_calendar {
         padding: 1rem;
     }
@@ -322,13 +353,6 @@ body {
     }
     .room-type .room-description {
         padding: 1rem 1.8rem 2rem;
-    }
-    .room-type .room-description .icon {
-        margin-left: 1rem;
-    }
-    .room-type .room-description > div:hover .icon svg {
-        filter: invert(1);
-        fill: #ffff;
     }
 
 
@@ -557,6 +581,31 @@ body {
         display: inherit;
     }
 
+    /* text-with-circle-icon */
+    .text-with-circle-icon .icon {
+        margin-left: 1rem;
+    }
+    .text-with-circle-icon:hover .icon svg {
+        filter: invert(1);
+        fill: #ffff;
+    }
+
+    /* select-services */
+    .select-services {
+        padding-top: 2rem;
+    }
+    .select-services  .el-collapse {
+        border-top: 0;
+        padding-top: 1rem;
+    }
+    .select-services .el-collapse-item__arrow {
+        margin: 0 0 1.1rem 1rem;
+    }
+    .select-services .el-collapse-item__header {
+        height: auto;
+        align-items: end;
+        border: none;
+    }
     .slider-thumblr .image-in-thumblr-5 .splide__list {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(4, 1fr);
@@ -576,6 +625,67 @@ body {
 
 
 
+    /* .booking-sidebar */
+    .booking-sidebar .el-collapse-item__header {
+        padding: 0 1.4rem;
+        background: #EEEAEA;
+        position: relative;
+    }
+    .booking-sidebar .el-collapse-item__content {
+        padding: .8rem 1.4rem;
+    }
+    .booking-sidebar .icon-trash {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+    .booking-sidebar .el-collapse-item__arrow {
+        margin: -0.2rem 0 0 1rem;
+    }
 
+
+    /* m-dialog__service-dscr */
+    .m-dialog__service-dscr  {
+        max-width: 1000px;
+        height: 98vh;
+        margin: 1vh auto!important;
+    }
+    .m-dialog__service-dscr .el-dialog__header {
+        padding: 0;
+    }
+    .m-dialog__service-dscr .el-dialog__body {
+        height: 100%;
+        padding: 0;
+        
+    }
+    .m-dialog__service-dscr .el-dialog__headerbtn {
+        width: 1.6rem;
+        height: 1.6rem;
+        top: 1rem;
+        right: 0.5rem;
+        border: 1px solid var(--color-primary);
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .m-dialog__service-dscr .el-dialog__headerbtn svg path {
+        fill: var(--color-primary);
+    }
+
+    /* booking-main */
+    .booking-main .dp__input {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        height: 2.6rem;
+        border-radius: 0;
+    }
+    .booking-main .dp__input::placeholder {
+        font-size: .875rem;
+        font-family: "Geometria";
+        color: rgb(17, 24, 39);
+    }
 
     

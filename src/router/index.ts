@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/pages/Home.vue'
 import Complete from '@/pages/Complete.vue'
+import Booking from '@/pages/Booking.vue'
 import Lk from "@/pages/Lk.vue";
 import {getAccessToken} from "@/utils/token";
 
@@ -17,6 +18,11 @@ const router = createRouter({
       path: '/complete',
         name: 'complete',
         component: Complete
+    },
+    {
+      path: '/booking',
+        name: 'booking',
+        component: Booking,
     },
     {
       path: '/lk',

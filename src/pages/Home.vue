@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+import BookingComplete from "@/features/booking/components/BookingComplete.vue";
 import Filter from "@/features/hotels/components/Filter.vue";
 </script>
 
