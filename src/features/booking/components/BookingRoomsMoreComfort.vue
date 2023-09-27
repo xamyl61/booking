@@ -72,7 +72,7 @@
 	}
 
 	onMounted(async () => {
-        if (filterStore.filter) {
+		if (filterStore.filter) {
 			date.value = filterStore.filter.date
 
 			const startDate = new Date(date.value[0]);
@@ -91,9 +91,6 @@
 
 <template>
     <div class="more-comfort-block" v-loading="loading">
-		<!-- roomGuid: {{ props.roomGuid }}
-		<br>
-		roomMoreComfort: {{ roomMoreComfort }} -->
         <div class="title-line">Повысьте комфорт!</div>
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-content flex">

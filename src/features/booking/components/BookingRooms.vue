@@ -55,48 +55,7 @@
             type: Number,
             required: true
         }
-        // id: {
-        //     type: String,
-        // },
-        // adults: {
-        //     type: Number,
-        //     required: true
-        // },
-        // сhildren: {
-        //     type: Number,
-        //     required: true
-        // },
-        // roomDetails: {
-        //     type: Object as PropType<IRoomDetails>,
-        //     required: true
-        // },
-        // avaliableServices: {
-        //     type: Object
-        // },
-        // dateFrom: {
-        //     type: String,
-        //     required: true
-        // },
-        // dateTill: {
-        //     type: String,
-        //     required: true
-        // },
-        // roomPrice: {
-        //     type: Number,
-        //     required: true
-        // },
-        // bonus: {
-        //     type: Number,
-        //     required: true
-        // },
     })
-
-
-    // const reseravationList = reactive({
-    //     dateFrom: props.dateFrom,
-    //     dateTill: props.dateTill ,
-    //     roomTitle: props.roomDetails.title,
-    // })
     
     const emit = defineEmits(['updateGuests'])
     const updateGuestInfo = (event: Event, guests: any) => {

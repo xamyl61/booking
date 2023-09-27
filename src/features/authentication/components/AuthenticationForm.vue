@@ -90,7 +90,6 @@ const onTryAuth = async (callback: () => Promise<any>) => {
     try {
         const response = await callback();
         verificationStep();
-        console.log(response);
     } catch (e) {
         console.log(e)
     } finally {

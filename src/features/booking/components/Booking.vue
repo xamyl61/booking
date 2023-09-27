@@ -70,35 +70,8 @@
     const store = useBookingRoomsStore()
     const filterStore = useFilterStore()
     const avaliableServices = ref<[]>()
-
     const paymentsInfo = ref()
-    const guestsInfo = ref<[]>()
-
     const show = ref(true)
-    const index = ref()
-
-
-    // const props = defineProps({
-    //     bookingInfoData: {
-    //         type: Object as PropType<IBookingInfoData[]>,
-    //         required: true
-    //     }
-    // })
-
-
-    // const reseravationList = reactive({
-    //     dateFrom: props.dateFrom,
-    //     dateTill: props.dateTill ,
-    //     roomTitle: props.roomDetails.title,
-    // })
-    // const a = ref<object[]>([])
-    const updateGuestInfo = (guests: Array<[]>) => {
-        // console.log("!!!guests: ", guests)
-        console.log(guests)
-        // a.value = [...a.value, ...guests]
-        // console.log(a.value)
-        // guestsInfo.value = [...guestsInfo.value, ...guests]
-    }
 
     const updatePaymentData = (event: Event, payments: any) => {
         paymentsInfo.value = payments
@@ -109,18 +82,16 @@
     }
 
     async function getServices() {
-            try {
-                    const chosedHotelString = JSON.parse(JSON.stringify(filterStore.filter?.choosedHotel)).value 
-                    const res = await fetch(`https://backmb.aleancollection.ru/api/v1/paid-services/${chosedHotelString}/?number_of_children=${filterStore.filter?.сhildren}&date_from=${'2023-09-23'}&date_till=${'2023-09-29'}`);
-                    
-                    const finalRes = await res.json();
-                    avaliableServices.value = finalRes.res;
+        try {
+            const chosedHotelString = JSON.parse(JSON.stringify(filterStore.filter?.choosedHotel)).value 
+            const res = await fetch(`https://backmb.aleancollection.ru/api/v1/paid-services/${chosedHotelString}/?number_of_children=${filterStore.filter?.сhildren}&date_from=${'2023-09-23'}&date_till=${'2023-09-29'}`);
+            const finalRes = await res.json();
+            avaliableServices.value = finalRes.res;
 
-            } catch (error) {
-                    console.log(error)
-            }
+        } catch (error) {
+            console.log(error)
+        }
     }
-
 
     onMounted(() => {
         getServices()

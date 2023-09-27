@@ -20,11 +20,6 @@
         date: date,
         phone: phone
     })
-
-
-    onMounted(() => {
-    
-    })
     
 </script>
 

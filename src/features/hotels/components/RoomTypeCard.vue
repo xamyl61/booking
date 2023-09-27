@@ -479,7 +479,6 @@ const router = useRouter()
 const openBooking = async (roomTypeGuid: string, сhildren: number, adults: number, dateFrom: string, dateTill: string, choosedHotelGuid: string, bonus: number, roomPrice: number) => {
     
     const response = await getRoomDeatails(roomTypeGuid)
-    console.log("!!! bonus: ", bonus)
     const bookingInfoData = {
         adults: adults,
         сhildren: сhildren,

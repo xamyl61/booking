@@ -1,11 +1,9 @@
 <script setup lang="ts">
 	import { ref, type PropType } from 'vue';
-
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue';
     import IconTrash from '@/components/icons/IconTrash.vue';
     import IconHeart from '@/components/icons/IconHeart.vue';
     import IconRuble from '@/components/icons/IconRuble.vue';
-
 	import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
 
 	import type {IRoomDetails} from "@/features/hotels/types/IRoomDetails";
@@ -14,14 +12,12 @@
 	import { useBookingRoomsStore } from '@/stores/booking-store';
     
     const bookingStore = useBookingRoomsStore()
-
 	const dialogVisible = ref(false)
 
 	const props = defineProps({
-
 		booking: {
-            type: Object as PropType<IBookingInfoData>,
-            required: true
+			type: Object as PropType<IBookingInfoData>,
+			required: true
         },
 		index: {
 			type: Number
@@ -46,7 +42,6 @@
 <template>
 
     <div class="booking-rooms">
-		<!-- {{ booking }} -->
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-header flex justify-between items-center">
                 <div class="title">Номер {{ props.index }}</div>
@@ -97,25 +92,25 @@
     </div>
 
 	<el-dialog
-                v-model="dialogVisible"
-                width="70%"
-                class="room-detail"
-                align-center
-                destroy-on-close
-        >
-            <RoomCardDetails
-				:roomDetails="props.booking.roomDetails"
-				:roomPrice="props.booking.roomPrice"
-				:countOfDays="3"
-				:countOfPersons="3"
-				:bonus="props.booking.bonus"
-				:сhildren="props.booking.сhildren"
-				:dateFrom="props.booking.dateFrom"
-				:dateTill="props.booking.dateTill"
-				:adults="props.booking.adults"
-				:showButton="false"
-            />
-        </el-dialog>
+		v-model="dialogVisible"
+		width="70%"
+		class="room-detail"
+		align-center
+		destroy-on-close
+	>
+		<RoomCardDetails
+			:roomDetails="props.booking.roomDetails"
+			:roomPrice="props.booking.roomPrice"
+			:countOfDays="3"
+			:countOfPersons="3"
+			:bonus="props.booking.bonus"
+			:сhildren="props.booking.сhildren"
+			:dateFrom="props.booking.dateFrom"
+			:dateTill="props.booking.dateTill"
+			:adults="props.booking.adults"
+			:showButton="false"
+		/>
+	</el-dialog>
 </template>
 
 
