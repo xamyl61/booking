@@ -123,7 +123,9 @@ $font-family_1: 'Optima Cyr';
 		font-family: $font-family_1;
 	}
 }
-
+.title-line {
+    font-size: 1.4rem;
+}
 
 
 </style>

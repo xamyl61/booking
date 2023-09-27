@@ -24,6 +24,7 @@ export const useBookingRoomsStore = defineStore({
       }
     },
     updateBookingRoomGuestsData(bookingWithGuests: object[] | null, index: number) {
+      console.log("updated useBookingList!!!!")
       if (bookingWithGuests !== null) {
         this.useBookingList.map((o, i) => {
           

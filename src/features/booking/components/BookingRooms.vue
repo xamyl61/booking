@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mb-10">
         <BookingRoomsSelected
             :booking="booking"
             :index="index"
@@ -13,10 +13,7 @@
 
         <!-- @update-guest-info="updateGuestInfo" -->
 
-        <!-- <button
-                    class="btn"
-                    @click="bookingStore.updateBookingRoomGuestsData(guestsInfo, index)"
-                >Добавить данные гостей</button> -->
+        <!-- <button class="btn" @click="bookingStore.updateBookingRoomGuestsData(guestsInfo, index)">Добавить данные гостей</button> -->
         <BookingAddGuestData
             :booking="booking"
             @update-guest-info="updateGuestInfo"
@@ -60,8 +57,9 @@
     const emit = defineEmits(['updateGuests'])
     const updateGuestInfo = (event: Event, guests: any) => {
         guestsInfo.value = guests
+        bookingStore.updateBookingRoomGuestsData(guestsInfo.value, props.index)
 
-        emit('updateGuests', guestsInfo)
+        // emit('updateGuests', guestsInfo)
     }
 
 
