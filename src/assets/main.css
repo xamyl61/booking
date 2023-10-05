@@ -676,16 +676,67 @@ body {
     }
 
     /* booking-main */
+    .booking-main .is-error .dp__input {
+        border-bottom: 1px solid #B91818;
+    }
     .booking-main .dp__input {
         border: none;
         border-bottom: 1px solid #ccc;
         height: 2.6rem;
         border-radius: 0;
+        height: 2.1rem;
+        padding-left: 11px;
+        color: #606266;
+        font-size: .9rem;
     }
     .booking-main .dp__input::placeholder {
         font-size: .875rem;
         font-family: "Geometria";
         color: rgb(17, 24, 39);
     }
+    .booking-main .dp__input_wrap svg {
+        display: none;
+    }
+
+    /* custom-form */
+    .custom-form .el-form-item .el-input__wrapper {
+        border-bottom: 1px solid #ccc;
+        border-radius: 0;
+        box-shadow: none!important;
+    }
+    .custom-form .el-form-item.is-error .el-input__wrapper {
+        box-shadow: none;
+        border-color:#B91818;
+    }
+    .custom-form .el-form-item.is-success .el-input__wrapper {
+        box-shadow: none;
+    }
+    .custom-form .el-form-item__error {
+        color:#B91818;
+        padding-top: 0.5rem;
+        line-height: 1.2;
+    }
+    .custom-form  .dp__icon.dp__clear_icon {
+        display: none;
+    }
+    .custom-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 1.2rem;
+   }
+    .custom-form .el-form-item {
+        position: relative;
+   }
+    .custom-form .icon-check-success {
+        display: none;
+        position: absolute;
+        right: 1rem;
+        top: 0.5rem;
+   }
+    .custom-form .el-form-item.is-success .icon-check-success {
+        display: block;
+   }
+
+
 
     

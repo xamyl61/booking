@@ -1,47 +1,61 @@
 <template>
     <div>
-        <BookingHeader/>   
-            <div class="booking-block container mx-auto">
-            <div v-if="show" class="flex gap-6">
-                <div class="booking-main grow">
-                    <BookingRooms
-                        v-for="(booking, index) in store.useBookingList"
-                        :booking="booking"
-                        :index="index + 1"
-                    />
-                    <div class="mb-10">
-                        <Button @click="router.push('/')" class="btn ml-auto mt-10 btn-with-border">Добавить гостя</Button>
-                    </div>
-                    <BookingServices :avaliableServices="avaliableServices"/>
-                    <BookingPaymentData/>
-                </div>
-                <div class="booking-sidebar">
-                    <div class="booking-sidebar-inner">
-                        <div class="headline">Ваше бронирование</div>
-                        <BookingReservationList
-                            v-for="(booking, index) in store.useBookingList"
-                            :booking="booking"
-                            :index="index + 1"
-                        />
-                        <div class="cost">
-                            <div class="line">Стоимость</div>
-                            <div class="price">
-                                <div class="cost">212121212 р.</div>
-                                <div class="bonus"><IconRuble/> 1111 бонусов</div>
-                            </div>
-                        </div>
-                        <div @click="showBooking" class="footline">Забронировать</div>
-                    </div>
-                </div>
-            </div>
+      <BookingHeader/>   
+        roomsTypesAndGuest: {{ roomsTypesAndGuest }}
+        <hr>
+        bookingStore: {{ bookingStore.useBookingList }}
+        <hr>
+        bookingFormStore.bookingForm: {{ bookingFormStore.bookingForm }}
+        <hr>
+        bookingFormStore.formsValidateResults: {{ bookingFormStore.formsValidateResults }}
+        <hr>
+        checValidateFormsStatus: {{ checValidateFormsStatus }}
+        <hr>
+        bookingPaymentStore.bookingPayment: {{ bookingPaymentStore.bookingPayment }}
+        <div class="booking-block container mx-auto">
+          <div v-if="show" class="flex gap-6">
+              <div class="booking-main grow">
 
+
+                  <BookingRooms
+                      v-for="(booking, index) in bookingStore.useBookingList"
+                      :booking="booking"
+                      :index="index + 1"
+                  />
+
+                  <div class="mb-10">
+                      <button @click="router.push('/')" class="btn ml-auto mt-10 btn-with-border">Добавить гостя</button>
+                  </div>
+                  <BookingServices :avaliableServices="avaliableServices"/>
+                  <BookingPaymentData/>
+              </div>
+              <div class="booking-sidebar">
+                  <div class="booking-sidebar-inner">
+                      <div class="headline">Ваше бронирование</div>
+                      <BookingReservationList
+                          v-for="(booking, index) in bookingStore.useBookingList"
+                          :booking="booking"
+                          :index="index + 1"
+                      />
+                      <div class="cost">
+                          <div class="line">Стоимость</div>
+                          <div class="price">
+                              <div class="cost">212121212 р.</div>
+                              <div class="bonus"><IconRuble/> 1111 бонусов</div>
+                          </div>
+                      </div>
+                      <div @click="showBooking" class="footline">Забронировать</div>
+
+                      <button @click="postBooking" style="border: 1px solid red;">nedValidate</button>
+                  </div>
+              </div>
+          </div>
         </div>
-
     </div>
 </template>
 
 <script setup lang="ts">
-    import { onMounted, ref, type PropType } from "vue";
+    import { onMounted, ref, type PropType, watch } from "vue";
 
     
     import BookingRooms from "@/features/booking/components/BookingRooms.vue";
@@ -64,20 +78,30 @@
 
     import { useFilterStore } from '@/stores/filter-params-store';
     import { useRouter } from "vue-router";
+    import { useBookingFormStore } from '@/stores/booking-form-store';
+    import { useBookingPaymentStore } from '@/stores/booking-payment-store';
+    
+
 
     const router = useRouter()
+    const roomsTypesAndGuest = ref()
     
-    const store = useBookingRoomsStore()
+    const bookingStore = useBookingRoomsStore()
     const filterStore = useFilterStore()
     const avaliableServices = ref<[]>()
     const paymentsInfo = ref()
     const show = ref(true)
+
+    const bookingFormStore = useBookingFormStore()
+    const bookingPaymentStore = useBookingPaymentStore()
 
     const updatePaymentData = (event: Event, payments: any) => {
         paymentsInfo.value = payments
     }
 
     const showBooking = () => {
+        console.log('booking click')
+        console.log(bookingFormStore.bookingForm)
         show.value = false
     }
 
@@ -92,6 +116,38 @@
             console.log(error)
         }
     }
+
+    const checValidateFormsStatus = ref()
+    const postBooking = () => {
+        bookingFormStore.formsValidateResults = []
+        bookingFormStore.needValidate = !bookingFormStore.needValidate
+        roomsTypesAndGuest.value = roomsAndGuest
+    }
+
+
+    bookingFormStore.$subscribe((mutation, state) => {
+        checValidateFormsStatus.value = bookingFormStore.formsValidateResults.every(formValidationResult => formValidationResult === true);
+    })
+    
+    const roomsAndGuest = bookingStore.useBookingList.map(function(room, index) {
+        const newRoom = {
+            guid: '',
+            number_of_adults: 0,  
+            number_of_сhildren: 0,
+            date_from: '', 
+            date_till: '', 
+            guests: <any>[]
+        }
+        newRoom.guid = room.roomDetails.room_type.guid
+        newRoom.number_of_adults = room.adults
+        newRoom.number_of_сhildren = room.сhildren
+        newRoom.guid = room.roomDetails.room_type.guid
+        newRoom.date_from = room.dateFrom
+        newRoom.date_till = room.dateTill
+        newRoom.guests = bookingFormStore.bookingForm[index].guests
+        return newRoom
+    })
+    
 
     onMounted(() => {
         getServices()

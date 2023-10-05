@@ -23,18 +23,6 @@ export const useBookingRoomsStore = defineStore({
         this.useBookingList.push(bookingRoom)
       }
     },
-    updateBookingRoomGuestsData(bookingWithGuests: object[] | null, index: number) {
-      console.log("updated useBookingList!!!!")
-      if (bookingWithGuests !== null) {
-        this.useBookingList.map((o, i) => {
-          
-          if (index === i+1) {
-            return o["guestsData"] = bookingWithGuests;
-          }
-          return o;
-        });
-      }
-    },
     removeRoomFromBooking(room: string | '') {
       if (room !== '') {
         this.useBookingList = this.useBookingList.filter(roomItem => room !== roomItem.roomDetails.room_type.guid)

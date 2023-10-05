@@ -16,7 +16,7 @@
     "@splidejs/vue-splide": "^0.6.12",
     "@vuepic/vue-datepicker": "^5.4.0",
     "axios": "^1.4.0",
-    "element-plus": "^2.3.6",
+    "element-plus": "^2.3.14",
     "flowbite": "^1.6.5",
     "maska": "^2.1.9",
     "pinia": "^2.0.36",
