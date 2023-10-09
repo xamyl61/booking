@@ -9,30 +9,19 @@
     import { useBookingFormStore } from '@/stores/booking-form-store';
     import { useBookingPaymentStore } from '@/stores/booking-payment-store';
     
-
-    
     const bookingFormStore = useBookingFormStore()
     const bookingPaymentStore = useBookingPaymentStore()
-
-    // const payment = reactive({
-    //     surname: '',
-    //     name: '',
-    //     patronymic: '',
-    //     email: '',
-    //     date: '',
-    //     phone: ''
-    // })
 
     const ruleFormRef = ref<FormInstance>()
     const submitForm = (formEl: FormInstance | undefined) => {
         if (!formEl) return
         formEl.validate((valid) => {
             if (valid) {
-                console.log('form payment data valid!')
                 bookingFormStore.formsValidateResults.push(true)
+                console.log("payment comp bookingFormStore.formsValidateResults:", bookingFormStore.formsValidateResults)
             } else {
-                console.log('form payment data error!')
                 bookingFormStore.formsValidateResults.push(false)
+                console.log("payment comp bookingFormStore.formsValidateResults:", bookingFormStore.formsValidateResults)
                 return false
             }
         })

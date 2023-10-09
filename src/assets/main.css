@@ -738,5 +738,11 @@ body {
    }
 
 
+   /* booking-complete */
+    .booking-complete .el-descriptions--large .el-descriptions__body .el-descriptions__table:not(.is-bordered) .el-descriptions__cell {
+        vertical-align: text-top;
+    }
+
+
 
     

@@ -4,6 +4,7 @@ import type { IBookingInfoData } from '@/features/booking/types/IBookingInfoData
 
 export type UseBookingRoomState = {
   useBookingList: IBookingInfoData[];
+  bookedRooms: any
 };
 
 export const useBookingRoomsStore = defineStore({
@@ -11,6 +12,7 @@ export const useBookingRoomsStore = defineStore({
   state: () =>
     ({
       useBookingList: [],
+      bookedRooms: {}
     } as UseBookingRoomState),
   getters: {
     selectedRooms: (state) => 

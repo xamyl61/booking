@@ -6,10 +6,10 @@
         <span>{{ room.hotel }}</span>
     </div>
 
-      <el-descriptions column="2" size="large">
-          <el-descriptions-item label="Номер">Standart 1-комнатный</el-descriptions-item>
-          <el-descriptions-item label="Даты">12 июля, ср - 13 июля, чт</el-descriptions-item>
-      </el-descriptions>
+      <el-descriptions :column="2" size="large">
+          <el-descriptions-item label="Номер">{{ room.title }}</el-descriptions-item>
+          <el-descriptions-item label="Даты">{{ dateFormat(new Date(room.date_from)) }} &nbsp; - &nbsp; {{ dateFormat(new Date(room.date_till)) }} <br> <span class="font-normal">{{room.checkout_hours}}</span></el-descriptions-item>
+        </el-descriptions>
 
     <div class="booking-room__check">
         <span>Проверить данные гостей</span>
@@ -17,7 +17,8 @@
   </div>
 
   <div class="booking-room__photo">
-    <img src="https://via.placeholder.com/400x200" alt="room photo">
+    <img :src="room.cover_image.full_url" alt="">
+    <!-- <img src="https://via.placeholder.com/400x200" alt="room photo"> -->
   </div>
 
 </div>
@@ -35,6 +36,15 @@ const props = defineProps({
     required: true
   }
 })
+
+const dateFormat = (date: Date) => {
+    let month = date.toLocaleString("default", { month: "long" });
+    let day = date.toLocaleString("default", { day: "numeric" });
+    let weekday = date.toLocaleString("default", { weekday: "short" });
+    let formattedDate = day  + " " + month + " " + ", " + weekday;
+
+    return formattedDate
+}
 
 </script>
 

@@ -1,18 +1,18 @@
 <template>
     <div>
       <BookingHeader/>   
-        roomsTypesAndGuest: {{ roomsTypesAndGuest }}
+        <!-- roomsTypesAndGuest: {{ roomsTypesAndGuest }}
         <hr>
         bookingStore: {{ bookingStore.useBookingList }}
         <hr>
-        bookingFormStore.bookingForm: {{ bookingFormStore.bookingForm }}
+        bookingFormStore.bookingForm: {{ bookingFormStore.bookingForm.length }}
         <hr>
         bookingFormStore.formsValidateResults: {{ bookingFormStore.formsValidateResults }}
         <hr>
         checValidateFormsStatus: {{ checValidateFormsStatus }}
         <hr>
-        bookingPaymentStore.bookingPayment: {{ bookingPaymentStore.bookingPayment }}
-        <div class="booking-block container mx-auto">
+        bookingPaymentStore.bookingPayment: {{ bookingPaymentStore.bookingPayment }} -->
+        <div class="booking-block container mx-auto" v-loading="loading">
           <div v-if="show" class="flex gap-6">
               <div class="booking-main grow">
 
@@ -44,11 +44,12 @@
                               <div class="bonus"><IconRuble/> 1111 бонусов</div>
                           </div>
                       </div>
-                      <div @click="showBooking" class="footline">Забронировать</div>
-
-                      <button @click="postBooking" style="border: 1px solid red;">nedValidate</button>
+                      <div @click="postBooking" class="footline">Забронировать</div>
                   </div>
               </div>
+          </div>
+          <div v-else>
+            <BookingComplete/>
           </div>
         </div>
     </div>
@@ -80,9 +81,17 @@
     import { useRouter } from "vue-router";
     import { useBookingFormStore } from '@/stores/booking-form-store';
     import { useBookingPaymentStore } from '@/stores/booking-payment-store';
+
+    import axios from 'axios';
+
+    const BASE_URL = 'https://backmb.aleancollection.ru/api/v2';
+
+    const client = axios.create({
+        baseURL: BASE_URL
+    });
     
 
-
+    const loading = ref(false)
     const router = useRouter()
     const roomsTypesAndGuest = ref()
     
@@ -118,35 +127,68 @@
     }
 
     const checValidateFormsStatus = ref()
-    const postBooking = () => {
+    const postBooking = async () => {
         bookingFormStore.formsValidateResults = []
+        console.log("1 bookingFormStore.formsValidateResults.length: ", bookingFormStore.formsValidateResults.length)
         bookingFormStore.needValidate = !bookingFormStore.needValidate
-        roomsTypesAndGuest.value = roomsAndGuest
+        console.log("2 bookingFormStore.formsValidateResults.length: ", bookingFormStore.formsValidateResults.length)
     }
 
+    bookingFormStore.$subscribe(async (mutation, state) => {
+        console.log("3 bookingFormStore.formsValidateResults.length: ", bookingFormStore.formsValidateResults.length)
+        if (bookingFormStore.formsValidateResults.length === bookingFormStore.bookingForm.length + 1) {
+            console.log("4 bookingFormStore.formsValidateResults.length: ", bookingFormStore.formsValidateResults)
+            checValidateFormsStatus.value = bookingFormStore.formsValidateResults.every(formValidationResult => formValidationResult === true);
+        }
 
-    bookingFormStore.$subscribe((mutation, state) => {
-        checValidateFormsStatus.value = bookingFormStore.formsValidateResults.every(formValidationResult => formValidationResult === true);
-    })
+        if (checValidateFormsStatus.value === true) {
+            console.log("checValidateFormsStatus.value: ", checValidateFormsStatus.value)
+            await createBooking(() => client.post('/booking/', {
+                room_types: roomsAndGuest,
+                payment_guest: bookingPaymentStore.bookingPayment
+            }));
+
+        }
+    });
+
+
+
     
     const roomsAndGuest = bookingStore.useBookingList.map(function(room, index) {
         const newRoom = {
             guid: '',
             number_of_adults: 0,  
-            number_of_сhildren: 0,
+            number_of_children: 0,
             date_from: '', 
             date_till: '', 
-            guests: <any>[]
+            guests: <any>[],
         }
         newRoom.guid = room.roomDetails.room_type.guid
         newRoom.number_of_adults = room.adults
-        newRoom.number_of_сhildren = room.сhildren
+        newRoom.number_of_children = room.сhildren
         newRoom.guid = room.roomDetails.room_type.guid
         newRoom.date_from = room.dateFrom
         newRoom.date_till = room.dateTill
         newRoom.guests = bookingFormStore.bookingForm[index].guests
         return newRoom
     })
+
+    const createBooking = async (callback: () => Promise<any>) => {
+        loading.value = true;
+        try {
+            const response = await callback();
+            console.log("response: ", response)
+            bookingStore.bookedRooms = response.data.res
+            router.push('/complete')
+        } catch (e) {
+            console.log(e)
+        } finally {
+            loading.value = false;
+            // show.value = false
+        }
+    }
+
+
     
 
     onMounted(() => {

@@ -39,8 +39,10 @@
         formEl.validate((valid) => {
             if (valid) {
                 bookingFormStore.formsValidateResults.push(true)
+                console.log("guest comp bookingFormStore.formsValidateResults:", bookingFormStore.formsValidateResults)
             } else {
                 bookingFormStore.formsValidateResults.push(false)
+                console.log("guest comp bookingFormStore.formsValidateResults:", bookingFormStore.formsValidateResults)
                 return false
             }
         })
@@ -50,7 +52,7 @@
         formRefs.value.forEach(element => {
             submitForm(element)
         });
-   });
+    });
 
     onMounted(() => {
         adults.value = props.booking.adults

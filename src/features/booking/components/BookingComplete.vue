@@ -1,28 +1,38 @@
 <template>
-    <div class="booking-complete">
-        <div class="booking-complete__title">Проверьте ваше бронирование</div>
+    <div>
+        <BookingHeader/>   
+        <!-- {{ bookingStore.bookedRooms }} -->
+        <div class="booking-complete container mx-auto mt-10">
+            <div class="booking-complete__title">Проверьте ваше бронирование</div>
 
-        <div class="booking-complete__container">
-            <BookingInfo :booking="bookingInfo" />
-        </div>
+            <div class="booking-complete__container">
+                <BookingInfo :booking="bookingInfo" />
+            </div>
 
-        
-        <div class="booking-complete__container">
-            <BookingRoom v-for="room in bookingRooms" :room="room" />
-        </div>
-        
-        <div class="booking-complete__container">
-            <BookingPay :pay="bookingPay" />
-        </div>
+            
+            <div class="booking-complete__container">
+                <!-- <BookingRoom v-for="room in bookingRooms" :room="room" /> -->
+                <BookingRoom v-for="room in bookingStore.bookedRooms.rooms" :room="room" />
+            </div>
+            
+            <div class="booking-complete__container">
+                <BookingPay :pay="bookingPay" />
+            </div>
 
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import BookingHeader from "@/features/booking/components/BookingHeader.vue";
 import BookingInfo from "@/features/booking/components/BookingInfo.vue";
 import BookingRoom from "@/features/booking/components/BookingRoom.vue";
 import BookingPay from "@/features/booking/components/BookingPay.vue";
 import {reactive, ref} from "vue";
+
+import { useBookingRoomsStore } from "@/stores/booking-store";
+
+const bookingStore = useBookingRoomsStore()
 
 const bookingInfo = ref({
     id: 1,
@@ -50,7 +60,7 @@ const bookingRooms = reactive([
 
 const bookingPay = ref({
     id: 1,
-    cost: '10000',
+    cost: bookingStore.bookedRooms.total_price,
     bonus: '1000'
 })
 
