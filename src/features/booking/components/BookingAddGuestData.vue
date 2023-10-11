@@ -39,10 +39,8 @@
         formEl.validate((valid) => {
             if (valid) {
                 bookingFormStore.formsValidateResults.push(true)
-                console.log("guest comp bookingFormStore.formsValidateResults:", bookingFormStore.formsValidateResults)
             } else {
                 bookingFormStore.formsValidateResults.push(false)
-                console.log("guest comp bookingFormStore.formsValidateResults:", bookingFormStore.formsValidateResults)
                 return false
             }
         })
@@ -66,12 +64,7 @@
     <div>
         <div class="enter-guest-details mt-10">
             <h3 class="title-line">Введите данные гостей</h3>
-            <div v-for="(guest, index) in guests">
-                <!-- form: {{ bookingFormStore.bookingForm }}
-                <br>
-                index: {{ index }} -->
-                
-
+            <div v-for="(guest, index) in guests" :key="guest">
                 <div class="my-4">
                     <b class="text-sm">
                         Гость {{ index + 1 }}.

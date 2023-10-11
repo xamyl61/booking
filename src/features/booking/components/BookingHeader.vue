@@ -5,7 +5,7 @@
             <div class="container mx-auto flex justify-between ">
                 <div class="cursor-pointer left" @click="router.push('/')">Выбрать номер</div>
                 <div class="cursor-pointer center" @click="router.push('/booking')">Данные о гостях</div>
-                <div
+                <!-- <div
                     v-if="typeof bookingStore.bookedRooms.rooms === undefined"
                     style="opacity: .5;"
                     class="left">Завершить бронирование
@@ -13,7 +13,7 @@
                 <div
                 v-else
                     class="cursor-pointer left" @click="router.push('/complete')">Завершить бронирование
-                </div>
+                </div> -->
 
             </div>
         </div>

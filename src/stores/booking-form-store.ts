@@ -23,6 +23,11 @@ export const useBookingFormStore = defineStore({
   actions: {
     clearValidateResults() {
       this.formsValidateResults = []
-    }
+    },
+    removeGuestsFromRoom(index: number | null) {
+      if (index !== null) {
+        this.bookingForm.splice(index-1, 1)
+      }
+    },
   },
 });

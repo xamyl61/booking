@@ -497,7 +497,6 @@ const openBooking = async (roomTypeGuid: string, сhildren: number, adults: numb
     formStore.bookingForm.push({
         guests: guests
     })
-    
 
     const response = await getRoomDeatails(roomTypeGuid)
     const bookingInfoData = {

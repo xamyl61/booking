@@ -1,17 +1,6 @@
 <template>
     <div>
       <BookingHeader/>   
-        <!-- roomsTypesAndGuest: {{ roomsTypesAndGuest }}
-        <hr>
-        bookingStore: {{ bookingStore.useBookingList }}
-        <hr>
-        bookingFormStore.bookingForm: {{ bookingFormStore.bookingForm.length }}
-        <hr>
-        bookingFormStore.formsValidateResults: {{ bookingFormStore.formsValidateResults }}
-        <hr>
-        checValidateFormsStatus: {{ checValidateFormsStatus }}
-        <hr>
-        bookingPaymentStore.bookingPayment: {{ bookingPaymentStore.bookingPayment }} -->
         <div class="booking-block container mx-auto" v-loading="loading">
           <div v-if="show" class="flex gap-6">
               <div class="booking-main grow">
@@ -19,13 +8,14 @@
 
                   <BookingRooms
                       v-for="(booking, index) in bookingStore.useBookingList"
+                      :key="booking.roomDetails.room_type.guid"
                       :booking="booking"
                       :index="index + 1"
                   />
 
-                  <div class="mb-10">
+                  <!-- <div class="mb-10">
                       <button @click="router.push('/')" class="btn ml-auto mt-10 btn-with-border">Добавить гостя</button>
-                  </div>
+                  </div> -->
                   <BookingServices :avaliableServices="avaliableServices"/>
                   <BookingPaymentData/>
               </div>
@@ -56,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-    import { onMounted, ref, type PropType, watch } from "vue";
+    import { onMounted, ref, type PropType, watch, computed } from "vue";
 
     
     import BookingRooms from "@/features/booking/components/BookingRooms.vue";
@@ -109,8 +99,6 @@
     }
 
     const showBooking = () => {
-        console.log('booking click')
-        console.log(bookingFormStore.bookingForm)
         show.value = false
     }
 
@@ -129,20 +117,45 @@
     const checValidateFormsStatus = ref()
     const postBooking = async () => {
         bookingFormStore.formsValidateResults = []
-        console.log("1 bookingFormStore.formsValidateResults.length: ", bookingFormStore.formsValidateResults.length)
         bookingFormStore.needValidate = !bookingFormStore.needValidate
-        console.log("2 bookingFormStore.formsValidateResults.length: ", bookingFormStore.formsValidateResults.length)
     }
 
     bookingFormStore.$subscribe(async (mutation, state) => {
-        console.log("3 bookingFormStore.formsValidateResults.length: ", bookingFormStore.formsValidateResults.length)
-        if (bookingFormStore.formsValidateResults.length === bookingFormStore.bookingForm.length + 1) {
-            console.log("4 bookingFormStore.formsValidateResults.length: ", bookingFormStore.formsValidateResults)
+
+        const roomsAndGuest = bookingStore.useBookingList.map(function(room, index) {
+            const newRoom = {
+                guid: '',
+                number_of_adults: 0,  
+                number_of_children: 0,
+                date_from: '', 
+                date_till: '', 
+                guests: <any>[],
+            }
+            newRoom.guid = room.roomDetails.room_type.guid
+            newRoom.number_of_adults = room.adults
+            newRoom.number_of_children = room.сhildren
+            newRoom.guid = room.roomDetails.room_type.guid
+            newRoom.date_from = room.dateFrom
+            newRoom.date_till = room.dateTill
+            newRoom.guests = bookingFormStore.bookingForm[index].guests
+            return newRoom
+        })
+
+        const arrayOfCountForms = bookingFormStore.bookingForm.map(item => item.guests.length)
+        let sum = 0;
+        const sumOfCountForms = () => {
+            arrayOfCountForms.forEach(item => {
+                sum += item;
+            });
+            return sum
+        } 
+
+        const sumOfCountFormsVal = sumOfCountForms()
+        if (bookingFormStore.formsValidateResults.length === sumOfCountFormsVal + 1) {
             checValidateFormsStatus.value = bookingFormStore.formsValidateResults.every(formValidationResult => formValidationResult === true);
         }
 
         if (checValidateFormsStatus.value === true) {
-            console.log("checValidateFormsStatus.value: ", checValidateFormsStatus.value)
             await createBooking(() => client.post('/booking/', {
                 room_types: roomsAndGuest,
                 payment_guest: bookingPaymentStore.bookingPayment
@@ -154,30 +167,12 @@
 
 
     
-    const roomsAndGuest = bookingStore.useBookingList.map(function(room, index) {
-        const newRoom = {
-            guid: '',
-            number_of_adults: 0,  
-            number_of_children: 0,
-            date_from: '', 
-            date_till: '', 
-            guests: <any>[],
-        }
-        newRoom.guid = room.roomDetails.room_type.guid
-        newRoom.number_of_adults = room.adults
-        newRoom.number_of_children = room.сhildren
-        newRoom.guid = room.roomDetails.room_type.guid
-        newRoom.date_from = room.dateFrom
-        newRoom.date_till = room.dateTill
-        newRoom.guests = bookingFormStore.bookingForm[index].guests
-        return newRoom
-    })
+
 
     const createBooking = async (callback: () => Promise<any>) => {
         loading.value = true;
         try {
             const response = await callback();
-            console.log("response: ", response)
             bookingStore.bookedRooms = response.data.res
             router.push('/complete')
         } catch (e) {
@@ -188,12 +183,10 @@
         }
     }
 
-
-    
-
     onMounted(() => {
         getServices()
         window.scrollTo(0,0)
+        bookingFormStore.formsValidateResults = []
     })
   </script>
     

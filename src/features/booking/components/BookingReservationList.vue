@@ -7,9 +7,10 @@
     import IconCloseCircle from '@/components/icons/IconCloseCircle.vue';
     import type { IBookingInfoData } from "@/features/booking/types/IBookingInfoData";
     import { useBookingRoomsStore } from '@/stores/booking-store';
-    
-    const bookingStore = useBookingRoomsStore()
+    import { useBookingFormStore } from '@/stores/booking-form-store';
 
+    const bookingFormStore = useBookingFormStore()
+    const bookingStore = useBookingRoomsStore()
     const activeNames = ref(['11', '22'])
     const nights = ref(0)
 
@@ -19,9 +20,15 @@
             required: true
         },
         index: {
-            type: Number
+            type: Number,
+            required: true
         }
     })
+
+    const removeRoom = (index: number) => {
+		bookingStore.removeRoomFromBooking(index)
+		bookingFormStore.removeGuestsFromRoom(index)
+	}
 
     const pluralNightText = (count: number) => {
         return plural(count, 'ночь', 'ночи', 'ночей');
@@ -49,10 +56,8 @@
             <el-collapse-item name="11">
                 <template #title>
                     <div class="">
-                        <div class="room-title">Номер {{ props.index }}</div>
-                        <IconTrash
-                            @click="bookingStore.removeRoomFromBooking(props.booking.roomDetails.room_type.guid)"
-                        />
+                        <div  class="room-title">Номер {{ props.index }}</div>
+                        <IconTrash @click="removeRoom(index)"/>
                     </div>
                 </template>
                 <div>

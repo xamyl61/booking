@@ -1,6 +1,5 @@
 <template>
     <div class="mb-10">
-
         <BookingRoomsSelected
             :booking="booking"
             :index="index"

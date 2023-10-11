@@ -10,8 +10,11 @@
 	import type {IBookingInfoData} from "@/features/booking/types/IBookingInfoData";
 
 	import { useBookingRoomsStore } from '@/stores/booking-store';
+	import { useBookingFormStore } from '@/stores/booking-form-store';
+
     
     const bookingStore = useBookingRoomsStore()
+	const bookingFormStore = useBookingFormStore()
 	const dialogVisible = ref(false)
 
 	const props = defineProps({
@@ -20,7 +23,8 @@
 			required: true
         },
 		index: {
-			type: Number
+			type: Number,
+			required: true
 		}
     })
 
@@ -31,6 +35,12 @@
 		let formattedDate = day  + " " + month + ", " + weekday;
 
 		return formattedDate
+	}
+
+
+	const removeRoom = (index: number) => {
+		bookingStore.removeRoomFromBooking(index)
+		bookingFormStore.removeGuestsFromRoom(index)
 	}
 
 	const showRoomDetails = () => {
@@ -44,11 +54,11 @@
     <div class="booking-rooms">
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-header flex justify-between items-center">
-                <div class="title">Номер {{ props.index }}</div>
-                <div
-					@click="bookingStore.removeRoomFromBooking(props.booking.roomDetails.room_type.guid)"
+                <div class="title">Номер {{ props.index - 1 }}</div>
+				<div
+					@click="removeRoom(index)"
 					class="remove flex items-center"
-				>Удалить номер <IconTrash/></div>
+				>Удалить номер {{ index - 1 }}<IconTrash/></div>
             </div>
             <div class="booking-rooms-item-content flex">
                 <div class="booking-rooms-item-image">

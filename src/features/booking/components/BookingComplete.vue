@@ -12,7 +12,7 @@
             
             <div class="booking-complete__container">
                 <!-- <BookingRoom v-for="room in bookingRooms" :room="room" /> -->
-                <BookingRoom v-for="room in bookingStore.bookedRooms.rooms" :room="room" />
+                <BookingRoom v-for="(room, index) in bookingStore.bookedRooms.rooms" :room="room" :bookingIndex="index"/>
             </div>
             
             <div class="booking-complete__container">

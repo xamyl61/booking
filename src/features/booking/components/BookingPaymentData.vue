@@ -18,10 +18,8 @@
         formEl.validate((valid) => {
             if (valid) {
                 bookingFormStore.formsValidateResults.push(true)
-                console.log("payment comp bookingFormStore.formsValidateResults:", bookingFormStore.formsValidateResults)
             } else {
                 bookingFormStore.formsValidateResults.push(false)
-                console.log("payment comp bookingFormStore.formsValidateResults:", bookingFormStore.formsValidateResults)
                 return false
             }
         })
@@ -123,19 +121,6 @@
                     format="YYYY-MM-DD"
                     value-format="YYYY-MM-DD"
                 />
-                <!-- <VueDatePicker
-                    text-input
-                    v-model="bookingPaymentStore.bookingPayment.birthday"
-                    :enable-time-picker="false"
-                    auto-apply
-                    locale="ru"
-                    position="left"
-                    :six-weeks="true"
-                    :offset="1"
-                    menu-class-name="m-datepicker"
-                    :placeholder="'Дата рождения'"
-                    @update:model-value="bookingFormStore.needValidate = !bookingFormStore.needValidate"
-                ></VueDatePicker> -->
                 <IconCheckSuccess/>
             </el-form-item>
 
