@@ -43,6 +43,14 @@ const props = defineProps({
   }
 })
 
+// const props = defineProps({
+//   totalPrice: {
+//     type: any
+//   }
+// })
+
+
+
 </script>
 
 <style scoped lang="scss">

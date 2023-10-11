@@ -1,10 +1,20 @@
 <template>
     <div>
+        <!-- {{ bookingStore.bookedRooms.rooms.lnegth }} -->
         <div class="header-line">
             <div class="container mx-auto flex justify-between ">
-                <div class="left" @click="router.push('/')">Выбрать номер</div>
-                <div class="center">Данные о гостях</div>
-                <div class="left" @click="router.push('/complete')">Завершить бронирование</div>
+                <div class="cursor-pointer left" @click="router.push('/')">Выбрать номер</div>
+                <div class="cursor-pointer center" @click="router.push('/booking')">Данные о гостях</div>
+                <!-- <div
+                    v-if="typeof bookingStore.bookedRooms.rooms === undefined"
+                    style="opacity: .5;"
+                    class="left">Завершить бронирование
+                </div>
+                <div
+                v-else
+                    class="cursor-pointer left" @click="router.push('/complete')">Завершить бронирование
+                </div> -->
+
             </div>
         </div>
     </div>
@@ -13,12 +23,15 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import { useRouter } from 'vue-router';
+    import { useBookingRoomsStore } from "@/stores/booking-store";
+
+    const bookingStore = useBookingRoomsStore()
 
     const router = useRouter()
 
 </script>
     
-<style scoped>
+<style scoped  lang="scss">
     .header-line {
         background-color: var(--color-primary);
         color: #fff;
@@ -26,4 +39,5 @@
         font-size: 1.5rem;
         font-family: 'Optima Cyr';
     }
+
 </style>

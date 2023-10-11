@@ -2,8 +2,10 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { IBookingInfoData } from '@/features/booking/types/IBookingInfoData';
 
+
 export type UseBookingRoomState = {
   useBookingList: IBookingInfoData[];
+  bookedRooms: any
 };
 
 export const useBookingRoomsStore = defineStore({
@@ -11,6 +13,7 @@ export const useBookingRoomsStore = defineStore({
   state: () =>
     ({
       useBookingList: [],
+      bookedRooms: {}
     } as UseBookingRoomState),
   getters: {
     selectedRooms: (state) => 
@@ -23,20 +26,9 @@ export const useBookingRoomsStore = defineStore({
         this.useBookingList.push(bookingRoom)
       }
     },
-    updateBookingRoomGuestsData(bookingWithGuests: object[] | null, index: number) {
-      if (bookingWithGuests !== null) {
-        this.useBookingList.map((o, i) => {
-          
-          if (index === i+1) {
-            return o["guestsData"] = bookingWithGuests;
-          }
-          return o;
-        });
-      }
-    },
-    removeRoomFromBooking(room: string | '') {
-      if (room !== '') {
-        this.useBookingList = this.useBookingList.filter(roomItem => room !== roomItem.roomDetails.room_type.guid)
+    removeRoomFromBooking(index: number | null) {
+      if (index !== null) {
+        this.useBookingList.splice(index-1, 1)
       }
     },
   },

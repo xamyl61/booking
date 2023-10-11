@@ -1,8 +1,8 @@
 <template>
     <div class="booking-room">
         <div>
+            <!-- @click="bookingStore.removeRoomFromBooking(props.bookingRoom.roomDetails.room_type.guid)" -->
             <span
-                @click="bookingStore.removeRoomFromBooking(props.bookingRoom.roomDetails.room_type.guid)"
                 class="remove"
             >
                 <span>Удалить</span> <IconTrash/>

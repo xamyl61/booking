@@ -82,7 +82,7 @@
 		}
 		// await getAdditionalRoomType()
 		roomMoreComfort.value = await getAdditionalRoomType()
-		console.log("roomMoreComfort: ", roomMoreComfort)
+		// console.log("roomMoreComfort: ", roomMoreComfort)
 		nights.value = ((new Date(props.booking.dateTill)).getTime() - (new Date(props.booking.dateFrom)).getTime())/(1000 * 3600 * 24) 
     })
 

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mb-10">
         <BookingRoomsSelected
             :booking="booking"
             :index="index"
@@ -11,15 +11,9 @@
         />
         <hr>
 
-        <!-- @update-guest-info="updateGuestInfo" -->
-
-        <!-- <button
-                    class="btn"
-                    @click="bookingStore.updateBookingRoomGuestsData(guestsInfo, index)"
-                >Добавить данные гостей</button> -->
         <BookingAddGuestData
             :booking="booking"
-            @update-guest-info="updateGuestInfo"
+            :bookingIndex="index"
         />
 
     </div>
@@ -37,6 +31,7 @@
 
 
     import { useBookingRoomsStore } from "@/stores/booking-store";
+    import { useBookingFormStore } from '@/stores/booking-form-store';
 
     const bookingStore = useBookingRoomsStore()
 
@@ -57,13 +52,11 @@
         }
     })
     
-    const emit = defineEmits(['updateGuests'])
-    const updateGuestInfo = (event: Event, guests: any) => {
-        guestsInfo.value = guests
-
-        emit('updateGuests', guestsInfo)
-    }
-
+    // const emit = defineEmits(['updateGuests'])
+    // const updateGuestInfo = (event: Event, guests: any) => {
+    //     guestsInfo.value = guests
+    //     bookingStore.updateBookingRoomGuestsData(guestsInfo.value, props.index)
+    // }
 
     onMounted(() => {
         window.scrollTo(0,0)

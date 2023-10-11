@@ -10,5 +10,4 @@ export interface IBookingInfoData {
     roomPrice: number;
     bonus: number;
     choosedHotel: string;
-    guestsData: object
 }

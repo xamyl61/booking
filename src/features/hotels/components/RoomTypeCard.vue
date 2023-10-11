@@ -267,9 +267,9 @@ import { useRouter } from 'vue-router';
 
 import type {IRoomType} from "@/features/hotels/types/IRoomType";
 
-
-
-import { useBookingRoomsStore } from '@/stores/booking-store';        
+import { useBookingRoomsStore } from '@/stores/booking-store';   
+import { useBookingFormStore } from '@/stores/booking-form-store';
+     
 const bookingRoomsStore = useBookingRoomsStore()
 
 const changedToAvailableDate = ref()
@@ -476,8 +476,28 @@ const bodyAutoScrolling = () => {
 }
 
 const router = useRouter()
+
+const formStore = useBookingFormStore()
+
 const openBooking = async (roomTypeGuid: string, сhildren: number, adults: number, dateFrom: string, dateTill: string, choosedHotelGuid: string, bonus: number, roomPrice: number) => {
     
+    const count = adults + сhildren
+    const guests: any[] = []
+    for(let i = 0; i<count;i++) {
+       guests.push({
+        first_name: '',
+        last_name: '',
+        middle_name: '',
+        birthday: '',
+        email: '',
+        phone: ''
+       })
+    }
+
+    formStore.bookingForm.push({
+        guests: guests
+    })
+
     const response = await getRoomDeatails(roomTypeGuid)
     const bookingInfoData = {
         adults: adults,
@@ -487,12 +507,11 @@ const openBooking = async (roomTypeGuid: string, сhildren: number, adults: numb
         dateTill: dateTill,
         roomPrice: roomPrice,
         bonus: bonus,
-        choosedHotel: choosedHotelGuid,
-        guestsData: []
+        choosedHotel: choosedHotelGuid
     }
     bookingRoomsStore.setBookingRoom(bookingInfoData)
 
-    router.push("booking")
+    router.push({name:"booking"})
 }
 
 
