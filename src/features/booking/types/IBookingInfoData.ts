@@ -10,4 +10,5 @@ export interface IBookingInfoData {
     roomPrice: number;
     bonus: number;
     choosedHotel: string;
+    needUpSail: boolean;
 }

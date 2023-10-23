@@ -11,6 +11,7 @@
 
 	import { useBookingRoomsStore } from '@/stores/booking-store';
 	import { useBookingFormStore } from '@/stores/booking-form-store';
+	import router from '@/router';
 
     
     const bookingStore = useBookingRoomsStore()
@@ -41,6 +42,10 @@
 	const removeRoom = (index: number) => {
 		bookingStore.removeRoomFromBooking(index)
 		bookingFormStore.removeGuestsFromRoom(index)
+
+		if (bookingStore.useBookingList.length == 0) {
+			router.push("/")
+		}
 	}
 
 	const showRoomDetails = () => {

@@ -8,6 +8,7 @@
         <BookingRoomsMoreComfort
             :roomGuid=booking.roomDetails.room_type.guid
             :booking="booking"
+            :index="index"
         />
         <hr>
 

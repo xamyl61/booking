@@ -8,6 +8,7 @@
     import type { IBookingInfoData } from "@/features/booking/types/IBookingInfoData";
     import { useBookingRoomsStore } from '@/stores/booking-store';
     import { useBookingFormStore } from '@/stores/booking-form-store';
+    import router from '@/router';
 
     const bookingFormStore = useBookingFormStore()
     const bookingStore = useBookingRoomsStore()
@@ -28,6 +29,10 @@
     const removeRoom = (index: number) => {
 		bookingStore.removeRoomFromBooking(index)
 		bookingFormStore.removeGuestsFromRoom(index)
+
+        if (bookingStore.useBookingList.length == 0) {
+			router.push("/")
+		}
 	}
 
     const pluralNightText = (count: number) => {
@@ -67,7 +72,7 @@
                     <div>{{ props.booking.roomDetails.title }}</div>
                     <div class="py-2"><b>Гости</b></div>
                     <div>1 взрослый на основном месте</div>
-                    <div class="py-2"><b>Выбранные услуги</b></div>
+                    <!-- <div class="py-2"><b>Выбранные услуги</b></div>
                     <div class="room-service-list">
                         <div class="room-service-list-item flex items-center py-1">
                             <div class="room-service-list-icon "><IconCloseCircle/></div>
@@ -79,7 +84,7 @@
                             <div>Заряд бодрости </div>
                             <div class="multiply">x1</div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </el-collapse-item>
         </el-collapse>

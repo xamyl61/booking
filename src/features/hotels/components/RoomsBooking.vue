@@ -3,6 +3,7 @@
         <div>
             <!-- @click="bookingStore.removeRoomFromBooking(props.bookingRoom.roomDetails.room_type.guid)" -->
             <span
+                @click="removeRoom(index)"
                 class="remove"
             >
                 <span>Удалить</span> <IconTrash/>
@@ -37,19 +38,30 @@
     import IconTrash from '@/components/icons/IconTrash.vue';
 
     import { useBookingRoomsStore } from '@/stores/booking-store';
+    import { useBookingFormStore } from '@/stores/booking-form-store';
 
     const router = useRouter()
     const bookingStore = useBookingRoomsStore()
+    const bookingFormStore = useBookingFormStore()
     const props = defineProps({
         bookingRoom: {
             type: Object as PropType<IBookingInfoData>,
             required: true,
+        },
+        index: {
+            type: Number,
+            required: true
         }
     })
 
     const goBooking = () => {
         router.push("booking")
     }
+
+    const removeRoom = (index: number) => {
+		bookingStore.removeRoomFromBooking(index)
+		bookingFormStore.removeGuestsFromRoom(index)
+	}
     
 
     onMounted(() => {

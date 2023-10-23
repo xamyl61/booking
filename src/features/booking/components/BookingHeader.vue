@@ -1,19 +1,24 @@
 <template>
     <div>
-        <!-- {{ bookingStore.bookedRooms.rooms.lnegth }} -->
         <div class="header-line">
-            <div class="container mx-auto flex justify-between ">
+            <div class="container mx-auto flex  ">
                 <div class="cursor-pointer left" @click="router.push('/')">Выбрать номер</div>
-                <div class="cursor-pointer center" @click="router.push('/booking')">Данные о гостях</div>
-                <!-- <div
-                    v-if="typeof bookingStore.bookedRooms.rooms === undefined"
-                    style="opacity: .5;"
-                    class="left">Завершить бронирование
-                </div>
+                <div class="cursor-pointer center text-center" @click="router.push('/booking')">Данные о гостях</div>
                 <div
-                v-else
-                    class="cursor-pointer left" @click="router.push('/complete')">Завершить бронирование
-                </div> -->
+                    v-if="router.currentRoute.value.name != 'complete'"
+                    class="text-right"
+                >
+                    <span
+                        v-if="typeof bookingStore.bookedRooms.rooms == 'undefined'"
+                        style="opacity: .5;"
+                    >
+                        Завершить бронирование
+                    </span>
+                    <span
+                    v-else
+                        class="cursor-pointer" @click="router.push('/complete')">Завершить бронирование
+                    </span>
+                </div>
 
             </div>
         </div>
@@ -38,6 +43,12 @@
         padding: 1rem 0;
         font-size: 1.5rem;
         font-family: 'Optima Cyr';
+        
+        .container {
+            & > div {
+                width: 33.33%;
+            }
+        }
     }
 
 </style>

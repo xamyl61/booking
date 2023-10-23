@@ -16,8 +16,10 @@
                   <!-- <div class="mb-10">
                       <button @click="router.push('/')" class="btn ml-auto mt-10 btn-with-border">Добавить гостя</button>
                   </div> -->
-                  <BookingServices :avaliableServices="avaliableServices"/>
-                  <BookingPaymentData/>
+                  <!-- <BookingServices :avaliableServices="avaliableServices"/> -->
+                  <BookingPaymentData
+                    v-if="bookingStore.useBookingList.length"
+                  />
               </div>
               <div class="booking-sidebar">
                   <div class="booking-sidebar-inner">
@@ -30,7 +32,7 @@
                       <div class="cost">
                           <div class="line">Стоимость</div>
                           <div class="price">
-                              <div class="cost">212121212 р.</div>
+                              <div class="cost">{{ totalCost.toLocaleString('ru-RU') }} р.</div>
                               <div class="bonus"><IconRuble/> 1111 бонусов</div>
                           </div>
                       </div>
@@ -81,6 +83,7 @@
     });
     
 
+    const totalCost = ref(0)
     const loading = ref(false)
     const router = useRouter()
     const roomsTypesAndGuest = ref()
@@ -130,6 +133,7 @@
                 date_from: '', 
                 date_till: '', 
                 guests: <any>[],
+                needUpSail: true,
             }
             newRoom.guid = room.roomDetails.room_type.guid
             newRoom.number_of_adults = room.adults
@@ -162,6 +166,13 @@
             }));
 
         }
+
+        // calculate total cost by room cost
+        const arrayCostRooms = bookingStore.useBookingList.map((roomCost: { roomPrice: number; }) => roomCost.roomPrice)
+        totalCost.value = 0
+        for (const value of arrayCostRooms) {
+            totalCost.value += value;
+        }
     });
 
 
@@ -182,6 +193,13 @@
             // show.value = false
         }
     }
+
+
+
+    // watch(() => bookingStore.useBookingList, function() {
+    //     const arrayCostRooms = bookingStore.useBookingList.map((roomCost: { roomPrice: number; }) => roomCost.roomPrice)
+    //     console.log("arrayCostRooms", arrayCostRooms)
+    // });
 
     onMounted(() => {
         getServices()
