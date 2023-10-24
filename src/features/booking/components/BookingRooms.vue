@@ -1,6 +1,5 @@
 <template>
     <div class="mb-10">
-        {{ bookingStore.bookedRooms.booking_guid }}
         <BookingRoomsSelected
             :booking="booking"
             :index="index"
@@ -53,12 +52,6 @@
             required: true
         }
     })
-    
-    // const emit = defineEmits(['updateGuests'])
-    // const updateGuestInfo = (event: Event, guests: any) => {
-    //     guestsInfo.value = guests
-    //     bookingStore.updateBookingRoomGuestsData(guestsInfo.value, props.index)
-    // }
 
     onMounted(() => {
         window.scrollTo(0,0)

@@ -16,14 +16,14 @@
       </div>
 
       <div class="booking-pay__container">
-          <BookingMethod description="Полностью оплатить бронирование и сэкономить время на заезде" :method="{id: pay.id, cost: pay.cost, method: BookingPayMethod.Full}" />
-          <BookingMethod description="Оплатите часть, остальное потом" :method="{id: pay.id, cost: pay.cost, method: BookingPayMethod.Part, part: 30}" />
+            <BookingMethod description="Полностью оплатить бронирование и сэкономить время на заезде" :method="{id: pay.id, cost: pay.cost, method: BookingPayMethod.Full}" />
+            <BookingMethod description="Оплатите часть, остальное потом" :method="{id: pay.id, cost: pay.cost, method: BookingPayMethod.Part, part: 30}" />
 
-          <div class="booking-pay__timer">
+        <div class="booking-pay__timer">
             ЕСЛИ В ТЕЧЕНИЕ 15 МИНУТ ВЫ НЕ ВНЕСЕТЕ ОПЛАТУ, БРОНЬ БУДЕТ АННУЛИРОВАНА
             <vue-countdown :time="timeRemaining" v-slot="{ minutes, seconds }">{{ minutes }}:{{ seconds }}</vue-countdown>
         </div>
-        <div v-if="timeRemaining <= 0" class="booking-pay__notification">К сожалению бронь анулирована, 15минут отведенное на оплату истекло. <br/> Сделайте новое бронирование.</div>
+        
       </div>
 
   </div>
@@ -43,7 +43,7 @@ import { useBookingRoomsStore } from "@/stores/booking-store";
 import VueCountdown from '@chenfengyuan/vue-countdown';
 
 const bookingStore = useBookingRoomsStore()
-const timeRemaining = ref()
+const timeRemaining = ref(0)
 
 const props = defineProps({
   pay: {
@@ -52,17 +52,11 @@ const props = defineProps({
   }
 })
 
-// const props = defineProps({
-//   totalPrice: {
-//     type: any
-//   }
-// })
-
 const timer = async () => {
     const createdDateObject = await getBookingCreatedDate()
     const createdDate = new Date(createdDateObject)
     const currentDate = new Date()
-    const timeForBooking = (createdDate.getTime() + 4*60*1000) - currentDate.getTime() // in ms
+    const timeForBooking = (createdDate.getTime() + 15*60*1000) - currentDate.getTime() // in ms
     return timeForBooking
 } 
 

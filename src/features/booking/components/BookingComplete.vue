@@ -1,8 +1,6 @@
 <template>
     <div>
-        {{ bookingStore.bookedRooms }}
         <BookingHeader/>   
-        <!-- {{ bookingStore.bookedRooms }} -->
         <div class="booking-complete container mx-auto mt-10">
             <div class="booking-complete__title">Проверьте ваше бронирование</div>
 
@@ -12,7 +10,6 @@
 
             
             <div class="booking-complete__container">
-                <!-- <BookingRoom v-for="room in bookingRooms" :room="room" /> -->
                 <BookingRoom v-for="(room, index) in bookingStore.bookedRooms.rooms" :room="room" :bookingIndex="index"/>
             </div>
             

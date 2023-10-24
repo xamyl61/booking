@@ -4,8 +4,6 @@
         <div class="booking-block container mx-auto" v-loading="loading">
           <div v-if="show" class="flex gap-6">
               <div class="booking-main grow">
-
-
                   <BookingRooms
                       v-for="(booking, index) in bookingStore.useBookingList"
                       :key="booking.roomDetails.room_type.guid"
@@ -160,10 +158,19 @@
         }
 
         if (checValidateFormsStatus.value === true) {
-            await createBooking(() => client.post('/booking/', {
-                room_types: roomsAndGuest,
-                payment_guest: bookingPaymentStore.bookingPayment
-            }));
+            if (bookingStore.bookedRooms.booking_guid) {
+                await createBooking(() => client.put('/booking/', {
+                    booking_guid: bookingStore.bookedRooms.booking_guid,
+                    room_types: roomsAndGuest,
+                    payment_guest: bookingPaymentStore.bookingPayment
+                }));
+            } else {
+                await createBooking(() => client.post('/booking/', {
+                    room_types: roomsAndGuest,
+                    payment_guest: bookingPaymentStore.bookingPayment
+                }));
+            }
+     
         }
 
         // calculate total cost by room cost
