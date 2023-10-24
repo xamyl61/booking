@@ -164,7 +164,6 @@
                 room_types: roomsAndGuest,
                 payment_guest: bookingPaymentStore.bookingPayment
             }));
-
         }
 
         // calculate total cost by room cost
@@ -190,16 +189,9 @@
             console.log(e)
         } finally {
             loading.value = false;
-            // show.value = false
         }
     }
 
-
-
-    // watch(() => bookingStore.useBookingList, function() {
-    //     const arrayCostRooms = bookingStore.useBookingList.map((roomCost: { roomPrice: number; }) => roomCost.roomPrice)
-    //     console.log("arrayCostRooms", arrayCostRooms)
-    // });
 
     onMounted(() => {
         getServices()

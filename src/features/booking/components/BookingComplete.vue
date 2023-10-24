@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{ bookingStore.bookedRooms }}
         <BookingHeader/>   
         <!-- {{ bookingStore.bookedRooms }} -->
         <div class="booking-complete container mx-auto mt-10">
@@ -39,24 +40,7 @@ const bookingInfo = ref({
     number: '1209483'
 })
 
-const bookingRooms = reactive([
-    {
-        id: 1,
-        roomId: 1,
-        roomNumber: 'Standart 1-комнатный',
-        from: '2021-09-01',
-        to: '2021-09-05',
-        hotel: 'Alean Family, г. Анапа'
-    },
-    {
-        id: 2,
-        roomId: 2,
-        roomNumber: 'Standart 1-комнатный',
-        from: '2021-09-01',
-        to: '2021-09-05',
-        hotel: 'Alean Family, г. Анапа'
-    },
-])
+
 
 const bookingPay = ref({
     id: 1,

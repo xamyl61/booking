@@ -7,7 +7,7 @@ import { useLocalStorage } from '@vueuse/core'
 
 export type UseBookingRoomState = {
   useBookingList: IBookingInfoData[];
-  bookedRooms: any
+  bookedRooms: any;
 };
 
 export const useBookingRoomsStore = defineStore({

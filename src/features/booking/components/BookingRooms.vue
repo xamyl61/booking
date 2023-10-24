@@ -1,5 +1,6 @@
 <template>
     <div class="mb-10">
+        {{ bookingStore.bookedRooms.booking_guid }}
         <BookingRoomsSelected
             :booking="booking"
             :index="index"

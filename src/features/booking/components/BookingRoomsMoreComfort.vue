@@ -137,7 +137,7 @@
 		class="more-comfort-block"
 	>
         <div class="title-line">Повысьте комфорт!</div>
-		needUpSail: {{ bookingStore.useBookingList[index - 1].needUpSail }}
+		<!-- needUpSail: {{ bookingStore.useBookingList[index - 1].needUpSail }}
 		<br>
 		index: {{ index  }}
 		<br>
@@ -146,7 +146,7 @@
 		<hr>
 		<hr>
 			{{ roomMoreComfort }}
-		<hr>
+		<hr> -->
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-content flex">
                 <div class="booking-rooms-item-image">
