@@ -90,20 +90,7 @@
 		}
 	}
 
-	// const bookingInfoData = {
-    //     adults: adults,
-    //     сhildren: сhildren,
-    //     roomDetails: response,
-    //     dateFrom: dateFrom,
-    //     dateTill: dateTill,
-    //     roomPrice: roomPrice,
-    //     bonus: bonus,
-    //     choosedHotel: choosedHotelGuid
-    // }
-    // bookingRoomsStore.setBookingRoom(bookingInfoData)
-
 	const changeRoom = async (index: number, guid: string) => {
-		// console.log("roomMoreComfort: ", roomMoreComfort.value.res)
 		roomDetails.value = await getRoomDeatails(guid)
 		bookingStore.useBookingList[index - 1].roomDetails = roomDetails.value
 		bookingStore.useBookingList[index - 1].roomPrice = roomMoreComfort.value.res.price_info.price
@@ -121,9 +108,7 @@
 			dateFrom.value = dateFormateding(startDate)
 			dateTill.value = dateFormateding(endDate)
 		}
-		// await getAdditionalRoomType()
 		roomMoreComfort.value = await getAdditionalRoomType()
-		// console.log("roomMoreComfort: ", roomMoreComfort)
 		nights.value = ((new Date(props.booking.dateTill)).getTime() - (new Date(props.booking.dateFrom)).getTime())/(1000 * 3600 * 24) 
     })
 
@@ -137,16 +122,6 @@
 		class="more-comfort-block"
 	>
         <div class="title-line">Повысьте комфорт!</div>
-		<!-- needUpSail: {{ bookingStore.useBookingList[index - 1].needUpSail }}
-		<br>
-		index: {{ index  }}
-		<br>
-		{{ bookingStore.useBookingList[index - 1] }}
-		<br>
-		<hr>
-		<hr>
-			{{ roomMoreComfort }}
-		<hr> -->
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-content flex">
                 <div class="booking-rooms-item-image">
