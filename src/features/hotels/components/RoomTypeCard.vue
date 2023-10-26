@@ -507,7 +507,8 @@ const openBooking = async (roomTypeGuid: string, сhildren: number, adults: numb
         dateTill: dateTill,
         roomPrice: roomPrice,
         bonus: bonus,
-        choosedHotel: choosedHotelGuid
+        choosedHotel: choosedHotelGuid,
+        needUpSail: true
     }
     bookingRoomsStore.setBookingRoom(bookingInfoData)
 

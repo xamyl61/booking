@@ -11,6 +11,7 @@
 
 	import { useBookingRoomsStore } from '@/stores/booking-store';
 	import { useBookingFormStore } from '@/stores/booking-form-store';
+	import router from '@/router';
 
     
     const bookingStore = useBookingRoomsStore()
@@ -41,6 +42,10 @@
 	const removeRoom = (index: number) => {
 		bookingStore.removeRoomFromBooking(index)
 		bookingFormStore.removeGuestsFromRoom(index)
+
+		if (bookingStore.useBookingList.length == 0) {
+			router.push("/")
+		}
 	}
 
 	const showRoomDetails = () => {
@@ -54,11 +59,11 @@
     <div class="booking-rooms">
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-header flex justify-between items-center">
-                <div class="title">Номер {{ props.index - 1 }}</div>
+                <div class="title">Номер</div>
 				<div
 					@click="removeRoom(index)"
 					class="remove flex items-center"
-				>Удалить номер {{ index - 1 }}<IconTrash/></div>
+				>Удалить номер<IconTrash/></div>
             </div>
             <div class="booking-rooms-item-content flex">
                 <div class="booking-rooms-item-image">

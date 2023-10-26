@@ -6,8 +6,9 @@
             v-if="bookingStore.useBookingList.length"
         >
             <RoomsBooking
-                v-for="bookingRoom in bookingStore.useBookingList"
+                v-for="(bookingRoom, index) in bookingStore.useBookingList"
                 :bookingRoom="bookingRoom"
+                :index="index"
             />
         </div>
         <h1 v-else>Выберите период проживания и количество гостей</h1>

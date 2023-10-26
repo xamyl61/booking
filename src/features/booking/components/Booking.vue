@@ -4,8 +4,6 @@
         <div class="booking-block container mx-auto" v-loading="loading">
           <div v-if="show" class="flex gap-6">
               <div class="booking-main grow">
-
-
                   <BookingRooms
                       v-for="(booking, index) in bookingStore.useBookingList"
                       :key="booking.roomDetails.room_type.guid"
@@ -16,8 +14,10 @@
                   <!-- <div class="mb-10">
                       <button @click="router.push('/')" class="btn ml-auto mt-10 btn-with-border">Добавить гостя</button>
                   </div> -->
-                  <BookingServices :avaliableServices="avaliableServices"/>
-                  <BookingPaymentData/>
+                  <!-- <BookingServices :avaliableServices="avaliableServices"/> -->
+                  <BookingPaymentData
+                    v-if="bookingStore.useBookingList.length"
+                  />
               </div>
               <div class="booking-sidebar">
                   <div class="booking-sidebar-inner">
@@ -30,7 +30,7 @@
                       <div class="cost">
                           <div class="line">Стоимость</div>
                           <div class="price">
-                              <div class="cost">212121212 р.</div>
+                              <div class="cost">{{ totalCost.toLocaleString('ru-RU') }} р.</div>
                               <div class="bonus"><IconRuble/> 1111 бонусов</div>
                           </div>
                       </div>
@@ -81,6 +81,7 @@
     });
     
 
+    const totalCost = ref(0)
     const loading = ref(false)
     const router = useRouter()
     const roomsTypesAndGuest = ref()
@@ -130,6 +131,7 @@
                 date_from: '', 
                 date_till: '', 
                 guests: <any>[],
+                needUpSail: true,
             }
             newRoom.guid = room.roomDetails.room_type.guid
             newRoom.number_of_adults = room.adults
@@ -156,11 +158,26 @@
         }
 
         if (checValidateFormsStatus.value === true) {
-            await createBooking(() => client.post('/booking/', {
-                room_types: roomsAndGuest,
-                payment_guest: bookingPaymentStore.bookingPayment
-            }));
+            if (bookingStore.bookedRooms.booking_guid) {
+                await createBooking(() => client.put('/booking/', {
+                    booking_guid: bookingStore.bookedRooms.booking_guid,
+                    room_types: roomsAndGuest,
+                    payment_guest: bookingPaymentStore.bookingPayment
+                }));
+            } else {
+                await createBooking(() => client.post('/booking/', {
+                    room_types: roomsAndGuest,
+                    payment_guest: bookingPaymentStore.bookingPayment
+                }));
+            }
+     
+        }
 
+        // calculate total cost by room cost
+        const arrayCostRooms = bookingStore.useBookingList.map((roomCost: { roomPrice: number; }) => roomCost.roomPrice)
+        totalCost.value = 0
+        for (const value of arrayCostRooms) {
+            totalCost.value += value;
         }
     });
 
@@ -179,9 +196,9 @@
             console.log(e)
         } finally {
             loading.value = false;
-            // show.value = false
         }
     }
+
 
     onMounted(() => {
         getServices()

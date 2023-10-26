@@ -8,6 +8,7 @@
         <BookingRoomsMoreComfort
             :roomGuid=booking.roomDetails.room_type.guid
             :booking="booking"
+            :index="index"
         />
         <hr>
 
@@ -51,12 +52,6 @@
             required: true
         }
     })
-    
-    // const emit = defineEmits(['updateGuests'])
-    // const updateGuestInfo = (event: Event, guests: any) => {
-    //     guestsInfo.value = guests
-    //     bookingStore.updateBookingRoomGuestsData(guestsInfo.value, props.index)
-    // }
 
     onMounted(() => {
         window.scrollTo(0,0)

@@ -9,10 +9,12 @@
     import IconHome from '@/components/icons/IconHome.vue';
     import IconPeopleGroup from '@/components/icons/IconPeopleGroup.vue';
 
+	import type {IBookingInfoData} from "@/features/booking/types/IBookingInfoData";
 	
 	import { useFilterStore } from '@/stores/filter-params-store';
+	import { useBookingRoomsStore } from '@/stores/booking-store';
 	
-	import type {IBookingInfoData} from "@/features/booking/types/IBookingInfoData";
+	const bookingStore = useBookingRoomsStore()
 	
 	const date = ref()
 	const nights = ref()
@@ -20,6 +22,7 @@
 	const dateTill = ref()
 	const filterStore = useFilterStore()
 	const roomMoreComfort = ref()
+	const roomDetails = ref()
 
 	const loading = ref(false)
 
@@ -32,7 +35,11 @@
 		booking: {
             type: Object as PropType<IBookingInfoData>,
             required: true
-        }
+        },
+		index: {
+			type: Number,
+			required: true
+		}
     })
 
 	const dateFormateding = (date: Date) => {
@@ -71,6 +78,27 @@
 		return plural(count, 'ночь', 'ночи', 'ночей');
 	}
 
+	async function getRoomDeatails(guid: string) {
+		try {
+			const res = await fetch(`https://backmb.aleancollection.ru/api/v1/room-type-info/${guid}/`);
+			const finalRes = await res.json();
+			roomDetails.value = finalRes.res;
+			return finalRes.res
+
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const changeRoom = async (index: number, guid: string) => {
+		roomDetails.value = await getRoomDeatails(guid)
+		bookingStore.useBookingList[index - 1].roomDetails = roomDetails.value
+		bookingStore.useBookingList[index - 1].roomPrice = roomMoreComfort.value.res.price_info.price
+		bookingStore.useBookingList[index - 1].bonus = roomMoreComfort.value.res.price_info.bonus
+		bookingStore.useBookingList[index - 1].needUpSail = false
+		
+	}
+
 	onMounted(async () => {
 		if (filterStore.filter) {
 			date.value = filterStore.filter.date
@@ -80,9 +108,7 @@
 			dateFrom.value = dateFormateding(startDate)
 			dateTill.value = dateFormateding(endDate)
 		}
-		// await getAdditionalRoomType()
 		roomMoreComfort.value = await getAdditionalRoomType()
-		// console.log("roomMoreComfort: ", roomMoreComfort)
 		nights.value = ((new Date(props.booking.dateTill)).getTime() - (new Date(props.booking.dateFrom)).getTime())/(1000 * 3600 * 24) 
     })
 
@@ -90,7 +116,11 @@
 </script>
 
 <template>
-    <div class="more-comfort-block" v-loading="loading">
+    <div
+		v-if="bookingStore.useBookingList[index - 1].needUpSail && roomMoreComfort"
+		v-loading="loading"
+		class="more-comfort-block"
+	>
         <div class="title-line">Повысьте комфорт!</div>
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-content flex">
@@ -101,7 +131,7 @@
                         <IconHeart/>
                         <IconHeart/>
                     </div>
-					<img :src="roomMoreComfort?.res.cover_image.full_url" alt="">
+					<img :src="roomMoreComfort?.res?.cover_image?.full_url" alt="">
                 </div>
                 <div class="booking-rooms-item-dscr flex grow">
                     <div class="flex justify-between items-center grow">
@@ -125,9 +155,9 @@
                         <div class="cost-wr text-center">
                             <div class="bonus flex justify-center align-center h-5">
                                 <IconRuble/>
-                                <div class="text-xs pl-1 bonus-counts">2138 бонусов</div>
+                                <div class="text-xs pl-1 bonus-counts">{{ roomMoreComfort?.res.price_info.bonus }} бонусов</div>
                             </div>
-                            <Button class="btn whitespace-pre">Поменять номер</Button>
+                            <Button @click="changeRoom(index, roomMoreComfort.res.room_type.guid)" class="btn whitespace-pre">Поменять номер</Button>
                         </div>
                     </div>
                 </div>

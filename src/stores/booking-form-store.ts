@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import type { IUser } from '@/features/authentication/types/IUser';
 
+import { useLocalStorage } from '@vueuse/core'
+
 export type BookingFormStore = {
   bookingForm: BookingPerson[],
   needValidate: boolean,
@@ -15,10 +17,10 @@ export const useBookingFormStore = defineStore({
   id: 'bookingFormStore',
   state: () =>
     ({
-      bookingForm: [],
+      bookingForm: useLocalStorage('bookingForm', []),
       needValidate: false,
       formsValidateResults: []
-    } as BookingFormStore),
+    } as unknown as BookingFormStore),
   getters: {},
   actions: {
     clearValidateResults() {
@@ -29,5 +31,14 @@ export const useBookingFormStore = defineStore({
         this.bookingForm.splice(index-1, 1)
       }
     },
+
+    watch: {
+      useBookingList: {
+        deep: true,
+        handler() {
+          useLocalStorage('bookingForm', this.bookingForm)
+        }
+      }
+    }
   },
 });

@@ -16,12 +16,14 @@
       </div>
 
       <div class="booking-pay__container">
-          <BookingMethod description="Полностью оплатить бронирование и сэкономить время на заезде" :method="{id: pay.id, cost: pay.cost, method: BookingPayMethod.Full}" />
-          <BookingMethod description="Оплатите часть, остальное потом" :method="{id: pay.id, cost: pay.cost, method: BookingPayMethod.Part, part: 30}" />
+            <BookingMethod description="Полностью оплатить бронирование и сэкономить время на заезде" :method="{id: pay.id, cost: pay.cost, method: BookingPayMethod.Full}" />
+            <BookingMethod description="Оплатите часть, остальное потом" :method="{id: pay.id, cost: pay.cost, method: BookingPayMethod.Part, part: 30}" />
 
-          <div class="booking-pay__timer">
-              ЕСЛИ В ТЕЧЕНИЕ 15 МИНУТ ВЫ НЕ ВНЕСЕТЕ ОПЛАТУ, БРОНЬ БУДЕТ АННУЛИРОВАНА
-          </div>
+        <div class="booking-pay__timer">
+            ЕСЛИ В ТЕЧЕНИЕ 15 МИНУТ ВЫ НЕ ВНЕСЕТЕ ОПЛАТУ, БРОНЬ БУДЕТ АННУЛИРОВАНА
+            <vue-countdown :time="timeRemaining" v-slot="{ minutes, seconds }">{{ minutes }}:{{ seconds }}</vue-countdown>
+        </div>
+        
       </div>
 
   </div>
@@ -30,11 +32,18 @@
 <script setup lang="ts">
 
 import type {IBookingPay} from "@/features/booking/types/IBookingPay";
-import type {PropType} from "vue";
+import {onMounted, ref, type PropType} from "vue";
 import BookingMethod from "@/features/booking/components/BookingMethod.vue";
 import {BookingPayMethod} from "@/features/booking/types/IBookingMethod";
 import {Format} from "@/utils/format";
 import IconBonus from "@/components/icons/IconBonus.vue";
+
+import client from "@/api/client";
+import { useBookingRoomsStore } from "@/stores/booking-store";
+import VueCountdown from '@chenfengyuan/vue-countdown';
+
+const bookingStore = useBookingRoomsStore()
+const timeRemaining = ref(0)
 
 const props = defineProps({
   pay: {
@@ -43,12 +52,31 @@ const props = defineProps({
   }
 })
 
-// const props = defineProps({
-//   totalPrice: {
-//     type: any
-//   }
-// })
+const timer = async () => {
+    const createdDateObject = await getBookingCreatedDate()
+    const createdDate = new Date(createdDateObject)
+    const currentDate = new Date()
+    const timeForBooking = (createdDate.getTime() + 15*60*1000) - currentDate.getTime() // in ms
+    return timeForBooking
+} 
 
+
+async function getBookingCreatedDate() {
+    try {
+        const res = await fetch(`https://backmb.aleancollection.ru/api/v2/booking/${bookingStore.bookedRooms.booking_guid}`);
+        const finalRes = await res.json();
+        return finalRes.created_at
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+
+onMounted(async () => {
+    timeRemaining.value = await timer()
+})
 
 
 </script>
@@ -112,12 +140,20 @@ const props = defineProps({
     }
 
     &__timer {
+        display: flex;
+        justify-content: space-between;
         font-family: Geometria, sans-serif;
         font-size: 20px;
         font-weight: 700;
         line-height: 25px;
         text-transform: uppercase;
         margin: 1rem 0;
+    }
+    &__notification {
+        color: #B91818;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        font-weight: 700;
     }
 }
 </style>

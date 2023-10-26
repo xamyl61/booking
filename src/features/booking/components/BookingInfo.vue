@@ -1,7 +1,7 @@
 <template>
   <div class="booking-info">
       <div class="booking-info__number">
-        <span>Бронь № {{ booking.number }}</span>
+        <span>Бронь № {{ bookingStore.bookedRooms.number_booking }}</span>
       </div>
       <div class="booking-info__actions">
         <el-button round type="info" size="default">Распечатать</el-button>
@@ -17,6 +17,9 @@
 
 import type {IBookingInfo} from "@/features/booking/types/IBookingInfo";
 import type {PropType} from "vue";
+import { useBookingRoomsStore } from "@/stores/booking-store";
+
+const bookingStore = useBookingRoomsStore()
 
 const props = defineProps({
   booking: {
