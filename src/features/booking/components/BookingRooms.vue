@@ -59,7 +59,7 @@
   </script>
     
   <style scoped>
-    .header-line {
+    /* .header-line {
         background-color: var(--color-primary);
         color: #fff;
         padding: 1rem 0;
@@ -79,14 +79,10 @@
     .cost-wr {
         margin-top: 4.5rem;
     }
-    .cost {
-        font-family: 'Optima Cyr';
-    }
     .bonus {
         color: rgba(147, 147, 147, 1);
     }
 
-    /* .booking-sidebar */
     .booking-sidebar {
         flex: 0 0 20em;
     }
@@ -117,6 +113,11 @@
     .booking-sidebar .price {
         padding: 1.4rem;
     }
+    .cost {
+        color: red;
+        font-size: 1.4rem;
+        font-family: 'Optima Cyr';
+    }
     .booking-sidebar .cost {
         font-size: 1.4rem;
         font-family: 'Optima Cyr';
@@ -136,8 +137,7 @@
         font-size: 1.1rem;
         font-family: 'Optima Cyr';
         padding: 0 1.4rem;
-        color: #000;
-    }
+    } */
 
     
   </style>

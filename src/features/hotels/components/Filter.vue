@@ -127,7 +127,7 @@
                                     <div class="accommodation-dropdown-item">
                                         <div class="left">
                                             <div class="title">Дети</div>
-                                            <div class="dscr">от 2 до 12 лет<br> на дату заезда</div>
+                                            <div class="dscr">до 12 лет<br> на дату заезда</div>
                                         </div>
                                         <div class="right">
                                             <el-input-number
@@ -593,6 +593,7 @@ h1 {
     display: flex;
     align-items: center;
     padding: 0.7rem 1rem;
+    color: #121326;
 }
 .daterange-item.end-date {
     flex-grow: 1;
@@ -620,7 +621,7 @@ h1 {
     justify-content: space-between;
     padding: 0 1.2rem;
     font-size: 1rem;
-    color: #000;
+    color: #121326;
 }
 
 .accommodation-dropdown {

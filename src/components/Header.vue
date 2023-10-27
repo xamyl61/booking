@@ -119,6 +119,9 @@
     align-items: center;
     margin-left: 2.6vw;
   }
+  .phone-link i {
+    margin-right: 1.1rem;
+  }
     .icon-phone-gold {
       margin-right: 1rem;
     }

@@ -191,7 +191,7 @@
         try {
             const response = await callback();
             bookingStore.bookedRooms = response.data.res
-            router.push('/complete')
+            router.push('/complete')//
         } catch (e) {
             console.log(e)
         } finally {
@@ -214,9 +214,6 @@
         padding: 1rem 0;
         font-size: 1.5rem;
         font-family: 'Optima Cyr';
-    }
-    .title-line {
-        font-size: 1.4rem;
     }
     .booking-block {
         padding-top: 3rem;
@@ -248,7 +245,7 @@
         align-items: center;
         background: var(--color-primary);
         color: #fff;
-        font-size: 1.3rem;
+        font-size: 1.5rem;
         font-family: 'Optima Cyr';
         padding: 0 1.4rem;
     }
@@ -259,19 +256,25 @@
         justify-content: center;
         background: var(--color-primary);
         color: #fff;
-        font-size: 1.3rem;
+        font-size: 1.5rem;
         font-family: 'Optima Cyr';
         padding: 0 1.4rem;
+        cursor: pointer;
+    }
+    .booking-sidebar .footline:hover {
+        background: #F7C87D;
     }
     .booking-sidebar .price {
         padding: 1.4rem;
     }
     .booking-sidebar .cost {
-        font-size: 1.4rem;
+        font-size: 1.8rem;
         font-family: 'Optima Cyr';
+
     }
     .booking-sidebar .bonus {
         display: flex;
+        font-family: 'Geometria';
         font-size: .8rem;
     }
     .booking-sidebar .bonus i {
@@ -282,10 +285,9 @@
         display: flex;
         align-items: center;
         background: #EEEAEA;
-        font-size: 1.1rem;
+        font-size: 1.25rem;
         font-family: 'Optima Cyr';
         padding: 0 1.4rem;
-        color: #000;
     }
 
     

@@ -5,6 +5,7 @@
 
 body {
     font-family: 'Geometria', sans-serif;
+    color: #121326;
 }
 
 
@@ -37,7 +38,7 @@ body {
     }
     .btn.btn-yellow {
         background-color: #F7C87D;
-        color: #000;
+        color: #121326;
     }
 
 .arrow-up {
@@ -99,7 +100,10 @@ body {
     background: var(--color-primary)!important;
     margin-top: -12px;
 }
-
+    .el-input__inner {
+        font-size: 16px;
+        color: #939393;
+    }
     .el-input__inner:focus {
         box-shadow: none;
     }
@@ -482,7 +486,7 @@ body {
     .room-detail .room-detail-foot .cost-block {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         padding-right: 6rem;
     }
@@ -498,18 +502,39 @@ body {
     }
 
     .room-detail .room-detail-foot .btn {
-        background-color: #fff;
-        color: #000;
         width: 11rem;
     }
 
     .room-detail .room-detail-foot .bonus {
         color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: .5rem;
+    }
+
+    .room-detail .room-detail-foot i {
+        margin-right: .4rem;
+        position: relative;
+        top: -2px;
+
     }
 
     /* room-detail-body */
-    .room-detail-body {
-
+    .vel-modal {
+        background: rgba(0,0,0,.7)!important;
+    }
+    .vel-btns-wrapper .prev {
+        position: fixed;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%) rotate(180deg);
+    }
+    .vel-btns-wrapper .next {
+        position: fixed;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
     }
     .room-detail-body .slider {
         display: flex;
@@ -582,6 +607,9 @@ body {
     }
 
     /* text-with-circle-icon */
+    .text-with-circle-icon {
+        color: #202020;
+    }
     .text-with-circle-icon .icon {
         margin-left: 1rem;
     }
@@ -633,6 +661,8 @@ body {
     }
     .booking-sidebar .el-collapse-item__content {
         padding: .8rem 1.4rem;
+        font-size: 1rem;
+        color: #202020E5;
     }
     .booking-sidebar .icon-trash {
         position: absolute;
@@ -643,6 +673,10 @@ body {
     }
     .booking-sidebar .el-collapse-item__arrow {
         margin: -0.2rem 0 0 1rem;
+    }
+    .title-line {
+        font-family: 'Optima Cyr';
+        font-size: 1.8rem;
     }
 
 

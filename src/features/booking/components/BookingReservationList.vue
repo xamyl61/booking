@@ -101,8 +101,9 @@
     cursor: pointer;
 }
 .room-title {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-family: 'Optima Cyr';
+    color: #202020E5;
 }
 .room-service-list .multiply {
     margin-left: auto;

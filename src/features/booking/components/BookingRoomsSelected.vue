@@ -89,7 +89,7 @@
 								@click="showRoomDetails"
                                 class="flex items-center no-underline hover:underline text-black cursor-pointer text-with-circle-icon">
                                 Подробнее о номере
-                                <IconArrowLeftInCircle/>
+                                <IconArrowLeftInCircle class="ml-3"/>
                             </div>
                         </div>
 
@@ -141,6 +141,10 @@
 		}
 	}
 }
+.cost {
+	font-family: 'Optima Cyr';
+	font-size: 1.8rem;
+}
 .booking-rooms-item {
 	margin-bottom: 1.5rem;
 }
@@ -155,7 +159,7 @@
 		object-fit: cover;
 		width: 100%;
 		height: 100%;
-		max-height: 14rem;
+		max-height: 15rem;
 	}
 }
 .booking-rooms-item-header {
@@ -186,8 +190,9 @@
 .booking-rooms-item-dscr {
 	padding: 0 1.6rem 0 2rem;
 	.title {
-		font-size: 1.3rem;
+		font-size: 1.25rem;
 		padding-bottom: 1rem;
+		font-family: 'Optima Cyr';
 	}
 	.date {
 		font-size: 1rem;
