@@ -5,6 +5,7 @@
 
 body {
     font-family: 'Geometria', sans-serif;
+    color: #121326;
 }
 
 
@@ -96,8 +97,11 @@ body {
 /* dropdown */
 .el-popper.is-light {
     border-radius: 0!important;
-    background: var(--color-primary)!important;
     margin-top: -12px;
+}
+
+.el-date-table td.current:not(.disabled) .el-date-table-cell__text {
+    background-color: #215C66 !important;
 }
 
     .el-input__inner:focus {

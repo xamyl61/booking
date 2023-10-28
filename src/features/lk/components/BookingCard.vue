@@ -42,7 +42,6 @@ import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
 </script>
 
 <style scoped lang="scss">
-
 .booking-card {
   padding: 30px 40px 30px 40px;
   border: 1px solid #EEEAEA;
@@ -55,7 +54,7 @@ import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
 
   &__title {
     font-family: Geometria, sans-serif;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
     line-height: 28px;
     text-align: left;
@@ -68,6 +67,12 @@ import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
       background-color: #EEEAEA;
       border-color: #EEEAEA;
       color: black;
+
+      &:hover {
+        background-color: #215C66;
+        border-color: #215C66;
+        color: white;
+      }
     }
   }
 }
@@ -78,6 +83,15 @@ import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
     display: flex;
     gap: 5rem;
     margin-top: 1rem;
+  }
+
+  &__title {
+    font-family: Optima Cyr;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
   }
 
   &__check {

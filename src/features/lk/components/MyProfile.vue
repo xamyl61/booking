@@ -31,7 +31,13 @@
                         <el-input v-model="form.middle_name" placeholder="Отчество" />
                     </el-form-item>
                     <el-form-item prop="birthdate">
-                        <el-input v-model="form.birthdate" placeholder="Дата рождения" />
+
+                        <el-date-picker
+        v-model="form.birthdate"
+        type="date"
+        placeholder="Дата рождения"
+        format="DD.MM.YYYY"
+      />
                     </el-form-item>
                     <el-form-item prop="phone">
                         <el-input v-maska data-maska="+7 ### ###-##-##" v-model="form.phone" placeholder="Телефон" />
@@ -106,9 +112,11 @@ const rules = reactive<any>({
     ],
     phone: [
         { required: true, message: 'Необходимо ввести Телефон', trigger: 'blur' },
+        { pattern: /^\+7 \d{3} \d{3}-\d{2}-\d{2}$/, message: 'Необходимо ввести корректный Телефон', trigger: ['blur', 'change'] }
     ],
     email: [
         { required: true, message: 'Необходимо ввести Email', trigger: 'blur' },
+        { type: 'email', message: 'Неверный формат Email', trigger: ['blur', 'change']}
     ],
     birthdate: [
         { required: true, message: 'Необходимо ввести Дату рождения', trigger: 'blur' },
