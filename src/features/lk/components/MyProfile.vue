@@ -22,13 +22,13 @@
                 <div class="grid grid-cols-3 gap-10">
 
                     <el-form-item prop="last_name">
-                        <el-input v-model="form.last_name" placeholder="Фамилия" />
+                        <el-input v-model="form.last_name" placeholder="Фамилия" :suffix-icon="EditIcon" />
                     </el-form-item>
                     <el-form-item prop="first_name">
-                        <el-input v-model="form.first_name" placeholder="Имя" />
+                        <el-input v-model="form.first_name" placeholder="Имя" :suffix-icon="EditIcon" />
                     </el-form-item>
                     <el-form-item prop="middle_name">
-                        <el-input v-model="form.middle_name" placeholder="Отчество" />
+                        <el-input v-model="form.middle_name" placeholder="Отчество" :suffix-icon="EditIcon" />
                     </el-form-item>
                     <el-form-item prop="birthdate">
 
@@ -37,13 +37,16 @@
         type="date"
         placeholder="Дата рождения"
         format="DD.MM.YYYY"
+        class="birth-date-picker"
+        :clearable="false"
+        :prefix-icon="EditIcon"
       />
                     </el-form-item>
                     <el-form-item prop="phone">
-                        <el-input v-maska data-maska="+7 ### ###-##-##" v-model="form.phone" placeholder="Телефон" />
+                        <el-input v-maska data-maska="+7 ### ###-##-##" v-model="form.phone" :suffix-icon="EditIcon" placeholder="Телефон" />
                     </el-form-item>
                     <el-form-item prop="email">
-                        <el-input v-model="form.email" placeholder="Email" />
+                        <el-input v-model="form.email" placeholder="Email" :suffix-icon="EditIcon" />
                     </el-form-item>
 
                 </div>
@@ -79,7 +82,7 @@
 <script setup lang="ts">
 import LkHeader from "@/features/lk/components/LkHeader.vue";
 import BirdIcon from "@/features/lk/components/Icons/BirdIcon.vue";
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import client from "@/api/client";
 import { vMaska } from "maska"
 import {getAccessToken} from "@/utils/token";
@@ -88,6 +91,7 @@ import Button from "@/components/Button.vue";
 import {updateUser} from "@/features/lk/api";
 import {toast} from "vue3-toastify";
 import ShellIcon from "@/features/lk/components/Icons/ShellIcon.vue";
+import EditIcon from "@/features/lk/components/Icons/EditIcon.vue";
 
 const isLoading = ref(false)
 
@@ -136,6 +140,7 @@ let form = ref<IUser>({
 onMounted(() => {
     initForm()
 })
+
 
 const submitForm = async (formEl: any) => {
     if (!formEl) return
@@ -221,4 +226,20 @@ const initForm = async () => {
       text-align: left;
   }
 }
+
+:deep(.el-input__wrapper) {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+:deep(.el-input__icon) {
+        margin-right: 0 !important;
+    }
+
+:deep(.birth-date-picker .el-input__wrapper) {
+    display: flex;
+        flex-direction: row-reverse;
+    }
 </style>
