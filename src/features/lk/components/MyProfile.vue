@@ -106,7 +106,7 @@ const rules = reactive<any>({
     ],
     phone: [
         { required: true, message: 'Необходимо ввести Телефон', trigger: 'blur' },
-        { pattern: /^\+7 \d{3} \d{3}-\d{2}-\d{2}$/, message: 'Необходимо ввести корректный Телефон', trigger: ['blur', 'change'] }
+        { pattern: /^\+7 \d{3} \d{3}-\d{2}-\d{2}$/, message: 'Неверный формат Телефона', trigger: ['blur', 'change'] }
     ],
     email: [
         { required: true, message: 'Необходимо ввести Email', trigger: 'blur' },

@@ -17,18 +17,121 @@
             Alean Family, г. Анапа
         </div>
         <div class="booking-body__info">
-            <el-descriptions title="Проживание" column="1" size="large">
-                <el-descriptions-item label="Номер">Standart 1-комнатный</el-descriptions-item>
-                <el-descriptions-item label="Даты">12 июля, ср - 13 июля, чт</el-descriptions-item>
-            </el-descriptions>
-            <el-descriptions title="Дополнительные услуги" column="1" size="large">
-                <el-descriptions-item label="Единство тела и души">1 взрослый, 3 дня</el-descriptions-item>
-                <el-descriptions-item label="Единство тела и души">1 взрослый, 3 дня</el-descriptions-item>
-            </el-descriptions>
+            <el-row>
+                <el-col :span="8">
+                    <el-descriptions title="Проживание" column="1" size="large">
+                        <el-descriptions-item label="Номер">Standart 1-комнатный</el-descriptions-item>
+                        <el-descriptions-item label="Даты">12 июля, ср - 13 июля, чт</el-descriptions-item>
+                        <el-descriptions-item label="Тариф">"Все включено"</el-descriptions-item>
+                        <el-descriptions-item label="Гости">1 взрослый</el-descriptions-item>
+                    </el-descriptions>
+                </el-col>
+                <el-col :span="12">
+                    <el-descriptions title="Дополнительные услуги" column="1" size="large">
+                        <el-descriptions-item label="Единство тела и души">1 взрослый, 3 дня</el-descriptions-item>
+                        <el-descriptions-item label="Единство тела и души">1 взрослый, 3 дня</el-descriptions-item>
+                    </el-descriptions>
+                </el-col>
+            </el-row>
+
         </div>
 
-          <div class="booking-body__check">
-              <span>Проверить данные гостей <ArrowIcon /></span>
+          <div class="booking-body__check" @click="onShowGuests">
+              <span>Проверить данные гостей <ArrowIcon :class="{ 'booking-guests_open': isShowGuests }" /></span>
+          </div>
+          <div v-if="isShowGuests" class="booking-body_guests">
+              <div class="booking-body__guest-title">Гость 1. Взрослый</div>
+
+              <div class="grid grid-cols-3 gap-10">
+
+                  <el-form-item prop="last_name">
+                      <el-input placeholder="Фамилия" :suffix-icon="EditIcon" />
+                  </el-form-item>
+                  <el-form-item prop="first_name">
+                      <el-input placeholder="Имя" :suffix-icon="EditIcon" />
+                  </el-form-item>
+                  <el-form-item prop="middle_name">
+                      <el-input placeholder="Отчество" :suffix-icon="EditIcon" />
+                  </el-form-item>
+                  <el-form-item prop="birthdate">
+                      <el-date-picker
+                              type="date"
+                              placeholder="Дата рождения"
+                              format="DD.MM.YYYY"
+                              class="birth-date-picker"
+                              :clearable="false"
+                              :prefix-icon="EditIcon"
+                      />
+                  </el-form-item>
+                  <el-form-item prop="phone">
+                      <el-input v-maska data-maska="+7 ### ###-##-##" :suffix-icon="EditIcon" placeholder="Телефон" />
+                  </el-form-item>
+                  <el-form-item prop="email">
+                      <el-input placeholder="Email" :suffix-icon="EditIcon" />
+                  </el-form-item>
+
+              </div>
+          </div>
+
+          <div class="booking-body__summary">
+              <el-row>
+                  <el-col :span="8">
+                      <el-descriptions column="1" size="large">
+                          <el-descriptions-item label="Сумма">
+                      <span class="booking-card__price">
+                        127 000 р.
+                      </span>
+                          </el-descriptions-item>
+                      </el-descriptions>
+                  </el-col>
+                  <el-col :span="12">
+                      <el-descriptions column="1" size="large">
+                          <el-descriptions-item label="Сумма">
+                      <span class="booking-card__price">
+                        127 000 р.
+                      </span>
+                          </el-descriptions-item>
+                      </el-descriptions>
+                  </el-col>
+              </el-row>
+              <el-row>
+                  <el-col :span="8">
+                    <small class="discount-small">Скидка составила 15 000 р.</small>
+                  </el-col>
+                  <el-col :span="7">
+                      <el-descriptions column="1" size="large">
+                          <el-descriptions-item label="Внесена предоплата:">
+                            <span class="booking-card__price-small">
+                              127 000 р.
+                            </span>
+                          </el-descriptions-item>
+                      </el-descriptions>
+                  </el-col>
+              </el-row>
+
+              <el-row>
+                  <el-col class="summary" :span="8">
+                      <el-descriptions column="1" size="large">
+                          <el-descriptions-item label="Итого:">
+                            <span class="booking-card__price" style="font-size: 28px">
+                              138 000 р.
+                            </span>
+                          </el-descriptions-item>
+                      </el-descriptions>
+                  </el-col>
+                  <el-col :span="7">
+                      <el-descriptions column="1" size="large">
+                          <el-descriptions-item label="Осталось к оплате:">
+                            <span class="booking-card__price-small">
+                              120 000 р.
+                            </span>
+                          </el-descriptions-item>
+                      </el-descriptions>
+                  </el-col>
+                  <el-col :span="3">
+                      <el-button class="pay" round type="info" size="default">Оплатить</el-button>
+                  </el-col>
+              </el-row>
           </div>
       </div>
 
@@ -39,18 +142,88 @@
 <script setup lang="ts">
 
 import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
+import {ref} from "vue";
+import EditIcon from "@/features/lk/components/Icons/EditIcon.vue";
+
+const isShowGuests = ref(false);
+
+const onShowGuests = () => {
+    isShowGuests.value = !isShowGuests.value
+}
 </script>
 
 <style scoped lang="scss">
+
+.discount-small {
+    font-family: Geometria,serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+}
+
+.pay {
+  background-color: #215C66;
+  border-color: #215C66;
+  color: white;
+}
+
+.summary {
+  :deep(.el-descriptions__label) {
+    font-family: Geometria,serif !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    line-height: 20px !important;
+    color: #121326 !important;
+  }
+}
+
 .booking-card {
   padding: 30px 40px 30px 40px;
   border: 1px solid #EEEAEA;
+
+  &__price {
+    font-family: Optima Cyr,serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 30px;
+    text-align: left;
+
+    &-small {
+      font-family: Optima Cyr,serif;
+      font-weight: 400;
+      line-height: 30px;
+      text-align: left;
+      font-size: 20px;
+    }
+  }
+}
+
+.booking-body__summary {
+  padding-top: 1rem;
+}
+
+.booking-body__guest-title {
+  font-family: Geometria, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 25px;
+  text-align: left;
+  padding-bottom: 1rem;
+}
+
+.booking-guests_open {
+  transform: rotate(90deg);
+}
+
+.booking-body_guests {
+  padding-top: 1rem;
 }
 
 .booking-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 1.3rem;
 
   &__title {
     font-family: Geometria, sans-serif;
@@ -80,8 +253,6 @@ import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
 .booking-body {
 
   &__info {
-    display: flex;
-    gap: 5rem;
     margin-top: 1rem;
   }
 
@@ -131,6 +302,26 @@ import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
     line-height: 20px;
     color: #202020;
   }
+}
+
+:deep(.el-input__wrapper) {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+:deep(.el-input__icon) {
+  margin-right: 0 !important;
+}
+
+:deep(.birth-date-picker) {
+  width: 100%;
+}
+
+:deep(.birth-date-picker .el-input__wrapper) {
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 </style>
