@@ -2,12 +2,13 @@
     <div>
         <div class="header-line">
             <div class="container mx-auto flex  ">
-                <div class="cursor-pointer left" @click="router.push('/')">Выбрать номер</div>
-                <div class="cursor-pointer center text-center" @click="router.push('/booking')">Данные о гостях</div>
-                <div
-                    v-if="router.currentRoute.value.name != 'complete'"
-                    class="text-right"
-                >
+                <div 
+                    v-if="router.currentRoute.value.name == 'booking'"
+                    class="cursor-pointer left"
+                    @click="router.push('/')"
+                >Выбрать номер</div>
+                <div class="cursor-pointer" @click="router.push('/booking')">Данные о гостях</div>
+                <div>
                     <span
                         v-if="typeof bookingStore.bookedRooms.rooms == 'undefined'"
                         style="opacity: .5;"
@@ -47,6 +48,15 @@
         .container {
             & > div {
                 width: 33.33%;
+                &:first-child {
+                    text-align: left;
+                }
+                &:nth-child(2) {
+                    text-align: center;
+                }
+                &:nth-child(3) {
+                    text-align: right;
+                }
             }
         }
     }
