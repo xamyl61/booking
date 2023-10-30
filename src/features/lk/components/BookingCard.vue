@@ -108,13 +108,16 @@
           <div class="booking-body__summary">
               <el-row :gutter="20">
                   <el-col :span="10">
-                      <el-descriptions column="1" size="large">
-                          <el-descriptions-item label="Сумма">
-                      <span class="booking-card__price">
-                        127 000 р.
-                      </span>
-                          </el-descriptions-item>
-                      </el-descriptions>
+                     
+
+                    <div class="descriptions">
+                    <div class="item">
+                      <div class="title">Сумма</div>
+                      <div class="price booking-card__price">127 000 р.</div>
+                    </div>
+
+                  </div>
+
                   </el-col>
                   <el-col :span="14">
                       <el-descriptions column="1" size="large">
@@ -131,38 +134,41 @@
                     <small class="discount-small">Скидка составила 15 000 р.</small>
                   </el-col>
                   <el-col :span="14">
-                      <el-descriptions column="1" size="large">
-                          <el-descriptions-item label="Внесена предоплата:">
-                            <span class="booking-card__price-small">
-                              127 000 р.
-                            </span>
-                          </el-descriptions-item>
-                      </el-descriptions>
+                    <div class="descriptions">
+                    <div class="item">
+                      <div class="title">Внесена предоплата:</div>
+                      <div class="price booking-card__price-small">127 000 р.</div>
+                    </div>
+
+                  </div>
                   </el-col>
               </el-row>
 
               <el-row :gutter="20">
                   <el-col class="summary" :span="10">
-                      <el-descriptions column="1" size="large">
-                          <el-descriptions-item label="Итого:">
-                            <span class="booking-card__price" style="font-size: 28px">
-                              138 000 р.
-                            </span>
-                          </el-descriptions-item>
-                      </el-descriptions>
+                    <div class="descriptions">
+                    <div class="item">
+                      <div class="title">Итого:</div>
+                      <div class="price booking-card__price">127 000 р.</div>
+                    </div>
+
+                  </div>
+                   
                   </el-col>
-                  <el-col :span="10">
-                      <el-descriptions column="1" size="large">
-                          <el-descriptions-item label="Осталось к оплате:">
-                            <span class="booking-card__price-small">
-                              120 000 р.
-                            </span>
-                          </el-descriptions-item>
-                      </el-descriptions>
+                  <el-col :span="14">
+                    <div class="descriptions">
+                    <div class="item">
+                      <div class="title">Осталось к оплате:</div>
+                      <div class="price booking-card__price-small">
+                        <span>127 000 р.</span>
+                      <el-button style="margin-left: 1rem;" class="pay" round type="info" size="default">Оплатить</el-button>
+
+                      </div>
+                    </div>
+
+                  </div>
                   </el-col>
-                  <el-col :span="4">
-                      <el-button class="pay" round type="info" size="default">Оплатить</el-button>
-                  </el-col>
+                  
               </el-row>
           </div>
       </div>
@@ -186,6 +192,48 @@ const onShowGuests = () => {
 
 <style scoped lang="scss">
 
+.descriptions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__title {
+    font-family: Optima Cyr;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+}
+
+.item {
+  display: flex;
+  margin-bottom: 10px; /* Если вы хотите добавить отступ между строками */
+  width:100%;
+  align-items: center;
+}
+
+.title {
+  max-width: 45%;
+  flex: 1; /* Займет все доступное пространство, оставив место для .price */
+  margin-right: 20px; /* Отступ между названием и ценой */
+  font-family: Geometria;
+font-size: 16px;
+font-weight: 700;
+line-height: 20px;
+color: #939393;
+
+}
+
+.price {
+  width: 57%;
+  text-align: left;
+  font-family: Geometria;
+font-size: 16px;
+font-weight: 700;
+line-height: 20px;
+}
 .discount-small {
     font-family: Geometria,serif;
     font-size: 14px;
@@ -356,47 +404,5 @@ const onShowGuests = () => {
   flex-direction: row-reverse;
 }
 
-.descriptions {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  &__title {
-    font-family: Optima Cyr;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 18px;
-    letter-spacing: 0em;
-    text-align: left;
-  }
-}
-
-.item {
-  display: flex;
-  margin-bottom: 10px; /* Если вы хотите добавить отступ между строками */
-  width:100%;
-  
-}
-
-.title {
-  max-width: 40%;
-  flex: 1; /* Займет все доступное пространство, оставив место для .price */
-  margin-right: 20px; /* Отступ между названием и ценой */
-  font-family: Geometria;
-font-size: 16px;
-font-weight: 700;
-line-height: 20px;
-color: #939393;
-
-}
-
-.price {
-  width: 60%;
-  text-align: left;
-  font-family: Geometria;
-font-size: 16px;
-font-weight: 700;
-line-height: 20px;
-}
 
 </style>

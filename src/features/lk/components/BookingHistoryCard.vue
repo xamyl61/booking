@@ -245,7 +245,7 @@ import EditIcon from "@/features/lk/components/Icons/EditIcon.vue";
   display: flex;
   margin-bottom: 10px; /* Если вы хотите добавить отступ между строками */
   width:100%;
-  
+  align-items: center;
 }
 
 .title {
