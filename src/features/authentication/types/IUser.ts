@@ -4,5 +4,5 @@ export interface IUser {
     middle_name: string
     last_name: string
     phone: string
-    birthdate: Date
+    birthdate: any
 }

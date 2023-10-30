@@ -22,29 +22,37 @@
                 <div class="grid grid-cols-3 gap-10">
 
                     <el-form-item prop="last_name">
-                        <el-input v-model="form.last_name" placeholder="Фамилия" />
+                        <el-input v-model="form.last_name" placeholder="Фамилия" :suffix-icon="EditIcon" />
                     </el-form-item>
                     <el-form-item prop="first_name">
-                        <el-input v-model="form.first_name" placeholder="Имя" />
+                        <el-input v-model="form.first_name" placeholder="Имя" :suffix-icon="EditIcon" />
                     </el-form-item>
                     <el-form-item prop="middle_name">
-                        <el-input v-model="form.middle_name" placeholder="Отчество" />
+                        <el-input v-model="form.middle_name" placeholder="Отчество" :suffix-icon="EditIcon" />
                     </el-form-item>
                     <el-form-item prop="birthdate">
-                        <el-input v-model="form.birthdate" placeholder="Дата рождения" />
+                        <el-date-picker
+                          v-model="form.birthdate"
+                          type="date"
+                          placeholder="Дата рождения"
+                          format="DD.MM.YYYY"
+                          class="birth-date-picker"
+                          :clearable="false"
+                          :prefix-icon="EditIcon"
+                        />
                     </el-form-item>
                     <el-form-item prop="phone">
-                        <el-input v-maska data-maska="+7 ### ###-##-##" v-model="form.phone" placeholder="Телефон" />
+                        <el-input v-maska data-maska="+7 ### ###-##-##" v-model="form.phone" :suffix-icon="EditIcon" placeholder="Телефон" />
                     </el-form-item>
                     <el-form-item prop="email">
-                        <el-input v-model="form.email" placeholder="Email" />
+                        <el-input v-model="form.email" placeholder="Email" :suffix-icon="EditIcon" />
                     </el-form-item>
 
                 </div>
             </el-form>
 
             <div class="my-profile__submit">
-                <Button @click="submitForm(ruleFormRef)">Сохранить</Button>
+                <Button v-if="isFormChanged" @click="submitForm(ruleFormRef)">Сохранить</Button>
             </div>
         </div>
 
@@ -73,7 +81,7 @@
 <script setup lang="ts">
 import LkHeader from "@/features/lk/components/LkHeader.vue";
 import BirdIcon from "@/features/lk/components/Icons/BirdIcon.vue";
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch, watchEffect} from "vue";
 import client from "@/api/client";
 import { vMaska } from "maska"
 import {getAccessToken} from "@/utils/token";
@@ -82,17 +90,9 @@ import Button from "@/components/Button.vue";
 import {updateUser} from "@/features/lk/api";
 import {toast} from "vue3-toastify";
 import ShellIcon from "@/features/lk/components/Icons/ShellIcon.vue";
+import EditIcon from "@/features/lk/components/Icons/EditIcon.vue";
 
 const isLoading = ref(false)
-
-interface RuleForm {
-    first_name: string,
-    last_name: string,
-    middle_name: string,
-    phone: string,
-    email: string,
-    birthdate: Date
-}
 
 const rules = reactive<any>({
     first_name: [
@@ -106,9 +106,11 @@ const rules = reactive<any>({
     ],
     phone: [
         { required: true, message: 'Необходимо ввести Телефон', trigger: 'blur' },
+        { pattern: /^\+7 \d{3} \d{3}-\d{2}-\d{2}$/, message: 'Неверный формат Телефона', trigger: ['blur', 'change'] }
     ],
     email: [
         { required: true, message: 'Необходимо ввести Email', trigger: 'blur' },
+        { type: 'email', message: 'Неверный формат Email', trigger: ['blur', 'change']}
     ],
     birthdate: [
         { required: true, message: 'Необходимо ввести Дату рождения', trigger: 'blur' },
@@ -116,18 +118,27 @@ const rules = reactive<any>({
 })
 
 const ruleFormRef = ref()
+const isFormChanged = ref(false);
 let form = ref<IUser>({
     first_name: '',
     last_name: '',
     middle_name: '',
     phone: '',
     email: '',
-    birthdate: new Date(),
+    birthdate: '',
 })
+
+const initialForm = ref<IUser>({ ...form.value });
+
+watchEffect(() => {
+    isFormChanged.value = JSON.stringify(form.value) !== JSON.stringify(initialForm.value);
+});
+
 
 onMounted(() => {
     initForm()
 })
+
 
 const submitForm = async (formEl: any) => {
     if (!formEl) return
@@ -158,6 +169,18 @@ const updateUserProfile = async () => {
 }
 
 
+function reformatPhoneNumber(number) {
+    const cleanNumber = number.replace(/\D/g, ''); // удаляем все не-цифровые символы
+
+    return (
+        "+" + cleanNumber.substring(0, 1) + " " +
+        cleanNumber.substring(1, 4) + " " +
+        cleanNumber.substring(4, 7) + "-" +
+        cleanNumber.substring(7, 9) + "-" +
+        cleanNumber.substring(9, 11)
+    );
+}
+
 const initForm = async () => {
 
     isLoading.value = true
@@ -171,14 +194,19 @@ const initForm = async () => {
             }
         })
 
-        form.value = {
+        const tmp = {
             first_name: data.first_name,
             last_name: data.last_name,
             middle_name: data.middle_name,
-            phone: data.phone,
+            phone: reformatPhoneNumber(data.phone),
             email: data.email,
             birthdate: data.birthdate
-        }
+        };
+
+        form.value = {...tmp}
+        initialForm.value = {...tmp}
+
+
     } catch (e) {
 
     } finally {
@@ -212,5 +240,25 @@ const initForm = async () => {
       line-height: 25px;
       text-align: left;
   }
+}
+
+:deep(.el-input__wrapper) {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+:deep(.el-input__icon) {
+        margin-right: 0 !important;
+    }
+
+:deep(.birth-date-picker) {
+  width: 100%;
+}
+
+:deep(.birth-date-picker .el-input__wrapper) {
+  display: flex;
+  flex-direction: row-reverse;
 }
 </style>

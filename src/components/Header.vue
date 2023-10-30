@@ -1,7 +1,13 @@
 <template>
   <header class="header">
     <div class="container mx-auto">
-      <a href="#" class="back">
+      
+      
+      <a v-if="currentRoute === 'lk'" href="#" class="back" @click="onHome">
+          <IconArrowLeft/>
+          <p class="back_text">Вернуться назад</p>
+      </a>
+      <a v-else href="#" class="back">
           <IconArrowLeft/>
           <p class="back_text">Вернуться на сайт</p>
       </a>
@@ -61,6 +67,14 @@
   const authStore = useAuthStore()
   const route = useRoute()
   const router = useRouter()
+
+  const currentRoute = computed(() => {
+    return route.name
+  })
+
+  const onHome = () => {
+    router.push({name: 'home'})
+  }
 
   const onLogin = () => {
   

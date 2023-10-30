@@ -49,6 +49,11 @@ watch(route, (to) => {
     text-align: center;
     background-color: #EEEAEA;
     color: black;
+    border-left: 1px solid #939393 !important;
+
+    &:first-child {
+        border-left: none !important;
+    }
 }
 
 :deep(.is-active) {

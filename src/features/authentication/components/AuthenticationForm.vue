@@ -220,7 +220,7 @@ const verificationStep = () => {
     </el-drawer>
 
 </template>
-<style>
+<style lang="scss">
 
 .el-drawer__header {
     background-color: var(--color-primary);
@@ -279,6 +279,9 @@ const verificationStep = () => {
 }
 
 .login-tabs .el-tabs__item {
-    color: grey;
+    color: #939393;
+}
+.login-tabs .is-active {
+    color: #121326;
 }
 </style>

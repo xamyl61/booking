@@ -14,19 +14,20 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import VueEasyLightbox from 'vue-easy-lightbox'
 import VueSnip from 'vue-snip'
-
-
+import ru from 'element-plus/dist/locale/ru.mjs'
+import 'dayjs/locale/ru'
 
 const app = createApp(App)
 app.component('VueDatePicker', VueDatePicker)
 
 app.use(createPinia())
-app.use(ElementPlus)
+app.use(ElementPlus, {
+    locale: ru
+})
 app.use(router)
 app.use(vfmPlugin)
 app.use(Vue3Toasity)
 app.use(VueEasyLightbox)
 app.use(VueSnip)
-
 
 app.mount('#app')
