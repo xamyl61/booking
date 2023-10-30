@@ -29,18 +29,42 @@
 
 
         <el-row>
-            <el-col :span="8">
-                <el-descriptions title="Проживание" column="1" size="large">
-                    <el-descriptions-item label="Номер">Standart 1-комнатный</el-descriptions-item>
-                    <el-descriptions-item label="Тариф">“Ультра все включено”</el-descriptions-item>
-                    <el-descriptions-item label="Гости">1 взрослый</el-descriptions-item>
-                </el-descriptions>
+            <el-col :span="10">
+                <div class="descriptions">
+                    <div class="descriptions__title">
+                      Проживание
+                    </div>
+
+                    <div class="item">
+    <div class="title">Номер</div>
+    <div class="price">Standart 1-комнатный</div>
+    </div>
+    <div class="item">
+    <div class="title">Тариф</div>
+    <div class="price">“Ультра все включено”</div>
+    </div>
+    <div class="item">
+    <div class="title">Гости</div>
+    <div class="price">1 взрослый</div>
+    </div>
+                  </div>
             </el-col>
-            <el-col :span="8">
-                <el-descriptions title="Дополнительные услуги" column="1" size="large">
-                    <el-descriptions-item label="Единство тела и души">1 взрослый, 3 дня</el-descriptions-item>
-                    <el-descriptions-item label="Единство тела и души">1 взрослый, 3 дня</el-descriptions-item>
-                </el-descriptions>
+            <el-col :span="14">
+                <div class="descriptions">
+                    <div class="descriptions__title">
+                      Дополнительные услуги
+                    </div>
+
+                    <div class="item">
+                      <div class="title">Единство тела и души</div>
+                      <div class="price">1 взрослый, 3 дня</div>
+                    </div>
+                    <div class="item">
+                      <div class="title">Единство тела и души</div>
+                      <div class="price">1 взрослый, 3 дня</div>
+                    </div>
+
+                  </div>
             </el-col>
         </el-row>
 
@@ -199,6 +223,50 @@ import EditIcon from "@/features/lk/components/Icons/EditIcon.vue";
         line-height: 20px;
         color: #202020;
     }
+}
+
+
+.descriptions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__title {
+    font-family: Optima Cyr;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+}
+
+.item {
+  display: flex;
+  margin-bottom: 10px; /* Если вы хотите добавить отступ между строками */
+  width:100%;
+  
+}
+
+.title {
+  max-width: 40%;
+  flex: 1; /* Займет все доступное пространство, оставив место для .price */
+  margin-right: 20px; /* Отступ между названием и ценой */
+  font-family: Geometria;
+font-size: 16px;
+font-weight: 700;
+line-height: 20px;
+color: #939393;
+
+}
+
+.price {
+  width: 60%;
+  text-align: left;
+  font-family: Geometria;
+font-size: 16px;
+font-weight: 700;
+line-height: 20px;
 }
 
 </style>
