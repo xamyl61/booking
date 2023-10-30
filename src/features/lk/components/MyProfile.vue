@@ -91,6 +91,7 @@ import {updateUser} from "@/features/lk/api";
 import {toast} from "vue3-toastify";
 import ShellIcon from "@/features/lk/components/Icons/ShellIcon.vue";
 import EditIcon from "@/features/lk/components/Icons/EditIcon.vue";
+import {dayjs} from "element-plus";
 
 const isLoading = ref(false)
 
@@ -153,7 +154,10 @@ const submitForm = async (formEl: any) => {
 const updateUserProfile = async () => {
     isLoading.value = true
     try {
-        await updateUser(form.value)
+        await updateUser({
+            ...form.value,
+            birthdate: dayjs(form.value.birthdate).format('YYYY-MM-DD')
+        })
         toast('Сохранено', {
             type: 'success',
             position: 'top-center',
