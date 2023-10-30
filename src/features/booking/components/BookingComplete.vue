@@ -50,6 +50,8 @@ const bookingPay = ref({
 <style scoped lang="scss">
 
 .booking-complete {
+    padding-left: 1.3rem;
+    padding-right: 1.3rem;
 
   &__title {
     font-family: "Optima Cyr",serif;

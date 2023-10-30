@@ -216,7 +216,7 @@
         font-family: 'Optima Cyr';
     }
     .booking-block {
-        padding-top: 3rem;
+        padding: 3rem 1.3rem 0;
     }
     .booking-block hr {
         border-color: rgba(238, 234, 234, 1);

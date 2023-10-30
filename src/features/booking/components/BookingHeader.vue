@@ -46,6 +46,8 @@
         font-family: 'Optima Cyr';
         
         .container {
+            padding-left: 1.3rem;
+            padding-right: 1.3rem;
             & > div {
                 width: 33.33%;
                 &:first-child {
