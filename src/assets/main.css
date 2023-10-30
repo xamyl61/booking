@@ -99,18 +99,15 @@ body {
     border-radius: 0!important;
     margin-top: -12px;
 }
-<<<<<<< HEAD
     .el-input__inner {
         font-size: 16px;
         color: #939393;
     }
-=======
 
 .el-date-table td.current:not(.disabled) .el-date-table-cell__text {
     background-color: #215C66 !important;
 }
 
->>>>>>> master
     .el-input__inner:focus {
         box-shadow: none;
     }
