@@ -51,7 +51,6 @@ const handleClick = function (event: MouseEvent) {
   }
   .btn:hover {
     background: #F7C87D;
-    color: #000;
   }
 
   .btn_disabled {
@@ -63,6 +62,13 @@ const handleClick = function (event: MouseEvent) {
   }
   .btn-grey {
     background-color: #939393;
+  }
+  .btn-yellow {
+    background: #F7C87D;
+    color: #121326;
+  }
+  .btn-yellow:hover {
+    background: #fff;
   }
   .btn-with-border {
     background: none;

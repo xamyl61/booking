@@ -15,7 +15,18 @@
                 :zoomDisabled="true"
                 @hide="onHide"
                 class="m-lightbox"
-            ></vue-easy-lightbox>
+            >
+            <template v-slot:prev-btn="{ prev }">
+                <button @click="prev" class="prev">
+                    <IconSlideRight/>
+                </button>
+            </template>
+            <template v-slot:next-btn="{ next }">
+                <button @click="next" class="next">
+                    <IconSlideRight/>
+                </button>
+            </template>
+            </vue-easy-lightbox>
         </div>
 
 
@@ -145,7 +156,14 @@
 
                     <div class="right-block">
                         <div class="header-icon">
-                            <div class="header-icon-item"><IconPersons/> {{ roomDetails?.room_type.number_of_persons_per_room }} {{ pluralPeopletext(roomDetails?.room_type.number_of_persons_per_room) }}</div>
+                            <div class="header-icon-item">
+                                    <IconPerson v-if="roomDetails.room_type.number_of_persons_per_room == 1"/>
+                                    <IconPerson2 v-if="roomDetails.room_type.number_of_persons_per_room == 2"/>
+                                    <IconPersons v-if="roomDetails.room_type.number_of_persons_per_room > 2"/>
+                                    {{ roomDetails?.room_type.number_of_persons_per_room }}
+                                    
+                                    {{ pluralPeopletext(roomDetails?.room_type.number_of_persons_per_room) }}
+                            </div>
                             <div class="header-icon-item"><IconSquare/> {{ roomDetails?.room_square }} м2</div>
                             <div class="header-icon-item"><IconHome/> {{ roomDetails?.room_type.number_of_beds_per_room }} {{ pluralRoomsText(roomDetails?.room_type.number_of_beds_per_room) }}</div>
                         </div>
@@ -233,8 +251,8 @@
                     <div class="persons-nights">{{ countOfPersons }} чел. / {{ countOfDays }} {{ pluralNightText(countOfDays) }}</div>
                 </div>
                 <div class="btns-block" v-if="showButton">
-                    <div class="bonus text-xs text-center pb-1">{{ props.bonus }} бонусов</div>
-                    <button @click="openBooking(props.roomDetails, props.сhildren, props.adults, props.dateFrom, props.dateTill, props.choosedHotelGuid, props.bonus, props.roomPrice)" class="btn">Выбрать</button>
+                    <div class="bonus text-xs text-center pb-1"><IconRuble/>  {{ props.bonus }} бонусов</div>
+                    <Button @click="openBooking(props.roomDetails, props.сhildren, props.adults, props.dateFrom, props.dateTill, props.choosedHotelGuid, props.bonus, props.roomPrice)" class="btn-yellow">Выбрать</Button>
                 </div>
             </div>
         </div>
@@ -255,11 +273,14 @@
 
 
     import plural  from 'plural-ru';
-    
+    import Button from '@/components/Button.vue';
     import IconSlideRight from '@/components/icons/IconSlideRight.vue';
     import IconHome from '@/components/icons/IconHome.vue';
     import IconSquare from '@/components/icons/IconSquare.vue';
+    import IconPerson from '@/components/icons/IconPerson.vue';
+    import IconPerson2 from '@/components/icons/IconPerson2.vue';
     import IconPersons from '@/components/icons/IconPersons.vue';
+    import IconRuble from '@/components/icons/IconRuble.vue';
 
     
     const showMore = ref(true) 
@@ -508,7 +529,9 @@
     font-size: 1.2rem;
 }
 
-
+.details {
+    color: #202020;
+}
 .description.show {
     display: block!important;
     overflow: auto!important;
@@ -587,11 +610,16 @@
     font-family: 'Optima Cyr';
     font-size: 1.6rem;
     margin-bottom: 1.6rem;
+    color: #000;
+}
+.more {
+    color: #121326;
+    font-size: 1rem;
 }
 .list-block-subtitle {
     color: #939393;
     font-weight: 700;
-    font-size: .8rem;
+    font-size: 1rem;
     padding-bottom: .8rem;
 }
 
@@ -649,12 +677,10 @@
 
 }
 .period-title {
-    font-size: 1.2rem;
+    font-size: 1.38rem;
     padding-bottom: .5rem;
     font-family: 'Optima Cyr';
 }
-.period-date {
-    
-}
+
 
 </style>

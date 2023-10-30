@@ -148,6 +148,8 @@
                             },
                         ]"
                     >
+        
+
                         <el-date-picker
                             v-model="bookingFormStore.bookingForm[bookingIndex-1].guests[index].birthday"
                             type="date"
@@ -156,7 +158,9 @@
                             style="width: 100%"
                             format="YYYY-MM-DD"
                             value-format="YYYY-MM-DD"
-                        />
+                        >
+                        </el-date-picker>
+
                         <!-- <VueDatePicker
                             text-input
                             v-model="bookingFormStore.bookingForm[bookingIndex-1].guests[index].birthday"
@@ -221,10 +225,6 @@
 
 
 <style scoped lang="scss">
-
-.title-line {
-    font-size: 1.4rem;
-}
 
 
 </style>

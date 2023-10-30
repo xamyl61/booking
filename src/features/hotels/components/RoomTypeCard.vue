@@ -52,7 +52,7 @@
                             <span
                                     
                                     @click="showRoomDetails(roomType.room_type.guid, roomType.price, roomType.price_info.bonus)"
-                                    class="hover:underline text-black cursor-pointer" href="#"
+                                    class="hover:underline cursor-pointer" href="#"
                             >
                                 {{roomType.title}}
                             </span>
@@ -62,7 +62,9 @@
                     <div class="flex items-center params">
                         <div class="flex items-center">
                             <div class="flex items-center pr-4 text-xs">
-                                <IconPerson/>
+                                <IconPerson v-if="roomType.room_type.number_of_persons_per_room == 1"/>
+                                <IconPerson2 v-if="roomType.room_type.number_of_persons_per_room == 2"/>
+                                <IconPersons v-if="roomType.room_type.number_of_persons_per_room > 2"/>
                                 {{roomType.room_type.number_of_persons_per_room}}
                                 {{pluralPeopletext(roomType.room_type.number_of_persons_per_room)}}
                             </div>
@@ -83,7 +85,7 @@
                                 @click="showRoomDetails(roomType.room_type.guid, roomType.price, roomType.price_info.bonus)"
                                 class="flex items-center no-underline hover:underline text-black cursor-pointer">
                             Подробнее о номере
-                            <IconArrowLeftInCircle/>
+                            <IconArrowLeftInCircle class="ml-3"/>
                         </div>
 
 
@@ -120,8 +122,8 @@
                                 >{{roomType.price_info.bonus}} бонусов
                                 </div>
                             </div>
-                            <button
-                                @click="openBooking(roomType.room_type.guid, props.сhildren, props.adults, props.dateFrom, props.dateTill, choosedHotelGuid.value, roomType.price_info.bonus, roomType.price_info.price)" class="btn w-full">Выбрать</button>
+                            <Button
+                                @click="openBooking(roomType.room_type.guid, props.сhildren, props.adults, props.dateFrom, props.dateTill, choosedHotelGuid.value, roomType.price_info.bonus, roomType.price_info.price)" class="w-full">Выбрать</Button>
                         </div>
                     </div>
                     <div
@@ -256,6 +258,8 @@ import IconArrowLeftSircle from '@/components/icons/IconArrowLeftSircle.vue'
 import IconArrowRightSircle from '@/components/icons/IconArrowRightSircle.vue'
 import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue';
 import IconPerson from '@/components/icons/IconPerson.vue';
+import IconPerson2 from '@/components/icons/IconPerson2.vue';
+import IconPersons from '@/components/icons/IconPersons.vue';
 import IconSquare from '@/components/icons/IconSquare.vue';
 import IconHome from '@/components/icons/IconHome.vue';
 import IconRuble from '@/components/icons/IconRuble.vue';
@@ -607,10 +611,14 @@ onMounted(() => {
     color: #EB5757;
 }
 
-.discount-cost,
-.person-nights,
-.bonus-counts {
+.discount-cost {
     font-family: 'Optima Cyr';
+    color: #939393;
+}
+
+.bonus-counts,
+.person-nights {
+    font-family: 'Geometria';
     color: #939393;
 }
 

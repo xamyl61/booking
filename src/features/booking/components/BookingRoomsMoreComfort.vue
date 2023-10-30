@@ -179,8 +179,11 @@ $border-color_1: var(--color-primary);
 		padding: 1.4rem 0 1rem;
 	}
 	.booking-rooms-item-dscr {
+		padding: 1rem 1rem;
 		.title {
-			font-size: 1.5rem;
+			font-size: 1.25rem;
+			padding-bottom: 1rem;
+			font-family: 'Optima Cyr';
 		}
 	}
 	.booking-rooms-item {
@@ -223,7 +226,7 @@ $border-color_1: var(--color-primary);
 		object-fit: cover;
 		width: 100%;
 		height: 100%;
-		max-height: 14rem;
+		max-height: 15rem;
 	}
 }
 .booking-rooms-item-header {

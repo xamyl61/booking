@@ -34,8 +34,8 @@
 
 <template>
     <div class="my-10">
-        <h3 class="title-line">Введите данные плательщика</h3>
-        <div>Будет открыт бонусный счет</div>
+        <h3 class="title-line pb-4">Введите данные плательщика</h3>
+        <div class="text-sm pb-4">Если у Вас еще нет бонусного счета в сети Alean Collection, он будет открыт автоматически</div>
         <el-form
             class="custom-form"
             ref="ruleFormRef"
@@ -171,9 +171,6 @@
 
 <style scoped lang="scss">
 
-.title-line {
-    font-size: 1.4rem;
-}
 .mask-complited {
     box-shadow: 0px 0px 0px 1px green!important;
 }

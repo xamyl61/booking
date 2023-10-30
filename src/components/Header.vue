@@ -105,10 +105,9 @@
 <style scoped lang="scss">
   .header {
     font-size: 1rem;
-    padding: 0 1.3rem;
   }
   .header .container {
-    padding: 1.3rem 0;
+    padding: 1.3rem;
     display: flex;
     align-items: center;
     border-bottom: 1px solid var(--color-line);
@@ -132,6 +131,9 @@
     display: flex;
     align-items: center;
     margin-left: 2.6vw;
+  }
+  .phone-link i {
+    margin-right: 1.1rem;
   }
     .icon-phone-gold {
       margin-right: 1rem;
