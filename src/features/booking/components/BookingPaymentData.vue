@@ -113,6 +113,7 @@
                 ]"
             >
                 <el-date-picker
+                    popper-class="el-datepicker-styles"
                     v-model="bookingPaymentStore.bookingPayment.birthday"
                     type="date"
                     label="Pick a date"

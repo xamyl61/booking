@@ -98,6 +98,7 @@ body {
 .el-popper.is-light {
     border-radius: 0!important;
     margin-top: -12px;
+    background-color: #215C66 !important;
 }
     .el-input__inner {
         font-size: 16px;
@@ -781,6 +782,71 @@ body {
         vertical-align: text-top;
     }
 
+    /* el-datepicker-styles */
+    .el-datepicker-styles .el-date-picker {
+        background: var(--color-primary);
+        color: #fff;
+    }
+    .el-datepicker-styles .el-year-table td .cell,
+    .el-datepicker-styles .el-month-table td .cell,
+    .el-datepicker-styles .el-date-table th,
+    .el-datepicker-styles .el-date-picker__header-label {
+        color: #fff;
+    }
+    .el-datepicker-styles .el-picker-panel__body {
+        padding-top: .8rem;
+    }
+    .el-datepicker-styles .el-month-table,
+    .el-datepicker-styles .el-year-table, 
+    .el-datepicker-styles .el-date-table {
+        font-size: 1rem;
+    }
+    .el-datepicker-styles .el-year-table td.today .cell {
+        color: #fff;
+    }
+    .el-datepicker-styles .el-date-picker__header--bordered,
+    .el-datepicker-styles .el-date-table th {
+        border: none;
+    }
+    .el-datepicker-styles .el-date-picker__header-label:hover,
+    .el-datepicker-styles .el-year-table td .cell:hover,
+    .el-datepicker-styles .el-month-table td .cell:hover,
+    .el-datepicker-styles .el-date-table td.available:hover {
+        color: #fff;
+    }
+    .el-datepicker-styles .el-date-table td.current:not(.disabled) .el-date-table-cell__text {
+        color: var(--color-primary);
+    }
+    .el-datepicker-styles .el-date-table td.current:not(.disabled) .el-date-table-cell__text:before {
+        content: "";
+        width: 26px;
+        height: 26px;
+        background: #ffff;
+        display: block;
+        z-index: -1;
+        position: absolute;
+        top: -3px;
+        left: 0;
+        border-radius: 100%;
+    }
+    .el-datepicker-styles .el-picker-panel__icon-btn {
+        font-size: 1.2rem;
+        margin-top: 0;
+        color: #fff;
+    }
+    .el-datepicker-styles .el-date-picker__header {
+        font-family: 'Optima Cyr';
+    }
+    .el-datepicker-styles .el-date-picker__header-label {
+        font-size: 1.2rem;
+    }
+    .el-datepicker-styles .el-date-table td.today .el-date-table-cell__text,
+    .el-datepicker-styles .el-month-table td.today .cell,
+    .el-datepicker-styles .el-month-table td.current:not(.disabled) .cell,
+    .el-datepicker-styles .el-year-table td.current:not(.disabled) .cell {
+        color: #fff;
+        font-weight: 700;
+    }
 
 
     
