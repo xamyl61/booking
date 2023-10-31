@@ -181,11 +181,6 @@
         }
     });
 
-
-
-    
-
-
     const createBooking = async (callback: () => Promise<any>) => {
         loading.value = true;
         try {

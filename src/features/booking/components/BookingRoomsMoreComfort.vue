@@ -8,6 +8,7 @@
     import IconSquare from '@/components/icons/IconSquare.vue';
     import IconHome from '@/components/icons/IconHome.vue';
     import IconPeopleGroup from '@/components/icons/IconPeopleGroup.vue';
+	import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
 
 	import type {IBookingInfoData} from "@/features/booking/types/IBookingInfoData";
 	
@@ -25,12 +26,14 @@
 	const roomDetails = ref()
 
 	const loading = ref(false)
+	const dialogVisible = ref(false)
 
 	
 
 	const props = defineProps({
         roomGuid: {
-            type: String
+            type: String,
+			required: true
         },
 		booking: {
             type: Object as PropType<IBookingInfoData>,
@@ -112,7 +115,10 @@
 		nights.value = ((new Date(props.booking.dateTill)).getTime() - (new Date(props.booking.dateFrom)).getTime())/(1000 * 3600 * 24) 
     })
 
-
+	const showRoomDetails = async (guid: string) => {
+		await getRoomDeatails(guid)
+		dialogVisible.value = true
+	}
 </script>
 
 <template>
@@ -136,13 +142,14 @@
                 <div class="booking-rooms-item-dscr flex grow">
                     <div class="flex justify-between items-center grow">
                         <div>
-                            <div class="title">{{ roomMoreComfort?.res.room_type.title }}</div>
+                            <div class="title">{{ roomMoreComfort?.res?.room_type?.title }}</div>
                             <div class="params flex">
-                                <div class="flex items-center"><IconPeopleGroup/> {{ roomMoreComfort?.res.room_type.number_of_persons_per_room }} человека</div>
-                                <div class="flex items-center"><IconHome/> {{ roomMoreComfort?.res.room_type.room_square }} м2</div>
+                                <div class="flex items-center"><IconPeopleGroup/> {{ roomMoreComfort?.res.room_type?.number_of_persons_per_room }} человека</div>
+                                <div class="flex items-center"><IconHome/> {{ roomMoreComfort?.res.room_type?.room_square }} м2</div>
                                 <div class="flex items-center"><IconSquare/> 2 комнаты</div>
                             </div>
                             <div
+								@click="showRoomDetails(roomMoreComfort.res.room_type.guid)"
                                 class="flex items-center no-underline hover:underline text-black cursor-pointer text-with-circle-icon">
                                 Подробнее о номере
                                 <IconArrowLeftInCircle/>
@@ -155,7 +162,7 @@
                         <div class="cost-wr text-center">
                             <div class="bonus flex justify-center align-center h-5">
                                 <IconRuble/>
-                                <div class="text-xs pl-1 bonus-counts">{{ roomMoreComfort?.res.price_info.bonus }} бонусов</div>
+                                <div class="text-xs pl-1 bonus-counts">{{ roomMoreComfort?.res.price_info?.bonus }} бонусов</div>
                             </div>
                             <Button @click="changeRoom(index, roomMoreComfort.res.room_type.guid)" class="btn whitespace-pre">Поменять номер</Button>
                         </div>
@@ -164,6 +171,27 @@
             </div>
         </div>
     </div>
+
+	<el-dialog
+		v-model="dialogVisible"
+		width="70%"
+		class="room-detail"
+		align-center
+		destroy-on-close
+	>
+		<RoomCardDetails
+			:roomDetails="roomDetails"
+			:roomPrice="props.booking.roomPrice + roomMoreComfort?.difference"
+			:countOfDays="nights"
+			:countOfPersons="props.booking.adults + props.booking.сhildren"
+			:bonus="props.booking.bonus"
+			:сhildren="props.booking.сhildren"
+			:dateFrom="props.booking.dateFrom"
+			:dateTill="props.booking.dateTill"
+			:adults="props.booking.adults"
+			:showButton="false"
+		/>
+	</el-dialog>
 </template>
 
 
