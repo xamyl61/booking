@@ -234,6 +234,9 @@
     .booking-sidebar-inner {
         border: 1px solid #EEEAEA;
     }
+    .booking-sidebar .line {
+        color: #202020E5;
+    }
     .booking-sidebar .headline {
         height: 4.2rem;
         display: flex;
@@ -263,14 +266,14 @@
         padding: 1.4rem;
     }
     .booking-sidebar .cost {
-        font-size: 1.8rem;
+        font-size: 1.75rem;
         font-family: 'Optima Cyr';
 
     }
     .booking-sidebar .bonus {
         display: flex;
         font-family: 'Geometria';
-        font-size: .8rem;
+        font-size: .75rem;
     }
     .booking-sidebar .bonus i {
         margin-right: .5rem;

@@ -34,7 +34,6 @@ const props = defineProps({
 <style scoped lang="scss">
 .booking-info {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
   &__number {
@@ -42,6 +41,7 @@ const props = defineProps({
     font-size: 20px;
     font-weight: 700;
     line-height: 26px;
+    margin-right: 5rem;
   }
 
   &__actions {

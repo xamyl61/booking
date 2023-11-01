@@ -7,7 +7,9 @@
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue';
     import IconSquare from '@/components/icons/IconSquare.vue';
     import IconHome from '@/components/icons/IconHome.vue';
-    import IconPeopleGroup from '@/components/icons/IconPeopleGroup.vue';
+	import IconPerson from '@/components/icons/IconPerson.vue';
+	import IconPerson2 from '@/components/icons/IconPerson2.vue';
+	import IconPersons from '@/components/icons/IconPersons.vue';
 	import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
 
 	import type {IBookingInfoData} from "@/features/booking/types/IBookingInfoData";
@@ -44,6 +46,10 @@
 			required: true
 		}
     })
+
+	const pluralPeopletext = (count: number) => {
+    	return plural(count, 'человек', 'человека', 'человек');
+	}
 
 	const dateFormateding = (date: Date) => {
 		let year = date.getFullYear();
@@ -144,7 +150,14 @@
                         <div>
                             <div class="title">{{ roomMoreComfort?.res?.room_type?.title }}</div>
                             <div class="params flex">
-                                <div class="flex items-center"><IconPeopleGroup/> {{ roomMoreComfort?.res.room_type?.number_of_persons_per_room }} человека</div>
+								
+                                <div class="flex items-center">
+									<IconPerson v-if="roomMoreComfort?.res.room_type?.number_of_persons_per_room == 1"/>
+									<IconPerson2 v-if="roomMoreComfort?.res.room_type?.number_of_persons_per_room == 2"/>
+									<IconPersons v-if="roomMoreComfort?.res.room_type?.number_of_persons_per_room > 2"/>
+									{{ roomMoreComfort?.res.room_type?.number_of_persons_per_room }} 
+									{{pluralPeopletext(roomMoreComfort?.res.room_type?.number_of_persons_per_room)}}
+								</div>
                                 <div class="flex items-center"><IconHome/> {{ roomMoreComfort?.res.room_type?.room_square }} м2</div>
                                 <div class="flex items-center"><IconSquare/> 2 комнаты</div>
                             </div>

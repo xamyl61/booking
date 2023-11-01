@@ -148,7 +148,7 @@
 }
 .cost {
 	font-family: 'Optima Cyr';
-	font-size: 1.8rem;
+	font-size: 1.75rem;
 }
 .booking-rooms-item {
 	margin-bottom: 1.5rem;

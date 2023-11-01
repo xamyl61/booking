@@ -35,7 +35,7 @@
 <template>
     <div class="my-10">
         <h3 class="title-line pb-4">Введите данные плательщика</h3>
-        <div class="text-sm pb-4">Если у Вас еще нет бонусного счета в сети Alean Collection, он будет открыт автоматически</div>
+        <div class="text-sm pb-4 subtitle">Если у Вас еще нет бонусного счета в сети Alean Collection, он будет открыт автоматически</div>
         <el-form
             class="custom-form"
             ref="ruleFormRef"

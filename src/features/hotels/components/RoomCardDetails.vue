@@ -125,7 +125,7 @@
                                 <img
                                     class="list-block-icons"
                                     :class="service.arrival_service.icon ? '' : 'hidden'"
-                                    :src="service.arrival_service.icon.full_url"
+                                    :src="service.arrival_service.icon?.full_url"
                                     alt=""
                                 >
                                 <div>{{ service.arrival_service.title }}</div>

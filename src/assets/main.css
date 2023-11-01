@@ -100,8 +100,8 @@ body {
     margin-top: -12px;
     background-color: #215C66 !important;
 }
-    .el-input__inner {
-        font-size: 16px;
+    .el-select .el-input__inner {
+        font-size: 1rem;
         color: #939393;
     }
 
@@ -497,7 +497,7 @@ body {
     }
 
     .room-detail .room-detail-foot .cost {
-        font-size: 1.8rem;
+        font-size: 1.75rem;
         font-family: 'Optima Cyr';
         line-height: 1.2;
     }

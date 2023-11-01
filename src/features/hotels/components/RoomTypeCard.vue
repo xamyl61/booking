@@ -83,7 +83,7 @@
                     <div class="flex room-description pr-4">
                         <div
                                 @click="showRoomDetails(roomType.room_type.guid, roomType.price, roomType.price_info.bonus)"
-                                class="flex items-center no-underline hover:underline text-black cursor-pointer">
+                                class="flex items-center no-underline hover:underline cursor-pointer">
                             Подробнее о номере
                             <IconArrowLeftInCircle class="ml-3"/>
                         </div>
@@ -591,13 +591,16 @@ onMounted(() => {
     border-top: 1px solid #EAEAEA;
     border-bottom: 1px solid #EAEAEA;
     font-size: .9rem;
+    color: #202020;
 }
 
 .room-type .params .icon {
     padding-right: .4rem;
 }
 
-
+.room-description {
+    color: #202020;
+}
 .card-foot {
     padding: 0 1.8rem 1rem;
 }
