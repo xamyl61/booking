@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { ref, type PropType } from 'vue';
+	import { ref, type PropType, onMounted } from 'vue';
     import IconArrowLeftInCircle from '@/components/icons/IconArrowLeftInCircle.vue';
     import IconTrash from '@/components/icons/IconTrash.vue';
     import IconHeart from '@/components/icons/IconHeart.vue';
@@ -17,6 +17,7 @@
     const bookingStore = useBookingRoomsStore()
 	const bookingFormStore = useBookingFormStore()
 	const dialogVisible = ref(false)
+	const nights = ref()
 
 	const props = defineProps({
 		booking: {
@@ -51,6 +52,10 @@
 	const showRoomDetails = () => {
 		dialogVisible.value = true
 	}
+
+	onMounted(async () => {
+		nights.value = ((new Date(props.booking.dateTill)).getTime() - (new Date(props.booking.dateFrom)).getTime())/(1000 * 3600 * 24) 
+    })
 
 </script>
 
@@ -116,8 +121,8 @@
 		<RoomCardDetails
 			:roomDetails="props.booking.roomDetails"
 			:roomPrice="props.booking.roomPrice"
-			:countOfDays="3"
-			:countOfPersons="3"
+			:countOfDays="nights"
+			:countOfPersons="props.booking.adults + props.booking.сhildren"
 			:bonus="props.booking.bonus"
 			:сhildren="props.booking.сhildren"
 			:dateFrom="props.booking.dateFrom"
@@ -143,7 +148,7 @@
 }
 .cost {
 	font-family: 'Optima Cyr';
-	font-size: 1.8rem;
+	font-size: 1.75rem;
 }
 .booking-rooms-item {
 	margin-bottom: 1.5rem;

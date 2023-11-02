@@ -125,7 +125,7 @@
                                 <img
                                     class="list-block-icons"
                                     :class="service.arrival_service.icon ? '' : 'hidden'"
-                                    :src="service.arrival_service.icon.full_url"
+                                    :src="service.arrival_service.icon?.full_url"
                                     alt=""
                                 >
                                 <div>{{ service.arrival_service.title }}</div>
@@ -317,16 +317,76 @@
 
     const router = useRouter()
 
-    const openBooking = (roomDetails: object, сhildren: number, adults: number, dateFrom: string, dateTill: string, choosedHotelGuid: string, bonus: number, roomPrice: number) => {
-        router.push({name: 'booking', query: {
-            сhildren: сhildren,
+    // const openBooking = (roomDetails: object, сhildren: number, adults: number, dateFrom: string, dateTill: string, choosedHotelGuid: string, bonus: number, roomPrice: number) => {
+    //     router.push({name: 'booking', query: {
+    //         сhildren: сhildren,
+    //         adults: adults,
+    //         dateFrom: dateFrom,
+    //         dateTill: dateTill,
+    //         choosedHotelGuid: choosedHotelGuid,
+    //         bonus: bonus,
+    //         roomPrice: roomPrice}})
+    // }
+
+
+
+
+    import { useBookingRoomsStore } from '@/stores/booking-store';   
+    import { useBookingFormStore } from '@/stores/booking-form-store';
+        
+    const bookingRoomsStore = useBookingRoomsStore()
+    const formStore = useBookingFormStore()
+    const newCountOfDays = ref()
+
+
+
+
+
+
+
+    const openBooking = async (roomDetails: any, сhildren: number, adults: number, dateFrom: string, dateTill: string, choosedHotelGuid: string, bonus: number, roomPrice: number) => {
+        
+        const count = adults + сhildren
+        const guests: any[] = []
+        for(let i = 0; i<count;i++) {
+        guests.push({
+            first_name: '',
+            last_name: '',
+            middle_name: '',
+            birthday: '',
+            email: '',
+            phone: ''
+        })
+        }
+
+        formStore.bookingForm.push({
+            guests: guests
+        })
+
+        const bookingInfoData = {
             adults: adults,
+            сhildren: сhildren,
+            roomDetails: roomDetails,
             dateFrom: dateFrom,
             dateTill: dateTill,
-            choosedHotelGuid: choosedHotelGuid,
+            roomPrice: roomPrice,
             bonus: bonus,
-            roomPrice: roomPrice}})
+            choosedHotel: choosedHotelGuid,
+            needUpSail: true
+        }
+        console.log("props.roomDetails: ", props.roomDetails)
+        bookingRoomsStore.setBookingRoom(bookingInfoData)
+
+        router.push({name:"booking"})
     }
+
+
+
+
+
+
+
+    
 
     const imgLightBoxUrlsList = () => {
         const imgUrlsList = props.roomDetails.gallery.map(gall => {

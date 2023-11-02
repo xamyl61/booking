@@ -151,6 +151,7 @@
         
 
                         <el-date-picker
+                            popper-class="el-datepicker-styles"
                             v-model="bookingFormStore.bookingForm[bookingIndex-1].guests[index].birthday"
                             type="date"
                             label="Pick a date"
