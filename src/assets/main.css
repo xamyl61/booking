@@ -402,9 +402,13 @@ body {
         top: 50%;
         transform: translateY(-50%);
         visibility: hidden;
+        scale: 1.7;
     }
     .custom-wrapper .splide__arrow--next {
-        right: 1em;
+        right: 1.6em;
+    }
+    .custom-wrapper .splide__arrow--prev {
+        left: 1.6em;
     }
     .custom-wrapper:hover .splide__arrow--next,
     .custom-wrapper:hover .splide__arrow--prev,
@@ -534,12 +538,14 @@ body {
         top: 50%;
         left: 1rem;
         transform: translateY(-50%) rotate(180deg);
+        scale: 1.7;
     }
     .vel-btns-wrapper .next {
         position: fixed;
         top: 50%;
         right: 1rem;
         transform: translateY(-50%);
+        scale: 1.7;
     }
     .room-detail-body .slider {
         display: flex;
