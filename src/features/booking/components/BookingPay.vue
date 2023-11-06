@@ -20,8 +20,15 @@
             <BookingMethod description="Оплатите часть, остальное потом" :method="{id: pay.id, cost: pay.cost, method: BookingPayMethod.Part, part: 30}" />
 
         <div class="booking-pay__timer">
-            ЕСЛИ В ТЕЧЕНИЕ 15 МИНУТ ВЫ НЕ ВНЕСЕТЕ ОПЛАТУ, БРОНЬ БУДЕТ АННУЛИРОВАНА
-            <vue-countdown :time="timeRemaining" v-slot="{ minutes, seconds }">{{ minutes }}:{{ seconds }}</vue-countdown>
+            <vue-countdown  :time="timeRemaining" v-slot="{ minutes, seconds }" @end="onCountdownEnd">
+                <div v-if="counting" class="flex justify-between ">
+                    <div>ЕСЛИ В ТЕЧЕНИЕ 15 МИНУТ ВЫ НЕ ВНЕСЕТЕ ОПЛАТУ, БРОНЬ БУДЕТ АННУЛИРОВАНА</div>
+                    <div>{{ minutes }}:{{ seconds }}</div>
+                </div>
+                <div v-else style="color: red">
+                    Время вышло, бронь анулирована.
+                </div>
+            </vue-countdown>
         </div>
         
       </div>
@@ -43,7 +50,9 @@ import { useBookingRoomsStore } from "@/stores/booking-store";
 import VueCountdown from '@chenfengyuan/vue-countdown';
 
 const bookingStore = useBookingRoomsStore()
-const timeRemaining = ref(0)
+const timeRemaining = ref(15*60*1000)
+
+const counting = ref(true)
 
 const props = defineProps({
   pay: {
@@ -52,10 +61,15 @@ const props = defineProps({
   }
 })
 
+const onCountdownEnd = () => {
+    counting.value = false;
+}
+
 const timer = async () => {
     const createdDateObject = await getBookingCreatedDate()
     const createdDate = new Date(createdDateObject)
     const currentDate = new Date()
+    // const timeForBooking = (createdDate.getTime() + 15*60*1000) - currentDate.getTime() // in ms
     const timeForBooking = (createdDate.getTime() + 15*60*1000) - currentDate.getTime() // in ms
     return timeForBooking
 } 
