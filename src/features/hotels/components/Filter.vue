@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- bookingStore {{ bookingStore }} -->
         <div
             class="booking-room-list container mx-auto"
             v-if="bookingStore.useBookingList.length"
@@ -25,6 +24,7 @@
                                 @change="changeMaxAdult"
                                 class="dropdown-custom-styles"
                                 default-expand-all
+                                :disabled="bookingStore.useBookingList.length"
                         >
                         </el-tree-select>
                     </div>
