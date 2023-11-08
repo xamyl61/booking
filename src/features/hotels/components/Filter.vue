@@ -113,7 +113,7 @@
                                     <div class="accommodation-dropdown-item">
                                         <div class="left">
                                             <div class="title">Взрослые</div>
-                                            <div class="dscr">старше 18 лет<br> на дату заезда</div>
+                                            <div class="dscr">старше 12 лет<br> на дату заезда</div>
                                         </div>
                                         <div class="right">
                                             <el-input-number
@@ -479,6 +479,13 @@ onMounted(() => {
 
         startDateFormated.value = dateFormateding(startDate)
         endDateFormated.value = dateFormateding(endDate)
+
+        choosedHotel.value = filterStore.filter.choosedHotel
+        adults.value = filterStore.filter.adults
+        сhildren.value = filterStore.filter.сhildren
+        sumHosted.value = filterStore.filter.sumHosted
+        maxHostedPeople.value = filterStore.filter.maxHostedPeople
+        emptyPersons.value = filterStore.filter.emptyPersons
     } else {
         const startDate = new Date();
         const endDate = new Date(new Date().setDate(startDate.getDate() + 1))
@@ -492,16 +499,6 @@ onMounted(() => {
     }
 
     getCities()
-    if (filterStore.filter) {
-        choosedHotel.value = filterStore.filter.choosedHotel
-        adults.value = filterStore.filter.adults
-        сhildren.value = filterStore.filter.сhildren
-        sumHosted.value = filterStore.filter.sumHosted
-        maxHostedPeople.value = filterStore.filter.maxHostedPeople
-        emptyPersons.value = filterStore.filter.emptyPersons
-    }
-
-    // filterStore.filter
 })
 
 </script>
