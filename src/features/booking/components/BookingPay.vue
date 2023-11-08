@@ -69,7 +69,6 @@ const timer = async () => {
     const createdDateObject = await getBookingCreatedDate()
     const createdDate = new Date(createdDateObject)
     const currentDate = new Date()
-    // const timeForBooking = (createdDate.getTime() + 15*60*1000) - currentDate.getTime() // in ms
     const timeForBooking = (createdDate.getTime() + 15*60*1000) - currentDate.getTime() // in ms
     return timeForBooking
 } 
