@@ -374,7 +374,6 @@
             choosedHotel: choosedHotelGuid,
             needUpSail: true
         }
-        console.log("props.roomDetails: ", props.roomDetails)
         bookingRoomsStore.setBookingRoom(bookingInfoData)
 
         router.push({name:"booking"})
