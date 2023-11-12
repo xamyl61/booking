@@ -11,7 +11,7 @@
 
         <div class="my-bonus__content">
             <div class="my-bonus__loyalte">
-                Ознакомьтесь подробнее с нашей <span class="my-bonus__loyalte_under">программой лояльности</span>
+                Ознакомьтесь подробнее с нашей <a href="/pravila-programmi-loyalnosti.pdf" class="my-bonus__loyalte_under">программой лояльности</a>
             </div>
 
 
@@ -59,8 +59,6 @@
 <script setup lang="ts">
 import LkHeader from "@/features/lk/components/LkHeader.vue";
 import BirdIcon from "@/features/lk/components/Icons/BirdIcon.vue";
-import ShellIcon from "@/features/lk/components/Icons/ShellIcon.vue";
-import WriteOffCard from "@/features/lk/components/WriteOffCard.vue";
 import {onMounted, reactive, ref} from "vue";
 import client from "@/api/client";
 import {toast} from "vue3-toastify";
