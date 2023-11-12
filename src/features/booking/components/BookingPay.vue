@@ -32,7 +32,7 @@
         </div>
         
       </div>
-
+      <BookingCanceledModal :show="bookingCancel"/>
   </div>
 </template>
 
@@ -44,6 +44,7 @@ import BookingMethod from "@/features/booking/components/BookingMethod.vue";
 import {BookingPayMethod} from "@/features/booking/types/IBookingMethod";
 import {Format} from "@/utils/format";
 import IconBonus from "@/components/icons/IconBonus.vue";
+import BookingCanceledModal from "@/features/booking/components/BookingCanceledModal.vue";
 
 import client from "@/api/client";
 import { useBookingRoomsStore } from "@/stores/booking-store";
@@ -51,6 +52,7 @@ import VueCountdown from '@chenfengyuan/vue-countdown';
 
 const bookingStore = useBookingRoomsStore()
 const timeRemaining = ref(15*60*1000)
+const bookingCancel = ref(false)
 
 const counting = ref(true)
 
@@ -63,6 +65,7 @@ const props = defineProps({
 
 const onCountdownEnd = () => {
     counting.value = false;
+    bookingCancel.value = true;
 }
 
 const timer = async () => {
