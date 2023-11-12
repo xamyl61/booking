@@ -35,7 +35,7 @@
                 <div class="dropdown-menu">
                     <a @click="router.push({name: 'lk', query: { tab: 'myProfile' }})" href="#">Мой профиль</a>
                     <a @click="router.push({name: 'lk', query: { tab: 'myBooking' }})" href="#">Мои бронирования</a>
-                    <a @click="router.push({name: 'lk', query: { tab: 'myBonus' }})" href="#">Бонусный счет: 0 бонусов</a>
+                    <a @click="router.push({name: 'lk', query: { tab: 'myBonus' }})" href="#">Бонусный счет</a>
                     <a @click="onLogout" href="#">Выйти</a>
                 </div>
         </div>

@@ -1,9 +1,6 @@
 <script setup lang="ts">
     import { ref, onMounted, reactive, type PropType, computed, watch } from 'vue';
     import { vMaska } from "maska"
-    import VueDatePicker from '@vuepic/vue-datepicker';
-    import Button from '@/components/Button.vue';
-    import Input from '@/components/Input.vue'
     import type { FormInstance, FormRules } from 'element-plus'
     import { useBookingRoomsStore } from '@/stores/booking-store';
     import type { IBookingInfoData } from '@/features/booking/types/IBookingInfoData';

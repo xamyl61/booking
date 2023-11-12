@@ -1,8 +1,6 @@
 <script setup lang="ts">
-    import { ref, onMounted, reactive, watch } from 'vue';
+    import { ref, watch } from 'vue';
     import { vMaska } from "maska"
-    import VueDatePicker from '@vuepic/vue-datepicker';
-    import Input from '@/components/Input.vue'
     import IconCheckSuccess from '@/components/icons/IconCheckSuccess.vue'
     import type { FormInstance } from 'element-plus';
     

@@ -126,7 +126,9 @@
 
 <script setup lang="ts">
 import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
-import {PropType, ref} from "vue";
+import {ref} from "vue";
+import type {PropType} from "vue";
+
 import type {IHistoryBooking} from "@/features/lk/types/IHistoryBooking";
 import {Format} from "@/utils/format";
 
