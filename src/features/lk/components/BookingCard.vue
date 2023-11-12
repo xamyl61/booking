@@ -3,7 +3,7 @@
 
       <div class="booking-header">
           <div class="booking-header__title">
-              Бронь № 1209483
+              Бронь № {{booking.number_booking}}
           </div>
           <div class="booking-header__actions">
               <el-button disabled round type="info" size="default">Аннулировать бронь</el-button>
@@ -14,7 +14,7 @@
 
       <div class="booking-body">
         <div class="booking-body__title">
-            Alean Family, г. Анапа
+            {{booking.hotel}}, г. {{booking.city}}
         </div>
         <div class="booking-body__info">
             <el-row :gutter="20">
@@ -27,19 +27,19 @@
 
                     <div class="item">
   <div class="title">Номер</div>
-  <div class="price">Standart 1-комнатный</div>
+  <div class="price">{{booking.room}}</div>
 </div>
 <div class="item">
   <div class="title">Даты</div>
-  <div class="price">12 июля, ср - 13 июля, чт</div>
+  <div class="price">{{new Date(booking.date_from).toLocaleDateString()}} - {{new Date(booking.date_till).toLocaleDateString()}}</div>
 </div>
 <div class="item">
   <div class="title">Тариф</div>
-  <div class="price">“Ультра все включено”</div>
+  <div class="price"></div>
 </div>
 <div class="item">
   <div class="title">Гости</div>
-  <div class="price">1 взрослый</div>
+  <div class="price">{{booking.guests.length}}</div>
 </div>
                   </div>
                   
@@ -72,37 +72,43 @@
               <span>Проверить данные гостей <ArrowIcon :class="{ 'booking-guests_open': isShowGuests }" /></span>
           </div>
           <div v-if="isShowGuests" class="booking-body_guests">
-              <div class="booking-body__guest-title">Гость 1. Взрослый</div>
 
-              <div class="grid grid-cols-3 gap-10">
+              <div v-for="(guest, idx) in booking.guests">
+                  <div class="booking-body__guest-title">Гость {{idx+1}}</div>
 
-                  <el-form-item prop="last_name">
-                      <el-input placeholder="Фамилия" :suffix-icon="EditIcon" />
-                  </el-form-item>
-                  <el-form-item prop="first_name">
-                      <el-input placeholder="Имя" :suffix-icon="EditIcon" />
-                  </el-form-item>
-                  <el-form-item prop="middle_name">
-                      <el-input placeholder="Отчество" :suffix-icon="EditIcon" />
-                  </el-form-item>
-                  <el-form-item prop="birthdate">
-                      <el-date-picker
-                              type="date"
-                              placeholder="Дата рождения"
-                              format="DD.MM.YYYY"
-                              class="birth-date-picker"
-                              :clearable="false"
-                              :prefix-icon="EditIcon"
-                      />
-                  </el-form-item>
-                  <el-form-item prop="phone">
-                      <el-input v-maska data-maska="+7 ### ###-##-##" :suffix-icon="EditIcon" placeholder="Телефон" />
-                  </el-form-item>
-                  <el-form-item prop="email">
-                      <el-input placeholder="Email" :suffix-icon="EditIcon" />
-                  </el-form-item>
+                  <div class="grid grid-cols-3 gap-10">
 
+                      <el-form-item prop="last_name">
+                          <el-input :model-value="guest.last_name" readonly placeholder="Фамилия" />
+                      </el-form-item>
+                      <el-form-item prop="first_name">
+                          <el-input :model-value="guest.first_name" readonly placeholder="Имя" />
+                      </el-form-item>
+                      <el-form-item prop="middle_name">
+                          <el-input :model-value="guest.middle_name" readonly placeholder="Отчество" />
+                      </el-form-item>
+                      <el-form-item prop="birthdate">
+                          <el-date-picker
+                                  readonly
+                                  :model-value="guest.birthday"
+                                  type="date"
+                                  placeholder="Дата рождения"
+                                  format="DD.MM.YYYY"
+                                  class="birth-date-picker"
+                                  :clearable="false"
+                          />
+                      </el-form-item>
+                      <el-form-item prop="phone">
+                          <el-input :model-value="guest.phone" readonly placeholder="Телефон" />
+                      </el-form-item>
+                      <el-form-item prop="email">
+                          <el-input :model-value="guest.email" readonly placeholder="Email" />
+                      </el-form-item>
+
+                  </div>
               </div>
+
+
           </div>
 
           <div class="booking-body__summary">
@@ -113,7 +119,7 @@
                     <div class="descriptions">
                     <div class="item">
                       <div class="title">Сумма</div>
-                      <div class="price booking-card__price">127 000 р.</div>
+                      <div class="price booking-card__price">{{Format.formatCurrency(booking.total_price)}}</div>
                     </div>
 
                   </div>
@@ -123,7 +129,7 @@
                       <el-descriptions column="1" size="large">
                           <el-descriptions-item label="Сумма">
                       <span class="booking-card__price">
-                        127 000 р.
+                        0 р.
                       </span>
                           </el-descriptions-item>
                       </el-descriptions>
@@ -131,15 +137,14 @@
               </el-row>
               <el-row :gutter="20">
                   <el-col :span="10">
-                    <small class="discount-small">Скидка составила 15 000 р.</small>
+                    <small class="discount-small">Скидка составила 0 р.</small>
                   </el-col>
                   <el-col :span="14">
                     <div class="descriptions">
                     <div class="item">
                       <div class="title">Внесена предоплата:</div>
-                      <div class="price booking-card__price-small">127 000 р.</div>
+                      <div class="price booking-card__price-small">0 р.</div>
                     </div>
-
                   </div>
                   </el-col>
               </el-row>
@@ -149,7 +154,7 @@
                     <div class="descriptions">
                     <div class="item">
                       <div class="title">Итого:</div>
-                      <div class="price booking-card__price">127 000 р.</div>
+                      <div class="price booking-card__price">{{Format.formatCurrency(booking.total_price)}}</div>
                     </div>
 
                   </div>
@@ -160,8 +165,8 @@
                     <div class="item">
                       <div class="title">Осталось к оплате:</div>
                       <div class="price booking-card__price-small">
-                        <span>127 000 р.</span>
-                      <el-button style="margin-left: 1rem;" class="pay" round type="info" size="default">Оплатить</el-button>
+                        <span>0 р.</span>
+<!--                      <el-button style="margin-left: 1rem;" class="pay" round type="info" size="default">Оплатить</el-button>-->
 
                       </div>
                     </div>
@@ -181,13 +186,23 @@
 
 import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
 import {ref} from "vue";
-import EditIcon from "@/features/lk/components/Icons/EditIcon.vue";
+import type {PropType} from "vue";
+import type {IHistoryBooking} from "@/features/lk/types/IHistoryBooking";
+import {Format} from "@/utils/format";
 
 const isShowGuests = ref(false);
 
 const onShowGuests = () => {
     isShowGuests.value = !isShowGuests.value
 }
+
+const props = defineProps({
+    booking: {
+        type: Object as PropType<IHistoryBooking>,
+        required: true
+    }
+})
+
 </script>
 
 <style scoped lang="scss">

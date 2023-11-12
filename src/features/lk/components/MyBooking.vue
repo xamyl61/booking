@@ -11,7 +11,13 @@
         </LkHeader>
 
         <div class="my-booking__content">
-            <BookingCard />
+            <template v-if="isLoading">
+                <el-skeleton :rows="1" />
+            </template>
+            <template v-else>
+                <BookingCard v-for="(booking) in bookings" :booking="booking" />
+                <span v-if="bookings.length === 0">У вас нет предстоящих заездов</span>
+            </template>
         </div>
 
         <LkHeader>

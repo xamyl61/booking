@@ -41,11 +41,11 @@
     </div>
     <div class="item">
     <div class="title">Тариф</div>
-    <div class="price">“Ультра все включено”</div>
+    <div class="price"></div>
     </div>
     <div class="item">
     <div class="title">Гости</div>
-    <div class="price">1 взрослый</div>
+    <div class="price">{{history.guests.length}}</div>
     </div>
                   </div>
             </el-col>
