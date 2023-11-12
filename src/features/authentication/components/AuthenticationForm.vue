@@ -332,7 +332,6 @@ const phoneFormRef = ref()
 }
 
 .authentication-form__submit {
-    width: 70%;
     margin-top: 1.5rem;
 }
 
