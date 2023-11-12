@@ -26,7 +26,7 @@
       <div class="login">
         <div class="dropdown" v-if="authStore.isAuthenticated">
 
-            <Button class="btn">
+            <Button @click="router.push({name: 'lk', query: { tab: 'myProfile' }})" class="btn">
                 <slot name="icon">
                     <IconPersonPrimary/>
                 </slot>
