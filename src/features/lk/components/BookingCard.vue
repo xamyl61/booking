@@ -6,9 +6,9 @@
               Бронь № 1209483
           </div>
           <div class="booking-header__actions">
-              <el-button round type="info" size="default">Аннулировать бронь</el-button>
-              <el-button round type="info" size="default">Редактировать бронь</el-button>
-              <el-button round type="info" size="default">Поменять категорию номера</el-button>
+              <el-button disabled round type="info" size="default">Аннулировать бронь</el-button>
+              <el-button disabled round type="info" size="default">Редактировать бронь</el-button>
+              <el-button disabled round type="info" size="default">Поменять категорию номера</el-button>
           </div>
       </div>
 
@@ -46,7 +46,7 @@
 
              
                 </el-col>
-                <el-col :span="14">
+                <!--<el-col :span="14">
 
                   <div class="descriptions">
                     <div class="descriptions__title">
@@ -63,7 +63,7 @@
                     </div>
 
                   </div>
-                </el-col>
+                </el-col>-->
             </el-row>
 
         </div>
@@ -352,6 +352,8 @@ line-height: 20px;
     line-height: 20px;
     cursor: pointer;
     text-decoration: underline;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 
     & span {
       display: flex;

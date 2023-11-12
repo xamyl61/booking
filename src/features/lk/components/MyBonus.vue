@@ -13,18 +13,29 @@
             <div class="my-bonus__loyalte">
                 Ознакомьтесь подробнее с нашей <span class="my-bonus__loyalte_under">программой лояльности</span>
             </div>
-            <div class="my-bonus__number">
-                Номер бонусного счета:
-                <span class="my-bonus__number_bold">40395673</span>
+
+
+            <div v-if="showBonus">
+                <template v-if="isLoading">
+                    <el-skeleton :rows="1" />
+                </template>
+                <template v-else>
+                    <div class="my-bonus__number">
+                        Номер бонусного счета:
+                        <span class="my-bonus__number_bold">{{bonus.number}}</span>
+                    </div>
+                    <div class="my-bonus__account">
+                        Текущий баланс бонусного счета:
+                        <span class="my-bonus__account_bold">{{bonus.amount}} руб.</span>
+                    </div>
+                </template>
             </div>
-            <div class="my-bonus__account">
-                Текущий баланс бонусного счета:
-                <span class="my-bonus__account_bold">500 руб.</span>
-            </div>
+
+
         </div>
 
 
-        <LkHeader>
+        <!--<LkHeader>
             <template #title>
                 История списаний
             </template>
@@ -40,17 +51,46 @@
             </div>
 
             <WriteOffCard />
-        </div>
+        </div>-->
 
     </div>
 </template>
 
 <script setup lang="ts">
-
 import LkHeader from "@/features/lk/components/LkHeader.vue";
 import BirdIcon from "@/features/lk/components/Icons/BirdIcon.vue";
 import ShellIcon from "@/features/lk/components/Icons/ShellIcon.vue";
 import WriteOffCard from "@/features/lk/components/WriteOffCard.vue";
+import {onMounted, reactive, ref} from "vue";
+import client from "@/api/client";
+import {toast} from "vue3-toastify";
+
+const bonus = reactive({
+    amount: 0,
+    number: '-'
+})
+const showBonus = ref(true)
+const isLoading = ref(true)
+
+onMounted(() => {
+    getCurrentBonus()
+
+})
+
+const getCurrentBonus = async () => {
+    try {
+        const response = await client.get(`/v2/users/bonus/`)
+        bonus.amount = response.data.amount
+        bonus.number = response.data.number
+        isLoading.value = false
+    }
+    catch (e) {
+        showBonus.value = false
+    } finally {
+        isLoading.value = false
+    }
+}
+
 </script>
 
 <style scoped lang="scss">

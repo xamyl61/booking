@@ -48,9 +48,9 @@ const onSendCode = async () => {
 
 
     if (activeTab.value === 'phone') {
-        await onTryAuth(() => client.post('/users/phone-auth/', {phone: phone.value}));
+        await onTryAuth(() => client.post('/v1/users/phone-auth/', {phone: phone.value}));
     } else {
-        await onTryAuth(() => client.post('/users/email-auth/', {email: email.value}));
+        await onTryAuth(() => client.post('/v1/users/email-auth/', {email: email.value}));
     }
 
     timer.value = 60;
@@ -72,12 +72,12 @@ const onSendCode = async () => {
 const onVerificationCode = async () => {
 
     if (activeTab.value === 'phone') {
-        await onAuthVerification(() => client.patch('/users/phone-auth/', {
+        await onAuthVerification(() => client.patch('/v1/users/phone-auth/', {
             phone: phone.value,
             code: Number(code.value)
         }));
     } else {
-        await onAuthVerification(() => client.patch('/users/email-auth/', {
+        await onAuthVerification(() => client.patch('/v1/users/email-auth/', {
             email: email.value,
             code: Number(code.value)
         }));
@@ -125,9 +125,9 @@ const onResendCode = () => {
     }
 
     if (activeTab.value === 'phone') {
-        onTryAuth(() => client.post('/users/phone-auth/', {phone: phone.value}));
+        onTryAuth(() => client.post('/v1/users/phone-auth/', {phone: phone.value}));
     } else {
-        onTryAuth(() => client.post('/users/email-auth/', {email: email.value}));
+        onTryAuth(() => client.post('/v1/users/email-auth/', {email: email.value}));
     }
 }
 

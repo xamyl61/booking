@@ -159,13 +159,13 @@
 
         if (checValidateFormsStatus.value === true) {
             if (bookingStore.bookedRooms.booking_guid) {
-                await createBooking(() => client.put('/booking/', {
+                await createBooking(() => client.put('/v1/booking/', {
                     booking_guid: bookingStore.bookedRooms.booking_guid,
                     room_types: roomsAndGuest,
                     payment_guest: bookingPaymentStore.bookingPayment
                 }));
             } else {
-                await createBooking(() => client.post('/booking/', {
+                await createBooking(() => client.post('/v1/booking/', {
                     room_types: roomsAndGuest,
                     payment_guest: bookingPaymentStore.bookingPayment
                 }));
