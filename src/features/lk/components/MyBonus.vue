@@ -11,7 +11,7 @@
 
         <div class="my-bonus__content">
             <div class="my-bonus__loyalte">
-                Ознакомьтесь подробнее с нашей <a href="/pravila-programmi-loyalnosti.pdf" class="my-bonus__loyalte_under">программой лояльности</a>
+                Ознакомьтесь подробнее с нашей <a target="_blank" href="/pravila-programmi-loyalnosti.pdf" class="my-bonus__loyalte_under">программой лояльности</a>
             </div>
 
 
