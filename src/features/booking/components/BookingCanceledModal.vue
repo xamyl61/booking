@@ -33,6 +33,7 @@ const openFilter = () => {
     localStorage.removeItem("bookingForm")
     localStorage.removeItem("bookingPayment")
     localStorage.removeItem("bookedRooms")
+    bookingStore.$reset()
     router.push('/')
 }
 </script>
