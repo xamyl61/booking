@@ -27,6 +27,7 @@
     "vue-final-modal": "^3.4.11",
     "vue-router": "^4.2.4",
     "vue-snip": "^2.0.1",
+    "vue3-otp-input": "^0.4.1",
     "vue3-toastify": "^0.1.11"
   },
   "devDependencies": {

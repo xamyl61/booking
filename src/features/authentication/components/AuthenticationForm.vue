@@ -1,19 +1,17 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch} from 'vue';
+import {onMounted, onUnmounted, reactive, ref, watch} from 'vue';
 import {initFlowbite} from 'flowbite'
 import client from '@/api/client';
 import OtpInput from '@/components/OtpInput.vue'
 import Button from '@/components/Button.vue'
-import Input from '@/components/Input.vue'
 import {toast} from 'vue3-toastify';
 import type ElDrawer from "element-plus";
 import IconClose from "@/components/icons/IconClose.vue";
 import {vMaska} from "maska"
 import useAuth from "@/features/authentication/composables/useAuth";
 import {setAccessToken, setRefreshToken} from "@/utils/token";
+import VOtpInput from "vue3-otp-input";
 
-const phone = ref('')
-const email = ref('')
 const code = ref('')
 const currentStep = ref<'code' | 'verification'>('code')
 const buttonText = ref('Отправить код повторно');
@@ -23,6 +21,7 @@ const isLoading = ref(false)
 const auth = useAuth()
 const OTP_CODE_LENGTH = 4;
 const drawerRef = ref<any>()
+const otpRef = ref()
 
 const activeTab = ref('phone')
 
@@ -34,23 +33,29 @@ onUnmounted(() => {
     clearInterval(intervalId);
 });
 
-watch(code, (newCode) => {
-    if (newCode.length === OTP_CODE_LENGTH) {
-        onVerificationCode();
-    }
-});
 
 const closeForm = () => {
     return drawerRef.value?.close();
 }
 
-const onSendCode = async () => {
+const onSendCode = async (phoneRef, emailRef) => {
 
 
     if (activeTab.value === 'phone') {
-        await onTryAuth(() => client.post('/users/phone-auth/', {phone: phone.value}));
-    } else {
-        await onTryAuth(() => client.post('/users/email-auth/', {email: email.value}));
+        await phoneRef.validate(async (valid, _) => {
+            if (valid) {
+                await onTryAuth(() => client.post('/v1/users/phone-auth/', {phone: phoneForm.value.phone}));
+            }
+        })
+
+    }
+    else
+    {
+        await emailRef.validate(async (valid, _) => {
+            if (valid) {
+                await onTryAuth(() => client.post('/v1/users/email-auth/', {email: emailForm.value.email}));
+            }
+        })
     }
 
     timer.value = 60;
@@ -72,13 +77,13 @@ const onSendCode = async () => {
 const onVerificationCode = async () => {
 
     if (activeTab.value === 'phone') {
-        await onAuthVerification(() => client.patch('/users/phone-auth/', {
-            phone: phone.value,
+        await onAuthVerification(() => client.patch('/v1/users/phone-auth/', {
+            phone: phoneForm.value.phone,
             code: Number(code.value)
         }));
     } else {
-        await onAuthVerification(() => client.patch('/users/email-auth/', {
-            email: email.value,
+        await onAuthVerification(() => client.patch('/v1/users/email-auth/', {
+            email: emailForm.value.email,
             code: Number(code.value)
         }));
     }
@@ -110,7 +115,7 @@ const onAuthVerification = async (callback: () => Promise<any>) => {
     } catch (e: any) {
         if (e.response.status === 400) {
             showErrorVerification();
-            code.value = '';
+            otpRef.value.clearInput();
         } else {
             showMaxAttemptsError();
             await closeForm()
@@ -125,9 +130,9 @@ const onResendCode = () => {
     }
 
     if (activeTab.value === 'phone') {
-        onTryAuth(() => client.post('/users/phone-auth/', {phone: phone.value}));
+        onTryAuth(() => client.post('/v1/users/phone-auth/', {phone: phoneForm.value.phone}));
     } else {
-        onTryAuth(() => client.post('/users/email-auth/', {email: email.value}));
+        onTryAuth(() => client.post('/v1/users/email-auth/', {email: emailForm.value.email}));
     }
 }
 
@@ -160,6 +165,31 @@ const verificationStep = () => {
     currentStep.value = 'verification';
 }
 
+
+let phoneForm = ref({
+    phone: '',
+})
+
+let emailForm = ref({
+    email: '',
+})
+
+const phoneRules = reactive({
+    phone: [
+        { required: true, message: 'Необходимо ввести Телефон', trigger: 'blur' },
+        { pattern: /^\+7 \d{3} \d{3}-\d{2}-\d{2}$/, message: 'Неверный формат Телефона', trigger: ['blur'] }
+    ]
+})
+
+const emailRules = reactive({
+    email: [
+        { required: true, message: 'Необходимо ввести Email', trigger: 'blur' },
+        { type: 'email', message: 'Неверный формат Email', trigger: ['blur', 'change']}
+    ],
+})
+const emailFormRef = ref()
+const phoneFormRef = ref()
+
 </script>
 
 <template>
@@ -189,19 +219,51 @@ const verificationStep = () => {
 
                     <el-tabs v-model="activeTab" class="login-tabs">
                         <el-tab-pane label="По телефону" name="phone">
-                            <Input v-model="phone" v-maska data-maska="+7 ### ###-##-##" placeholder="Телефон"/>
+
+                            <el-form
+                                :model="phoneForm"
+                                :rules="phoneRules"
+                                v-loading="isLoading"
+                                ref="phoneFormRef"
+                            >
+                                <el-form-item prop="phone">
+                                    <el-input v-maska data-maska="+7 ### ###-##-##" v-model="phoneForm.phone" placeholder="Телефон" />
+                                </el-form-item>
+                            </el-form>
+
                         </el-tab-pane>
                         <el-tab-pane label="По E-mail" name="email">
-                            <Input v-model="email" placeholder="Email"/>
+                            <el-form
+                                :model="emailForm"
+                                :rules="emailRules"
+                                v-loading="isLoading"
+                                ref="emailFormRef"
+                            >
+                                <el-form-item prop="email">
+                                    <el-input v-model="emailForm.email" placeholder="E-mail" />
+                                </el-form-item>
+                            </el-form>
                         </el-tab-pane>
                     </el-tabs>
 
                     <div class="authentication-form__submit">
-                        <Button :loading="isLoading" @click="onSendCode">Получить код</Button>
+                        <Button :loading="isLoading" @click="onSendCode(phoneFormRef, emailFormRef)">Получить код</Button>
                     </div>
                 </template>
                 <template v-else>
-                    <OtpInput class="otp-code" :digit-count="OTP_CODE_LENGTH" v-model="code"/>
+
+                    <v-otp-input
+                        ref="otpRef"
+                        @on-complete="onVerificationCode"
+                        v-model:value="code"
+                        input-classes="otp-input"
+                        separator="-"
+                        :num-inputs="4"
+                        :should-auto-focus="true"
+                        input-type="letter-numeric"
+                        :conditionalClass="['one', 'two', 'three', 'four']"
+                    />
+
                     <div class="authentication-form__submit">
                         <Button :loading="isLoading" @click="onResendCode">{{ buttonText }}</Button>
                     </div>
@@ -221,6 +283,25 @@ const verificationStep = () => {
 
 </template>
 <style lang="scss">
+
+.otp-input {
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    margin: 0 10px;
+    font-size: 20px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+.otp-input.is-complete {
+    background-color: #e4e4e4;
+}
+.otp-input::-webkit-inner-spin-button,
+.otp-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 .el-drawer__header {
     background-color: var(--color-primary);
@@ -251,12 +332,11 @@ const verificationStep = () => {
 }
 
 .authentication-form__submit {
-    width: 70%;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 
 .authentication-form__note {
-    margin-top: 2rem;
+    margin-top: 1rem;
     color: gray;
     font-size: 14px;
 }
@@ -283,5 +363,12 @@ const verificationStep = () => {
 }
 .login-tabs .is-active {
     color: #121326;
+}
+
+.el-input__wrapper {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0;
+    box-shadow: none;
 }
 </style>

@@ -65,7 +65,11 @@
 		try {
 			loading.value = true
 			const res = await fetch(`https://backmb.aleancollection.ru/api/v2/rooms-request/additional-room-type/${props.roomGuid}/?number_of_adults=${filterStore.filter?.adults}&number_of_children=${filterStore.filter?.сhildren}&date_from=${dateFrom.value}&date_till=${dateTill.value}&number_of_infants=0`);
-			const finalRes = await res.json();
+
+			let finalRes = {}
+			if (res.status == 200) {
+				finalRes = await res.json();
+			}
 			// roomMoreComfort.value = finalRes.res;
 			return finalRes;
 		} catch (error) {
@@ -129,7 +133,7 @@
 
 <template>
     <div
-		v-if="bookingStore.useBookingList[index - 1].needUpSail && roomMoreComfort"
+		v-if="bookingStore.useBookingList[index - 1].needUpSail && roomMoreComfort?.res"
 		v-loading="loading"
 		class="more-comfort-block"
 	>

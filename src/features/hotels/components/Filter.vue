@@ -113,7 +113,7 @@
                                     <div class="accommodation-dropdown-item">
                                         <div class="left">
                                             <div class="title">Взрослые</div>
-                                            <div class="dscr">старше 18 лет<br> на дату заезда</div>
+                                            <div class="dscr">старше 12 лет<br> на дату заезда</div>
                                         </div>
                                         <div class="right">
                                             <el-input-number
@@ -379,7 +379,7 @@ async function getCities() {
     try {
         const res = await fetch("https://backmb.aleancollection.ru/api/v1/cities/");
         const finalRes = await res.json();
-        listCities.value = finalRes.res.map(function(city: any) {
+        const listCities = finalRes.res.map(function(city: any) {
 
             let hotels = city.hotels.map(function(hotel: any) {
                 let myHotel = {
@@ -403,6 +403,7 @@ async function getCities() {
             }
             return newCities
         })
+        return listCities
     } catch (error) {
         console.log(error)
     }
@@ -464,24 +465,38 @@ async function getRoomTypeByDates(availableDate: any, roomGuid: string) {
 //     return roomsStore.filteredRooms.filter(room => !bookingStore.selectedRooms.includes(room.room_type.guid))
 // }
 
+const getUrlParams = () => {
+    return new URL(window.location.href)
+}
 
-onMounted(() => {
+const getHotelByGuid = async (guid: string) => {
+    let hotel = Object({})
+    const list = listCities.value
+    for (let i=0; i < list.length; i++ ) {
+        for (let j=0; j < list[i].children.length; j++ ) {
+            if (list[i].children[j].value.value == guid) {
+                hotel = list[i].children[j]
+            }
+        }
+    }
+    return hotel.value
+}
+
+
+
+
+onMounted(async () => {
     // if (roomsStore.filteredRooms.length) {
     //     roomTypes.value = excludeBookingRooms()
     // }
-    if (filterStore.filter) {
-        date.value = filterStore.filter.date
-        const startDate = new Date(date.value[0]);
-        const endDate = new Date(date.value[1])
+    const urlSearch = getUrlParams()
+    listCities.value = await getCities()
 
-        rangeStartDate.value = parseDate(startDate)
-        rangeEndDate.value = parseDate(endDate)
-
-        startDateFormated.value = dateFormateding(startDate)
-        endDateFormated.value = dateFormateding(endDate)
-    } else {
-        const startDate = new Date();
-        const endDate = new Date(new Date().setDate(startDate.getDate() + 1))
+    
+    if (urlSearch.search) {
+        choosedHotel.value = await getHotelByGuid(<any>urlSearch.searchParams.get('hotel')) 
+        const startDate = new Date(<any>urlSearch.searchParams.get('date_from'))
+        const endDate = new Date(<any>urlSearch.searchParams.get('date_till'))
         date.value = [startDate, endDate];
 
         rangeStartDate.value = parseDate(startDate)
@@ -489,19 +504,47 @@ onMounted(() => {
 
         startDateFormated.value = dateFormateding(startDate)
         endDateFormated.value = dateFormateding(endDate)
+
+        adults.value = <any> Number(urlSearch.searchParams.get('number_of_adults'))
+        сhildren.value =  <any> Number(urlSearch.searchParams.get('number_of_children'))
+        maxHostedPeople.value = choosedHotel.value.nuberOfPersonsPerRoom
+
+        runCounterMaxHosted()
+
+        await getRoomTypes()
+
+    } else {
+        if (filterStore.filter) {
+            date.value = filterStore.filter.date
+            const startDate = new Date(date.value[0]);
+            const endDate = new Date(date.value[1])
+    
+            rangeStartDate.value = parseDate(startDate)
+            rangeEndDate.value = parseDate(endDate)
+    
+            startDateFormated.value = dateFormateding(startDate)
+            endDateFormated.value = dateFormateding(endDate)
+    
+            choosedHotel.value = filterStore.filter.choosedHotel
+            adults.value = filterStore.filter.adults
+            сhildren.value = filterStore.filter.сhildren
+            sumHosted.value = filterStore.filter.sumHosted
+            maxHostedPeople.value = filterStore.filter.maxHostedPeople
+            emptyPersons.value = filterStore.filter.emptyPersons
+        } else {
+            const startDate = new Date();
+            const endDate = new Date(new Date().setDate(startDate.getDate() + 1))
+            date.value = [startDate, endDate];
+    
+            rangeStartDate.value = parseDate(startDate)
+            rangeEndDate.value = parseDate(endDate)
+    
+            startDateFormated.value = dateFormateding(startDate)
+            endDateFormated.value = dateFormateding(endDate)
+        }
     }
 
-    getCities()
-    if (filterStore.filter) {
-        choosedHotel.value = filterStore.filter.choosedHotel
-        adults.value = filterStore.filter.adults
-        сhildren.value = filterStore.filter.сhildren
-        sumHosted.value = filterStore.filter.sumHosted
-        maxHostedPeople.value = filterStore.filter.maxHostedPeople
-        emptyPersons.value = filterStore.filter.emptyPersons
-    }
-
-    // filterStore.filter
+    
 })
 
 </script>

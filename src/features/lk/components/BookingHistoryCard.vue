@@ -2,15 +2,15 @@
     <div class="booking-history" :class="{ 'booking-history_open': isShowDetail }" @click="onShowDetail">
 
         <div class="booking-history__item_bold">
-            Бронь № 1209483
+            Бронь № {{history.number_booking}}
         </div>
 
         <div class="booking-history__item_strong">
-            Alean Family, г. Анапа
+            {{history.hotel}}, г. {{history.city}}
         </div>
 
         <div class="booking-history__item_small">
-            12 июля, ср - 13 июля, чт
+            {{new Date(history.date_from).toLocaleDateString()}} - {{new Date(history.date_till).toLocaleDateString()}}
         </div>
 
         <div class="booking-history__item">
@@ -37,35 +37,35 @@
 
                     <div class="item">
     <div class="title">Номер</div>
-    <div class="price">Standart 1-комнатный</div>
+    <div class="price">{{history.room}}</div>
     </div>
     <div class="item">
     <div class="title">Тариф</div>
-    <div class="price">“Ультра все включено”</div>
+    <div class="price"></div>
     </div>
     <div class="item">
     <div class="title">Гости</div>
-    <div class="price">1 взрослый</div>
+    <div class="price">{{history.guests.length}}</div>
     </div>
                   </div>
             </el-col>
-            <el-col :span="14">
-                <div class="descriptions">
-                    <div class="descriptions__title">
-                      Дополнительные услуги
-                    </div>
+<!--            <el-col :span="14">-->
+<!--                <div class="descriptions">-->
+<!--                    <div class="descriptions__title">-->
+<!--                      Дополнительные услуги-->
+<!--                    </div>-->
 
-                    <div class="item">
-                      <div class="title">Единство тела и души</div>
-                      <div class="price">1 взрослый, 3 дня</div>
-                    </div>
-                    <div class="item">
-                      <div class="title">Единство тела и души</div>
-                      <div class="price">1 взрослый, 3 дня</div>
-                    </div>
+<!--                    <div class="item">-->
+<!--                      <div class="title">Единство тела и души</div>-->
+<!--                      <div class="price">1 взрослый, 3 дня</div>-->
+<!--                    </div>-->
+<!--                    <div class="item">-->
+<!--                      <div class="title">Единство тела и души</div>-->
+<!--                      <div class="price">1 взрослый, 3 дня</div>-->
+<!--                    </div>-->
 
-                  </div>
-            </el-col>
+<!--                  </div>-->
+<!--            </el-col>-->
         </el-row>
 
 
@@ -73,14 +73,49 @@
             <span>Данные гостей <ArrowIcon :class="{ 'booking-guests_open': isShowGuests }" /></span>
         </div>
         <div v-if="isShowGuests" class="booking-history_guests">
-            <div class="booking-history__guest-title">Гость 1. Взрослый</div>
-            <p>Иванов Иван Иванович</p>
+
+            <div v-for="(guest, idx) in history.guests">
+                <div class="booking-history__guest-title">Гость {{idx+1}}</div>
+
+                <div class="grid grid-cols-3 gap-5">
+
+                    <el-form-item prop="last_name">
+                        <el-input readonly placeholder="Фамилия" :model-value="guest.last_name" />
+                    </el-form-item>
+                    <el-form-item prop="first_name">
+                        <el-input readonly placeholder="Имя" :model-value="guest.first_name" />
+                    </el-form-item>
+                    <el-form-item prop="middle_name">
+                        <el-input readonly placeholder="Отчество" :model-value="guest.middle_name" />
+                    </el-form-item>
+                    <el-form-item prop="birthdate">
+                        <el-date-picker
+                            readonly
+                            style="width: 100%"
+                            type="date"
+                            placeholder="Дата рождения"
+                            :model-value="guest.birthday"
+                            format="DD.MM.YYYY"
+                            class="birth-date-picker"
+                            :clearable="false"
+                        />
+                    </el-form-item>
+                    <el-form-item prop="phone">
+                        <el-input v-model="guest.phone" readonly v-maska data-maska="+7 ### ###-##-##" placeholder="Телефон" />
+                    </el-form-item>
+                    <el-form-item prop="email">
+                        <el-input v-model="guest.email" readonly placeholder="Email" />
+                    </el-form-item>
+
+                </div>
+            </div>
+
         </div>
 
         <el-row>
             <el-col>
                 <el-descriptions column="1" size="large">
-                    <el-descriptions-item label="Итоговая сумма"><span class="price">300 000 р.</span></el-descriptions-item>
+                    <el-descriptions-item label="Итоговая сумма"><span class="price">{{Format.formatCurrency(history.total_price)}}</span></el-descriptions-item>
                 </el-descriptions>
             </el-col>
         </el-row>
@@ -91,8 +126,19 @@
 
 <script setup lang="ts">
 import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
-import { ref } from "vue";
-import EditIcon from "@/features/lk/components/Icons/EditIcon.vue";
+import {ref} from "vue";
+import type {PropType} from "vue";
+
+import type {IHistoryBooking} from "@/features/lk/types/IHistoryBooking";
+import {Format} from "@/utils/format";
+
+  const props = defineProps({
+      history: {
+          type: Object as PropType<IHistoryBooking>,
+          required: true
+      }
+  })
+
 
   const isShowDetail = ref(false)
   const isShowGuests = ref(false)
@@ -108,6 +154,28 @@ import EditIcon from "@/features/lk/components/Icons/EditIcon.vue";
 </script>
 
 <style scoped lang="scss">
+
+
+
+:deep(.el-input__wrapper) {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+:deep(.el-input__icon) {
+    margin-right: 0 !important;
+}
+
+:deep(.birth-date-picker) {
+    width: 100%;
+}
+
+:deep(.birth-date-picker .el-input__wrapper) {
+    display: flex;
+    flex-direction: row-reverse;
+}
 
 :deep(.el-button) {
     width: 100%;
@@ -160,6 +228,19 @@ import EditIcon from "@/features/lk/components/Icons/EditIcon.vue";
   padding: 30px 40px 30px 40px;
   border: 1px solid #EEEAEA;
   align-items: center;
+
+  &__guest-title {
+      font-family: Geometria, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 25px;
+      text-align: left;
+      padding-bottom: 1rem;
+  }
+
+  &:last-child {
+      margin-bottom: 0;
+  }
 
   &_open {
     border-bottom: none;
@@ -268,5 +349,7 @@ font-size: 16px;
 font-weight: 700;
 line-height: 20px;
 }
+
+
 
 </style>

@@ -57,7 +57,7 @@
         </div>
 
 
-        <LkHeader>
+        <!--<LkHeader>
             <template #title>
                 Мои предпочтения
             </template>
@@ -71,7 +71,7 @@
             <div class="my-profile__title">
                 Временно не доступно
             </div>
-        </div>
+        </div>-->
 
     </div>
 
@@ -172,7 +172,6 @@ const updateUserProfile = async () => {
     }
 }
 
-
 function reformatPhoneNumber(number) {
     const cleanNumber = number.replace(/\D/g, ''); // удаляем все не-цифровые символы
 
@@ -192,7 +191,7 @@ const initForm = async () => {
     try {
         const token = getAccessToken()
 
-        const { data } = await client.get<IUser>('/users/user/me', {
+        const { data } = await client.get<IUser>('/v1/users/user/me', {
             headers: {
                 Authorization: `Bearer ${token}`
             }

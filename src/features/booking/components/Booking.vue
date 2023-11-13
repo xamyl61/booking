@@ -42,6 +42,7 @@
             <BookingComplete/>
           </div>
         </div>
+        <BookingCanceledModal :show="bookingCancel"/>
     </div>
 </template>
 
@@ -60,6 +61,9 @@
     import BookingHeader from "@/features/booking/components/BookingHeader.vue";
     import BookingComplete from "@/features/booking/components/BookingComplete.vue";
     import BookingPaymentData from "@/features/booking/components/BookingPaymentData.vue";
+    import BookingCanceledModal from "@/features/booking/components/BookingCanceledModal.vue";
+
+    
     
     import IconRuble from '@/components/icons/IconRuble.vue';
     import { useBookingRoomsStore } from "@/stores/booking-store";
@@ -85,6 +89,7 @@
     const loading = ref(false)
     const router = useRouter()
     const roomsTypesAndGuest = ref()
+    const bookingCancel = ref(false)
     
     const bookingStore = useBookingRoomsStore()
     const filterStore = useFilterStore()
@@ -159,13 +164,13 @@
 
         if (checValidateFormsStatus.value === true) {
             if (bookingStore.bookedRooms.booking_guid) {
-                await createBooking(() => client.put('/booking/', {
+                await createBooking(() => client.put('/v1/booking/', {
                     booking_guid: bookingStore.bookedRooms.booking_guid,
                     room_types: roomsAndGuest,
                     payment_guest: bookingPaymentStore.bookingPayment
                 }));
             } else {
-                await createBooking(() => client.post('/booking/', {
+                await createBooking(() => client.post('/v1/booking/', {
                     room_types: roomsAndGuest,
                     payment_guest: bookingPaymentStore.bookingPayment
                 }));
@@ -187,7 +192,10 @@
             const response = await callback();
             bookingStore.bookedRooms = response.data.res
             router.push('/complete')//
-        } catch (e) {
+        } catch (e: any) {
+            if (e.response.status === 404) {
+                bookingCancel.value = true
+            }
             console.log(e)
         } finally {
             loading.value = false;
