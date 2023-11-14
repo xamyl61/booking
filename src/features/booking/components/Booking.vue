@@ -180,21 +180,30 @@
         }
 
         // calculate total cost by room cost
+        calculteCost()
+        calculteBonus()
         
     });
 
-    bookingStore.$subscribe(async (mutation, state) => {
-        const arrayCostRooms = bookingStore.useBookingList.map((roomCost: { roomPrice: number; }) => roomCost.roomPrice)
+    const calculteBonus = () => {
         const arrayBonusRooms = bookingStore.useBookingList.map((bonus: { bonus: number; }) => bonus.bonus)
-        totalCost.value = 0
         totalBonus.value = 0
-        for (const value of arrayCostRooms) {
-            totalCost.value += value;
-        }
-
         for (const value of arrayBonusRooms) {
             totalBonus.value += value;
         }
+    }
+
+    const calculteCost = () => {
+        const arrayCostRooms = bookingStore.useBookingList.map((roomCost: { roomPrice: number; }) => roomCost.roomPrice)
+        totalCost.value = 0
+        for (const value of arrayCostRooms) {
+            totalCost.value += value;
+        }
+    }
+
+    bookingStore.$subscribe(async (mutation, state) => {
+        calculteCost()
+        calculteBonus()
     })
 
     const createBooking = async (callback: () => Promise<any>) => {
