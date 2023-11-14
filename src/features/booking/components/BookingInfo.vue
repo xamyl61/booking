@@ -3,11 +3,11 @@
       <div class="booking-info__number">
         <span>Бронь № {{ bookingStore.bookedRooms.number_booking }}</span>
       </div>
-      <div class="booking-info__actions">
+      <!-- <div class="booking-info__actions">
         <el-button round type="info" size="default">Распечатать</el-button>
         <el-button round type="info" size="default">Скачать</el-button>
         <el-button round type="info" size="default">Редактировать данные</el-button>
-      </div>
+      </div> -->
   </div>
 
 </template>
