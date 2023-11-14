@@ -109,7 +109,6 @@
 		bookingStore.useBookingList[index - 1].roomPrice = roomMoreComfort.value.res.price_info.price
 		bookingStore.useBookingList[index - 1].bonus = roomMoreComfort.value.res.price_info.bonus
 		bookingStore.useBookingList[index - 1].needUpSail = false
-		
 	}
 
 	onMounted(async () => {

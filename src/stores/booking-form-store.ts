@@ -31,6 +31,11 @@ export const useBookingFormStore = defineStore({
         this.bookingForm.splice(index-1, 1)
       }
     },
+    clear() {
+      this.bookingForm = []
+      this.needValidate = false
+      this.formsValidateResults = []
+    },
 
     watch: {
       useBookingList: {

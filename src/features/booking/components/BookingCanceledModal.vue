@@ -12,9 +12,13 @@
 import {reactive, ref} from "vue";
 
 import { useBookingRoomsStore } from "@/stores/booking-store";
+import { useBookingFormStore } from '@/stores/booking-form-store';
+import { useBookingPaymentStore } from '@/stores/booking-payment-store';
 import { useRouter } from "vue-router";
 
 const bookingStore = useBookingRoomsStore()
+const bookingFormStore = useBookingFormStore()
+const bookingPaymentStore = useBookingPaymentStore()
 const router = useRouter()
 
 
@@ -29,11 +33,12 @@ const props = defineProps({
 
 
 const openFilter = () => {
-    localStorage.removeItem("bookingList")
-    localStorage.removeItem("bookingForm")
-    localStorage.removeItem("bookingPayment")
-    localStorage.removeItem("bookedRooms")
-    bookingStore.$reset()
+    bookingStore.clear()
+    bookingFormStore.clear()
+    bookingPaymentStore.clear()
+    // localStorage.removeItem("bookingForm")
+    // localStorage.removeItem("bookingPayment")
+    // localStorage.removeItem("bookedRooms")
     router.push('/')
 }
 </script>
