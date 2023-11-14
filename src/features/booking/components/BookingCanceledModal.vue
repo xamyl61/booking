@@ -36,9 +36,6 @@ const openFilter = () => {
     bookingStore.clear()
     bookingFormStore.clear()
     bookingPaymentStore.clear()
-    // localStorage.removeItem("bookingForm")
-    // localStorage.removeItem("bookingPayment")
-    // localStorage.removeItem("bookedRooms")
     router.push('/')
 }
 </script>
