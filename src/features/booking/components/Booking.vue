@@ -31,7 +31,7 @@
                           <div class="line">Стоимость</div>
                           <div class="price">
                               <div class="cost">{{ totalCost.toLocaleString('ru-RU') }} р.</div>
-                              <div class="bonus"><IconRuble/> 1111 бонусов</div>
+                              <div class="bonus"><IconRuble/> {{ totalBonus }} бонусов</div>
                           </div>
                       </div>
                       <div @click="postBooking" class="footline">Забронировать</div>
@@ -86,6 +86,7 @@
     
 
     const totalCost = ref(0)
+    const totalBonus = ref(0)
     const loading = ref(false)
     const router = useRouter()
     const roomsTypesAndGuest = ref()
@@ -179,12 +180,22 @@
         }
 
         // calculate total cost by room cost
+        
+    });
+
+    bookingStore.$subscribe(async (mutation, state) => {
         const arrayCostRooms = bookingStore.useBookingList.map((roomCost: { roomPrice: number; }) => roomCost.roomPrice)
+        const arrayBonusRooms = bookingStore.useBookingList.map((bonus: { bonus: number; }) => bonus.bonus)
         totalCost.value = 0
+        totalBonus.value = 0
         for (const value of arrayCostRooms) {
             totalCost.value += value;
         }
-    });
+
+        for (const value of arrayBonusRooms) {
+            totalBonus.value += value;
+        }
+    })
 
     const createBooking = async (callback: () => Promise<any>) => {
         loading.value = true;
