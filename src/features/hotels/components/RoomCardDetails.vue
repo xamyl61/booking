@@ -239,12 +239,12 @@
                 </div>
             </div>
         </div>
-        <div class="room-detail-foot flex justify-between ">
+        <div  class="room-detail-foot flex justify-between ">
             <div class="period">
                 <div class="period-title">Период проживания:</div>
                 <div class="period-date">{{ parseDate(new Date(props.dateFrom)) }} &nbsp;&#8212;&nbsp; {{ parseDate(new Date(props.dateTill)) }}</div>
             </div>
-            <div class="flex justify-end">
+            <div v-if="props.footerInfo" class="flex justify-end">
                 <div class="cost-block">
                     <div class="cost">{{ props.roomPrice.toLocaleString('ru-RU') }} р.</div>
                     
@@ -530,6 +530,10 @@
             required: true,
         },
         showButton: {
+            type: Boolean,
+            default: true
+        },
+        footerInfo: {
             type: Boolean,
             default: true
         }
