@@ -34,6 +34,10 @@ export const useBookingRoomsStore = defineStore({
         this.useBookingList.splice(index-1, 1)
       }
     },
+    clear() {
+      this.useBookingList = []
+      this.bookedRooms = {}
+    },
 
     watch: {
       useBookingList: {

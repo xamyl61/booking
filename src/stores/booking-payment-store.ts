@@ -15,6 +15,9 @@ export const useBookingPaymentStore = defineStore({
     } as BookingPaymentStore),
   getters: {},
   actions: {
+    clear() {
+      this.bookingPayment = {}
+    },
     watch: {
       bookingPayment: {
         deep: true,
