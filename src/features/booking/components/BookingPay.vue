@@ -22,8 +22,8 @@
         <div class="booking-pay__timer">
             <vue-countdown  :time="timeRemaining" v-slot="{ minutes, seconds }" @end="onCountdownEnd">
                 <div v-if="counting" class="flex justify-between ">
-                    <div>ЕСЛИ В ТЕЧЕНИЕ 15 МИНУТ ВЫ НЕ ВНЕСЕТЕ ОПЛАТУ, БРОНЬ БУДЕТ АННУЛИРОВАНА</div>
-                    <div>{{ minutes }}:{{ seconds }}</div>
+                    <div class="text">ЕСЛИ В ТЕЧЕНИЕ 15 МИНУТ ВЫ НЕ ВНЕСЕТЕ ОПЛАТУ, БРОНЬ БУДЕТ АННУЛИРОВАНА</div>
+                    <div class="time">{{  String(minutes).padStart(2, '0') }}:{{ String(seconds).padStart(2, '0') }}</div>
                 </div>
                 <div v-else style="color: red">
                     Время вышло, бронь анулирована.
@@ -164,6 +164,13 @@ onMounted(async () => {
         line-height: 25px;
         text-transform: uppercase;
         margin: 1rem 0;
+
+        & > span {
+            width: 100%;
+        }
+        .time {
+            padding-left: 1rem;
+        }
     }
     &__notification {
         color: #B91818;
