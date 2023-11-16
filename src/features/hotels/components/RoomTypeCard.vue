@@ -51,7 +51,7 @@
                         <h1>
                             <span
                                     
-                                    @click="showRoomDetails(roomType.room_type.guid, roomType.price, roomType.price_info.bonus)"
+                                    @click="showRoomDetails(roomType.room_type.guid, roomType.price, roomType.price_info.bonus, roomType.is_available)"
                                     class="hover:underline cursor-pointer" href="#"
                             >
                                 {{roomType.title}}
@@ -82,7 +82,7 @@
 
                     <div class="flex room-description pr-4">
                         <div
-                                @click="showRoomDetails(roomType.room_type.guid, roomType.price, roomType.price_info.bonus)"
+                                @click="showRoomDetails(roomType.room_type.guid, roomType.price, roomType.price_info.bonus, roomType.is_available)"
                                 class="flex items-center no-underline hover:underline cursor-pointer">
                             Подробнее о номере
                             <IconArrowLeftInCircle class="ml-3"/>
@@ -233,6 +233,7 @@
                     :dateTill="props.dateTill"
                     :choosedHotelGuid="choosedHotelGuid.value"
                     :adults="adults"
+                    :footerInfo="isAvailable"
             />
         </el-dialog>
 
@@ -282,6 +283,8 @@ const rangeStartDate = ref()
 const rangeEndDate = ref()
 const dpOpen = ref(false);
 const datepicker = ref<DatePickerInstance[]>([]);
+
+const isAvailable = ref<boolean>(false)
 
 
 const isDateInArray = (targetDate: any, dateArray: any) => {
@@ -422,11 +425,12 @@ const pluralNightText = (count: number) => {
     return plural(count, 'ночь', 'ночи', 'ночей');
 }
 
-async function showRoomDetails(guid: string, cost: number, bonus: number) {
+async function showRoomDetails(guid: string, cost: number, bonus: number, available: boolean) {
     await getRoomDeatails(guid)
     dialogVisible.value = !dialogVisible.value
     roomPrice.value = cost
     bonusVal.value = bonus
+    isAvailable.value = available
 }
 
 const roomDetails = ref()

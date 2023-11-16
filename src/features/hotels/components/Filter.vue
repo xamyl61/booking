@@ -202,10 +202,11 @@
                     :countOfDays="countOfDaysAvailable"
                     :countOfPersons="countOfPersons"
                     :сhildren="сhildren"
-                    :dateFrom="startDateFormated"
-                    :dateTill="endDateFormated"
+                    :dateFrom="dateFromAvailableDates"
+                    :dateTill="dateTillAvailableDates"
                     :choosedHotelGuid="choosedHotel"
                     :adults="adults"
+                    :bonus="bonus"
             />
         </el-dialog>
 
@@ -264,6 +265,7 @@ const roomType = ref()
 const roomTypes = ref<any>([])
 const roomDetails = ref()
 const showNoRoomsNotification = ref<boolean>(false)
+const bonus = ref<number>(0)
 
 
 let maxHostedPeople = ref<number>(0)
@@ -290,7 +292,12 @@ let countOfPersons = ref()
 //     choosedHotelGuid: choosedHotel,
 // })
 
+const dateFromAvailableDates = ref<string>("")
+const dateTillAvailableDates = ref<string>("")
+
 async function changeAvailableDates(event: Event, roomGuid: string) {
+    dateFromAvailableDates.value =  dateFormateding(new Date(event[0]))
+    dateTillAvailableDates.value = dateFormateding(new Date(event[1]))
     await getRoomTypeByDates(event, roomGuid)
     await getRoomDeatails(roomGuid)
     dialogVisible.value = true
@@ -450,6 +457,7 @@ async function getRoomTypeByDates(availableDate: any, roomGuid: string) {
         const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/room-type/${roomGuid}/?number_of_adults=${adults.value}&number_of_children=${сhildren.value}&date_from=${dateFormateding(availableDate[0])}&date_till=${dateFormateding(availableDate[1])}&number_of_infants=${infants.value}`);
         const finalRes = await res.json();
         roomType.value = finalRes.res;
+        bonus.value = finalRes.res.price_info.bonus;
         if (roomTypes.value == 0) {
             showNoRoomsNotification.value = true
         }
