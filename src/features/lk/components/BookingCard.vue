@@ -172,9 +172,9 @@ const props = defineProps({
     }
 })
 
-const groupGuestsByAge = (guests) => {
-    const adults = [];
-    const children = [];
+const groupGuestsByAge = (guests:any) => {
+    const adults:any[] = [];
+    const children:any[] = [];
     const currentDate = new Date();
 
     guests.forEach(guest => {
