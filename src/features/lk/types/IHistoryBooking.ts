@@ -6,7 +6,9 @@ export interface IHistoryBooking {
     date_from: string
     date_till: string
     guests: IGuest[]
+    room_rate: string
     total_price: number
+    amount_payments: number
 }
 
 export interface IGuest {

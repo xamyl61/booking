@@ -5,11 +5,11 @@
           <div class="booking-header__title">
               Бронь № {{booking.number_booking}}
           </div>
-          <div class="booking-header__actions">
+          <!--<div class="booking-header__actions">
               <el-button disabled round type="info" size="default">Аннулировать бронь</el-button>
               <el-button disabled round type="info" size="default">Редактировать бронь</el-button>
               <el-button disabled round type="info" size="default">Поменять категорию номера</el-button>
-          </div>
+          </div>-->
       </div>
 
       <div class="booking-body">
@@ -18,7 +18,7 @@
         </div>
         <div class="booking-body__info">
             <el-row :gutter="20">
-                <el-col :span="10">
+                <el-col>
 
                   <div class="descriptions">
                     <div class="descriptions__title">
@@ -35,11 +35,11 @@
 </div>
 <div class="item">
   <div class="title">Тариф</div>
-  <div class="price"></div>
+  <div class="price">{{booking.room_rate}}</div>
 </div>
 <div class="item">
   <div class="title">Гости</div>
-  <div class="price">{{booking.guests.length}}</div>
+  <div class="price">{{guestSummary}}</div>
 </div>
                   </div>
                   
@@ -113,7 +113,7 @@
 
           <div class="booking-body__summary">
               <el-row :gutter="20">
-                  <el-col :span="10">
+                  <el-col>
                      
 
                     <div class="descriptions">
@@ -125,55 +125,24 @@
                   </div>
 
                   </el-col>
-                  <el-col :span="14">
-                      <el-descriptions column="1" size="large">
-                          <el-descriptions-item label="Сумма">
-                      <span class="booking-card__price">
-                        0 р.
-                      </span>
-                          </el-descriptions-item>
-                      </el-descriptions>
-                  </el-col>
               </el-row>
               <el-row :gutter="20">
-                  <el-col :span="10">
-                    <small class="discount-small">Скидка составила 0 р.</small>
-                  </el-col>
-                  <el-col :span="14">
-                    <div class="descriptions">
-                    <div class="item">
-                      <div class="title">Внесена предоплата:</div>
-                      <div class="price booking-card__price-small">0 р.</div>
-                    </div>
-                  </div>
+                  <el-col>
+                    <small class="discount-small">Скидка составила {{Format.formatCurrency(discountSummary)}}</small>
                   </el-col>
               </el-row>
 
               <el-row :gutter="20">
-                  <el-col class="summary" :span="10">
+                  <el-col class="summary">
                     <div class="descriptions">
                     <div class="item">
                       <div class="title">Итого:</div>
-                      <div class="price booking-card__price">{{Format.formatCurrency(booking.total_price)}}</div>
+                      <div class="price booking-card__price">{{Format.formatCurrency(booking.amount_payments)}}</div>
                     </div>
 
                   </div>
                    
                   </el-col>
-                  <el-col :span="14">
-                    <div class="descriptions">
-                    <div class="item">
-                      <div class="title">Осталось к оплате:</div>
-                      <div class="price booking-card__price-small">
-                        <span>0 р.</span>
-<!--                      <el-button style="margin-left: 1rem;" class="pay" round type="info" size="default">Оплатить</el-button>-->
-
-                      </div>
-                    </div>
-
-                  </div>
-                  </el-col>
-                  
               </el-row>
           </div>
       </div>
@@ -185,7 +154,7 @@
 <script setup lang="ts">
 
 import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import type {PropType} from "vue";
 import type {IHistoryBooking} from "@/features/lk/types/IHistoryBooking";
 import {Format} from "@/utils/format";
@@ -202,6 +171,57 @@ const props = defineProps({
         required: true
     }
 })
+
+const groupGuestsByAge = (guests) => {
+    const adults = [];
+    const children = [];
+    const currentDate = new Date();
+
+    guests.forEach(guest => {
+        const birthDate = new Date(guest.birthday);
+        let age = currentDate.getFullYear() - birthDate.getFullYear();
+        const monthDifference = currentDate.getMonth() - birthDate.getMonth();
+
+        if (monthDifference < 0 || (monthDifference === 0 && currentDate.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        if (age >= 18) {
+            adults.push(guest);
+        } else {
+            children.push(guest);
+        }
+    });
+
+    return { adults, children };
+}
+
+
+const guestSummary = computed(() => {
+    return getGuestsCountSummary(props.booking?.guests)
+})
+
+const discountSummary = computed(() => {
+    return props.booking?.total_price - props.booking?.amount_payments
+})
+
+const getGuestsCountSummary = (guests) => {
+    const { adults, children } = groupGuestsByAge(guests);
+    let summary = "";
+
+    if (adults.length > 0) {
+        summary += `${adults.length} взросл${adults.length === 1 ? 'ый' : 'ых'}`;
+    }
+
+    if (children.length > 0) {
+        if (summary.length > 0) {
+            summary += ', ';
+        }
+        summary += `${children.length} ребен${children.length === 1 ? 'ок' : 'ка'}`;
+    }
+
+    return summary || 'Нет гостей';
+}
 
 </script>
 
@@ -230,7 +250,7 @@ const props = defineProps({
 }
 
 .title {
-  max-width: 45%;
+  max-width: 20%;
   flex: 1; /* Займет все доступное пространство, оставив место для .price */
   margin-right: 20px; /* Отступ между названием и ценой */
   font-family: Geometria;
@@ -295,6 +315,9 @@ line-height: 20px;
 
 .booking-body__summary {
   padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .booking-body__guest-title {
@@ -361,6 +384,7 @@ line-height: 20px;
   }
 
   &__check {
+    display: inline-block;
     font-family: 'Geometria', sans-serif;
     color: #202020;
     font-size: 16px;

@@ -41,11 +41,11 @@
     </div>
     <div class="item">
     <div class="title">Тариф</div>
-    <div class="price"></div>
+    <div class="price">{{history.room_rate}}</div>
     </div>
     <div class="item">
     <div class="title">Гости</div>
-    <div class="price">{{history.guests.length}}</div>
+    <div class="price">{{guestSummary}}</div>
     </div>
                   </div>
             </el-col>
@@ -126,7 +126,7 @@
 
 <script setup lang="ts">
 import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import type {PropType} from "vue";
 
 import type {IHistoryBooking} from "@/features/lk/types/IHistoryBooking";
@@ -138,6 +138,54 @@ import {Format} from "@/utils/format";
           required: true
       }
   })
+
+
+    const groupGuestsByAge = (guests) => {
+        const adults = [];
+        const children = [];
+        const currentDate = new Date();
+
+        guests.forEach(guest => {
+            const birthDate = new Date(guest.birthday);
+            let age = currentDate.getFullYear() - birthDate.getFullYear();
+            const monthDifference = currentDate.getMonth() - birthDate.getMonth();
+
+            if (monthDifference < 0 || (monthDifference === 0 && currentDate.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            if (age >= 18) {
+                adults.push(guest);
+            } else {
+                children.push(guest);
+            }
+        });
+
+        return { adults, children };
+    }
+
+
+  const guestSummary = computed(() => {
+      return getGuestsCountSummary(props.history?.guests)
+  })
+
+const getGuestsCountSummary = (guests) => {
+    const { adults, children } = groupGuestsByAge(guests);
+    let summary = "";
+
+    if (adults.length > 0) {
+        summary += `${adults.length} взросл${adults.length === 1 ? 'ый' : 'ых'}`;
+    }
+
+    if (children.length > 0) {
+        if (summary.length > 0) {
+            summary += ', ';
+        }
+        summary += `${children.length} ребен${children.length === 1 ? 'ок' : 'ка'}`;
+    }
+
+    return summary || 'Нет гостей';
+}
 
 
   const isShowDetail = ref(false)
