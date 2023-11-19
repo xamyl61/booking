@@ -500,11 +500,15 @@ onMounted(async () => {
     const urlSearch = getUrlParams()
     listCities.value = await getCities()
 
-    
     if (urlSearch.search) {
+        if (urlSearch.searchParams.get('return_url') != null) {
+            localStorage.setItem("return_url", <string>urlSearch.searchParams.get('return_url'))
+        }
+        console.log("return_url: ", urlSearch.searchParams.get('return_url'))
         choosedHotel.value = await getHotelByGuid(<any>urlSearch.searchParams.get('hotel')) 
         const startDate = new Date(<any>urlSearch.searchParams.get('date_from'))
         const endDate = new Date(<any>urlSearch.searchParams.get('date_till'))
+        
         date.value = [startDate, endDate];
 
         rangeStartDate.value = parseDate(startDate)

@@ -9,7 +9,7 @@
       </a>
       <a v-else href="#" class="back">
           <IconArrowLeft/>
-          <p class="back_text">Вернуться на сайт</p>
+          <a class="back_text" :href="returnUrl">Вернуться на сайт</a>
       </a>
 
       <div class="call">
@@ -62,11 +62,12 @@
   import Button from '@/components/Button.vue'
   import {useRoute, useRouter} from "vue-router";
   import {removeTokens} from "@/utils/token";
-  import {computed} from "vue";
+  import {computed, onMounted, ref} from "vue";
 
   const authStore = useAuthStore()
   const route = useRoute()
   const router = useRouter()
+  const returnUrl = ref("")
 
   const currentRoute = computed(() => {
     return route.name
@@ -99,6 +100,12 @@
       router.push({name: 'home'})
     }
   }
+
+  onMounted(() => {
+    if (localStorage.getItem("return_url") != null) {
+      returnUrl.value = <string>localStorage.getItem("return_url")
+    }
+  })
 
 </script>
   
