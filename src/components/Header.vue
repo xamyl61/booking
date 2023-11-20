@@ -1,8 +1,6 @@
 <template>
   <header class="header">
     <div class="container mx-auto">
-      
-      
       <a v-if="currentRoute === 'lk'" href="#" class="back" @click="onHome">
           <IconArrowLeft/>
           <p class="back_text">Вернуться назад</p>
@@ -14,16 +12,21 @@
 
       <div class="call">
         <Button>Перезвоните мне</Button>
+
+        <a class="phone-link" href="tel:+78889993311">
+          <IconPhone/>
+          <span class="phone-link_text">+7 (888) 999 33-11</span>
+        </a>
       </div>
 
+      <div class="mobile-menu" @click="menuOpen = true">
+        <IconMenu/>
+      </div>
 
-
-      <a class="phone-link" href="tel:+78889993311">
-        <IconPhone/>
-        <span class="phone-link_text">+7 (888) 999 33-11</span>
-      </a>
-
-      <div class="login">
+      <div class="login" :class="{ show: menuOpen }">
+        <div class="close-menu" @click="menuOpen = false">
+          <IconCloseCircle/>
+        </div>
         <div class="dropdown" v-if="authStore.isAuthenticated">
 
             <Button @click="router.push({name: 'lk', query: { tab: 'myProfile' }})" class="btn">
@@ -54,6 +57,8 @@
   
 <script setup lang="ts">
   import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
+  import IconCloseCircle from "@/components/icons/IconCloseCircle.vue";
+  import IconMenu from '@/components/icons/IconMenu.vue'
   import IconPhone from '@/components/icons/IconPhone.vue'
   import AuthenticationForm from '@/features/authentication/components/AuthenticationForm.vue'
   import { useAuthStore } from '@/stores/auth-store';
@@ -62,11 +67,12 @@
   import Button from '@/components/Button.vue'
   import {useRoute, useRouter} from "vue-router";
   import {removeTokens} from "@/utils/token";
-  import {computed} from "vue";
+  import {computed, ref} from "vue";
 
   const authStore = useAuthStore()
   const route = useRoute()
   const router = useRouter()
+  const menuOpen = ref(false)
 
   const currentRoute = computed(() => {
     return route.name
@@ -77,7 +83,7 @@
   }
 
   const onLogin = () => {
-  
+    menuOpen.value = false
     $vfm.show({component: AuthenticationForm})
 
   }
@@ -105,17 +111,31 @@
 <style scoped lang="scss">
   .header {
     font-size: 1rem;
+    @media (max-width: 768px) {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    .right {
+      display: flex;
+      justify-content: space-between;
+    }
   }
   .header .container {
-    padding: 1.3rem;
+    padding: 1.3rem 0;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid var(--color-line);
   }
 
   .back {
     display: flex;
     align-items: center;
+    @media (max-width: 767px) {
+      p {
+        display: none;
+      }
+    }
   }
     .back .icon {
       margin-right: 1.6rem;
@@ -124,16 +144,23 @@
   .call {
     display: flex;
     align-items: center;
-    margin-left: 9.3vw;
+    margin-left: -22%;
+    @media (max-width: 1280px) {
+      margin-left: 0;
+    }
   }
 
   .phone-link {
     display: flex;
     align-items: center;
     margin-left: 2.6vw;
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
   .phone-link i {
     margin-right: 1.1rem;
+    
   }
     .icon-phone-gold {
       margin-right: 1rem;
@@ -143,6 +170,24 @@
     margin-left: auto;
     display: flex;
     align-items: center;
+    margin-left: 1rem;
+
+    @media (max-width: 768px) {
+      position: fixed;
+      background: #fff;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: 0;
+      z-index: 10000;
+      display: none;
+      padding: 1rem;
+    }
+    &.show {
+      display: block;
+    }
+
   }
     .login .authorization {
       margin-right: 2.6vw;
@@ -197,5 +242,16 @@
 
   .btn {
     z-index: 999;
+  }
+  .mobile-menu {
+    display: none;
+    @media (max-width: 768px) {
+      display: block;
+    }
+  }
+  .close-menu {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
   }
 </style>

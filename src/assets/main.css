@@ -445,8 +445,14 @@ body {
 
     /* modal room-detail */
     .room-detail {
-        /* width: 100%; */
-        /* max-width: 1200px; */
+        
+    }
+    @media (max-width: 768px) {
+        .room-detail {
+            width: 100%!important;
+            top: 0;
+            position: absolute!important; 
+        }
     }
     .room-detail .el-dialog__header {
         padding: 0;
@@ -482,14 +488,35 @@ body {
         height: 32vw;
         overflow-y: auto;
     }
+    @media (max-width: 768px) {
+        .room-detail .room-detail-body {
+            height: auto;
+            padding: 0;
+        }
+    }
     .room-detail .room-detail-body .slider {
         padding: 2.5rem 0 1.5rem;
     }
-
+    
+    @media (max-width: 768px) {
+        .room-detail .room-detail-body .slider {
+            padding: 1rem 0 1.5rem;
+        }
+    }
     .room-detail-foot {
         background-color: var(--color-primary);
         color: #fff;
         padding: .9rem 3rem;
+    }
+    @media (max-width: 768px) {
+        .room-detail-foot {
+            padding: .9rem 1rem;
+        }
+    }
+    @media (max-width: 767px) {
+        .room-detail-foot {
+            flex-direction: column;
+        }
     }
 
     .room-detail .room-detail-foot .cost-block {
@@ -499,7 +526,22 @@ body {
         justify-content: center;
         padding-right: 6rem;
     }
+    @media (max-width: 767px) {
+        .room-detail .room-detail-foot .cost-block {
+            padding-right: 0;
+        }
+    }
 
+    .room-detail .room-detail-foot .cost-bloc_wr {
+        display: flex;
+        justify-content: space-between;
+    }
+    @media (max-width: 767px) {
+        .room-detail .room-detail-foot .cost-bloc_wr {
+            padding-top: 1.5rem;
+            justify-content: space-between;
+        }
+    }
     .room-detail .room-detail-foot .cost {
         font-size: 1.75rem;
         font-family: 'Optima Cyr';
@@ -556,6 +598,9 @@ body {
     .slider > .splide .splide__slide img {
         width: 100%;
     }
+    .cards .splide__slide img {
+        width: 100%;
+    }
 
     .slider .splide:not(.is-overflow) .splide__pagination {
         display: flex;
@@ -563,6 +608,11 @@ body {
 
     .slider-thumblr {
         width: 30%;
+    }
+    @media (max-width: 767px) {
+        .slider-thumblr {
+            display: none;
+        }    
     }
     .slider-thumblr .splide,
     .slider-thumblr .custom-wrapper,

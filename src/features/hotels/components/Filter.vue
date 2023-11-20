@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="filter-wr">
         <div
             class="booking-room-list container mx-auto"
             v-if="bookingStore.useBookingList.length"
@@ -11,9 +11,9 @@
             />
         </div>
         <h1 v-else>Выберите период проживания и количество гостей</h1>
-        <div class="filter container mx-auto md:flex md:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
+        <div class="filter container mx-auto lg:flex lg:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
             <IconSeashell/>
-            <div class="grow p-2 lg:p-0">
+            <div class="grow p-4 lg:p-0">
                 <div class=" ">
                     <div class="filter-title">Отель</div>
                     <div class="filter-controls">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="datepicker-wrapper p-2 lg:p-0">
+            <div class="datepicker-wrapper p-4 lg:p-0">
                 <div>
                     <div class="filter-title">Период проживания</div>
                     <div class="filter-controls">
@@ -91,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <div class="grow p-2 lg:p-0">
+            <div class="grow p-4 lg:p-0">
                 <div>
                     <div class="filter-title">Количество гостей</div>
                     <div
@@ -154,7 +154,7 @@
                     </div>
                 </div>
             </div>
-            <div class="lg:p-0 btn-wrapper">
+            <div class="p-4 lg:p-0 btn-wrapper">
                 <button
                         @click="getRoomTypes"
                         class="btn btn-yellow hover:scale-[1.06] ease-in duration-100"
@@ -557,7 +557,13 @@ onMounted(async () => {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.filter-wr {
+    @media (max-width: 768px) {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
 .btn[disabled] {
     opacity: .3;
 }
@@ -566,6 +572,10 @@ onMounted(async () => {
     display: flex;
     align-items:flex-end;
     justify-content: flex-end;
+    @media (max-width: 768px) {
+        display: block;
+        margin-top: 1rem;
+    }
 }
 .icon-seashell {
     position: absolute;
@@ -578,6 +588,11 @@ h1 {
     font-family: 'Optima Cyr';
     text-align: center;
     padding: 4.2rem 0 3.2rem;
+    @media (max-width: 767px) {
+        font-size: 1.8rem;
+        line-height: 1;
+        padding: 3rem 0 2rem;
+    }
 }
 .filter {
     /* padding: 2rem 5rem 1.9rem; */
@@ -645,9 +660,20 @@ h1 {
     align-items: center;
     padding: 0.7rem 1rem;
     color: #121326;
+    @media (max-width: 767px) {
+        font-size: .7rem;
+    }
+}
+.daterange-item.start-date {
+    @media (max-width: 767px) {
+        padding-right: .5rem;
+    }
 }
 .daterange-item.end-date {
     flex-grow: 1;
+    @media (max-width: 767px) {
+        padding-left: .5rem;
+    }
 }
 .daterange-item.end-date i {
     margin-left: auto;
@@ -731,6 +757,9 @@ h1 {
 
 .booking-room-list {
     padding: 2rem 7rem 1.5rem;
+    @media (max-width: 1024px) {
+        padding: 1rem 0 0;
+    }
 }
 
 
