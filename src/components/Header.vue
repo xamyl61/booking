@@ -139,7 +139,7 @@
     display: flex;
     align-items: center;
     @media (max-width: 767px) {
-      p {
+      a {
         display: none;
       }
     }
