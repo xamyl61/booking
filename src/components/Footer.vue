@@ -21,13 +21,21 @@ import IconLogoGold from '@/components/icons/IconLogoGold.vue'
 
 </script>
   
-<style scoped>
+<style scoped  lang="scss">
 
 .footer {
     padding: 1.2rem;
     background: var(--color-primary);
     color: rgba(255, 255, 255, 0.5);
     font-size: 1rem;
+
+    .container {
+        & > div {
+            @media (max-width: 768px) {
+                flex-direction: column-reverse;
+            }
+        }
+    }
 }
     .footer_link {
         margin-left: 2.2vw;
@@ -42,5 +50,15 @@ import IconLogoGold from '@/components/icons/IconLogoGold.vue'
 .right {
     display: flex;
     align-items: center;
+    @media (max-width: 767px) {
+        flex-direction: column;
+        align-items: start;
+    }
+    a {
+        margin-bottom: 1rem; 
+        @media (max-width: 767px) {
+
+        }
+    }
 }
 </style>

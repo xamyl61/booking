@@ -308,7 +308,26 @@ body {
     .m-datepicker.m-single .dp__month_year_row .datepicker-arrow.arrow-right {
         right: 1rem;
     } */
+
+
     
+    @media (max-width: 767px) {
+        .filter-wr .dp__outer_menu_wrap {
+            background: rgba(0,0,0,.7);
+            position: fixed!important;
+            top: 0rem!important;
+            bottom: 0rem!important;
+            left: 0!important;
+            right: 0!important;
+            z-index: 1000;
+        }
+        .m-datepicker.dp__menu.dp__menu_index {
+            top: 0rem!important;
+            left: 2rem!important;
+            right: 2rem!important;
+            transform: translate(0%, 0%)!important;
+        }
+    }
     
     /* current day */
     .m-datepicker .dp__cell_inner {
@@ -445,8 +464,14 @@ body {
 
     /* modal room-detail */
     .room-detail {
-        /* width: 100%; */
-        /* max-width: 1200px; */
+        
+    }
+    @media (max-width: 768px) {
+        .room-detail {
+            width: 100%!important;
+            top: 0;
+            position: absolute!important; 
+        }
     }
     .room-detail .el-dialog__header {
         padding: 0;
@@ -482,14 +507,35 @@ body {
         height: 32vw;
         overflow-y: auto;
     }
+    @media (max-width: 768px) {
+        .room-detail .room-detail-body {
+            height: auto;
+            padding: 0;
+        }
+    }
     .room-detail .room-detail-body .slider {
         padding: 2.5rem 0 1.5rem;
     }
-
+    
+    @media (max-width: 768px) {
+        .room-detail .room-detail-body .slider {
+            padding: 1rem 0 1.5rem;
+        }
+    }
     .room-detail-foot {
         background-color: var(--color-primary);
         color: #fff;
         padding: .9rem 3rem;
+    }
+    @media (max-width: 768px) {
+        .room-detail-foot {
+            padding: .9rem 1rem;
+        }
+    }
+    @media (max-width: 767px) {
+        .room-detail-foot {
+            flex-direction: column;
+        }
     }
 
     .room-detail .room-detail-foot .cost-block {
@@ -499,7 +545,22 @@ body {
         justify-content: center;
         padding-right: 6rem;
     }
+    @media (max-width: 767px) {
+        .room-detail .room-detail-foot .cost-block {
+            padding-right: 0;
+        }
+    }
 
+    .room-detail .room-detail-foot .cost-bloc_wr {
+        display: flex;
+        justify-content: space-between;
+    }
+    @media (max-width: 767px) {
+        .room-detail .room-detail-foot .cost-bloc_wr {
+            padding-top: 1.5rem;
+            justify-content: space-between;
+        }
+    }
     .room-detail .room-detail-foot .cost {
         font-size: 1.75rem;
         font-family: 'Optima Cyr';
@@ -556,6 +617,9 @@ body {
     .slider > .splide .splide__slide img {
         width: 100%;
     }
+    .cards .splide__slide img {
+        width: 100%;
+    }
 
     .slider .splide:not(.is-overflow) .splide__pagination {
         display: flex;
@@ -563,6 +627,11 @@ body {
 
     .slider-thumblr {
         width: 30%;
+    }
+    @media (max-width: 767px) {
+        .slider-thumblr {
+            display: none;
+        }    
     }
     .slider-thumblr .splide,
     .slider-thumblr .custom-wrapper,
@@ -769,6 +838,16 @@ body {
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 1.2rem;
    }
+   @media (max-width: 768px) {
+        .custom-form {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+   @media (max-width: 767px) {
+        .custom-form {
+            grid-template-columns: 1fr;
+        }
+    }
     .custom-form .el-form-item {
         position: relative;
    }

@@ -167,12 +167,13 @@
                             <div class="header-icon-item"><IconSquare/> {{ roomDetails?.room_square }} м2</div>
                             <div class="header-icon-item"><IconHome/> {{ roomDetails?.room_type.number_of_beds_per_room }} {{ pluralRoomsText(roomDetails?.room_type.number_of_beds_per_room) }}</div>
                         </div>
-                        <div>
+                        <div class="time-to-work">
                             <div class="subtitle">Расчётные часы</div>
                             {{ roomDetails?.checkout_hours }}
                         </div>
                     </div>
                 </div>
+
 
                 <div class="list-block">
 
@@ -216,7 +217,7 @@
                                     class="list-block-grid-col"
                                 >
                     
-                                    <div class="list-block-subtitle">{{ amenSubCutegory?.title }}</div>
+                                    <div v-if="amenSubCutegory.title" class="list-block-subtitle">{{ amenSubCutegory?.title }}</div>
                                     <div>
                                         <div
                                             class=" icon-text"
@@ -244,7 +245,7 @@
                 <div class="period-title">Период проживания:</div>
                 <div class="period-date">{{ parseDate(new Date(props.dateFrom)) }} &nbsp;&#8212;&nbsp; {{ parseDate(new Date(props.dateTill)) }}</div>
             </div>
-            <div v-if="props.footerInfo" class="flex justify-end">
+            <div v-if="props.footerInfo" class="cost-bloc_wr">
                 <div class="cost-block">
                     <div class="cost">{{ props.roomPrice.toLocaleString('ru-RU') }} р.</div>
                     
@@ -577,12 +578,18 @@
 
 </script>
   
-<style scoped>
+<style scoped lang="scss">
 .left-block {
     width: 70%;
+    @media (max-width: 768px) {
+        width: auto;
+    }
 }
 .right-block {
     width: 30%;
+    @media (max-width: 768px) {
+        width: auto;
+    }
 }
 .description {
     font-size: 1.2rem;
@@ -594,10 +601,26 @@
 
 .details {
     color: #202020;
+    @media (max-width: 768px) {
+        padding: 0 1rem;
+    }
+    & > .flex {
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
+    }
 }
 .description.show {
     display: block!important;
     overflow: auto!important;
+}
+.time-to-work {
+    @media (max-width: 768px) {
+        padding-bottom: 1rem;
+        .subtitle {
+            padding-bottom: 1rem;
+        }
+    }
 }
 .bottom-shadow {
     position: relative;
@@ -624,9 +647,6 @@
     flex-grow: 0;
     flex-shrink: 0;
 }
-.list-block-grid {
-    position: relative;
-}
 .hide-list .list-block-grid:after {
     content: "";
     height: 2.4rem;
@@ -647,14 +667,27 @@
 
 /* list-block */
 .list-block-grid {
+    position: relative;
     display: flex;
-    /* gap: 1rem; */
+    @media (max-width: 768px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 768px) {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
 }
 .list-block-grid-col {
     display: flex;
     flex-flow: column;
     width: 25%;
     padding-right: 3rem;
+    @media (max-width: 768px) {
+        width: auto;
+        padding-right: 1rem;
+        padding-bottom: 1rem;
+    }
 }
 .list-block-grid-col .icon-text {
     align-items: center;
@@ -691,6 +724,9 @@
     display: flex;
     flex-wrap: wrap;
     padding: 0 0 1.5rem;
+    @media (max-width: 768px) {
+        display: flex;
+    }
 }
 .header-icon .icon-text {
     display: inline-block;
@@ -720,6 +756,9 @@
 /* sliders */
 .main-slider {
     width: 70%;
+    @media (max-width: 767px) {
+        width: auto;
+    }
 }
 
 .open-lightbox-btn {
@@ -734,6 +773,7 @@
     align-items: center;
     color: #fff;
     font-weight: bold;
+    text-align: center;
 }
 
 .period {
