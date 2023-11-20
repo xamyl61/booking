@@ -18,6 +18,7 @@ import {BookingPayMethod} from "@/features/booking/types/IBookingMethod";
 import type {PropType} from "vue";
 import {computed} from "vue";
 import {Format} from "@/utils/format";
+import Button from '@/components/Button.vue'
 
 const props = defineProps({
     method: {
@@ -78,6 +79,10 @@ const totalCost = computed(() => {
             border-color: #215C66;
             color: white;
             width: 170px;
+            &:hover {
+                background: #F7C87D;
+                border-color: #F7C87D;
+            }
         }
     }
 }

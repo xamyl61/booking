@@ -24,7 +24,7 @@
                         <div class="text-xs pl-1 bonus-counts">{{ props.bookingRoom.bonus }} бонусов</div>
                     </div>
                 </div>
-                <button @click="goBooking" class="btn">Забронировать</button>
+                <Button @click="goBooking">Забронировать</Button>
             </div>
         </div>
     </div>
@@ -36,6 +36,7 @@
     import type { IBookingInfoData } from '@/features/booking/types/IBookingInfoData';
     import IconRuble from '@/components/icons/IconRuble.vue'
     import IconTrash from '@/components/icons/IconTrash.vue';
+    import Button from '@/components/Button.vue'
 
     import { useBookingRoomsStore } from '@/stores/booking-store';
     import { useBookingFormStore } from '@/stores/booking-form-store';

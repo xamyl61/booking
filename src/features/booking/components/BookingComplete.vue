@@ -42,7 +42,7 @@ const bookingInfo = ref({
 const bookingPay = ref({
     id: 1,
     cost: bookingStore.bookedRooms.total_price,
-    bonus: '1000'
+    bonus: bookingStore.bookedRooms.bonus
 })
 
 </script>

@@ -13,5 +13,5 @@ checkout_hours: any;
     to: string;
     roomId: number;
     roomNumber: string;
-    hotel: string;
+    hotel_title: string;
 }
