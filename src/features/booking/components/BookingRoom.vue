@@ -3,7 +3,7 @@
     <div class="booking-room__top">
       <div class="booking-room__info">
         <div class="booking-room__number">
-            <span>{{ room.hotel }}</span>
+            <span>{{ room.hotel_title }}</span>
         </div>
 
         <el-descriptions :column="2" size="large">
