@@ -7,9 +7,9 @@
           <IconArrowLeft/>
           <p class="back_text">Вернуться назад</p>
       </a>
-      <a v-else href="#" class="back">
+      <a v-else :href="returnUrl" class="back">
           <IconArrowLeft/>
-          <a class="back_text" :href="returnUrl">Вернуться на сайт</a>
+          <a class="back_text" >Вернуться на сайт</a>
       </a>
 
       <div class="call">
@@ -101,9 +101,16 @@
     }
   }
 
+  const getUrlParams = () => {
+    return new URL(window.location.href)
+}
+
   onMounted(() => {
+    const urlSearch = getUrlParams()
     if (localStorage.getItem("return_url") != null) {
       returnUrl.value = <string>localStorage.getItem("return_url")
+    } else {
+      returnUrl.value = <string>urlSearch.searchParams.get('return_url')
     }
   })
 
