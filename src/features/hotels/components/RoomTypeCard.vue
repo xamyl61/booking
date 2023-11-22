@@ -1,11 +1,11 @@
 <template>
-    <div class="room-type container mx-auto md:flex md:flex-wrap lg:gap-2 p-3 md:p-8 lg:px-20 lg:py-8">
+    <div class="room-type container mx-auto">
         <div class="backdrop" v-if="dpOpen"></div>
-        <div class="flex flex-wrap w-full mx-1 lg:mx-4">
+        <div class="cards">
             <div
                     v-for="(roomType, index) in roomTypes"
                     :key="roomType.room_type.guid"
-                    class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3"
+                    class="card w-full "
             >
                 <article class="h-full flex flex-col">
                     <Splide
@@ -113,7 +113,7 @@
                                 {{pluralNightText(countOfDays)}}
                             </div>
                         </div>
-                        <div class="pt-3 w-44">
+                        <div class="pt-3 w-32 lg:w-44">
                             <div class="flex justify-center align-center h-5">
                                 <IconRuble/>
                                 <div
@@ -539,7 +539,23 @@ onMounted(() => {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    padding: 3rem 5rem 2rem;
+    @media (max-width: 1280px) {
+        grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 1024px) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+    }
+}
 .devide-line {
     display: none;
 }

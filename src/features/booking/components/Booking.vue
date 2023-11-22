@@ -230,7 +230,7 @@
     })
   </script>
     
-  <style scoped>
+  <style scoped lang="scss">
     .header-line {
         background-color: var(--color-primary);
         color: #fff;
@@ -240,6 +240,16 @@
     }
     .booking-block {
         padding: 3rem 1.3rem 0;
+
+        @media (max-width: 1200px) {
+            & > .flex {
+                flex-direction: column;
+            }
+        }
+        @media (max-width: 768px) {
+            width: auto;
+            max-width: 100%;
+        }
     }
     .booking-block hr {
         border-color: rgba(238, 234, 234, 1);

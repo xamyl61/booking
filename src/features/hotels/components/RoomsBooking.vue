@@ -78,6 +78,9 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 1.3rem;
+        @media (max-width: 767px) {
+            flex-direction: column;
+        }
     }
     &__title {
         font-size: 1.2rem;
@@ -104,6 +107,9 @@
     .right {
         display: flex;
         align-items: center;
+        @media (max-width: 767px) {
+            padding-top: 1rem;
+        }
     }
     .btn {
         margin-left: 1rem;
