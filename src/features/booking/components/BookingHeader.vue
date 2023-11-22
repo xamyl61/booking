@@ -6,18 +6,24 @@
                     v-if="router.currentRoute.value.name == 'booking'"
                     class="cursor-pointer left"
                     @click="router.push('/')"
-                >Выбрать номер</div>
+                >
+                    <span class="arrow"><IconSlideRight/></span>
+                    <span class="text">Выбрать номер</span>
+                </div>
                 <div class="cursor-pointer" @click="router.push('/booking')">Данные о гостях</div>
-                <div>
+                <div class="right">
                     <span
                         v-if="typeof bookingStore.bookedRooms.rooms == 'undefined'"
                         style="opacity: .5;"
                     >
-                        Завершить бронирование
+                        <span class="text">Завершить бронирование</span>
+                        <span class="arrow"><IconSlideRight/></span>
                     </span>
                     <span
                     v-else
-                        class="cursor-pointer" @click="router.push('/complete')">Завершить бронирование
+                        class="cursor-pointer" @click="router.push('/complete')">
+                        <span class="text">Завершить бронирование</span>
+                        <span class="arrow"><IconSlideRight/></span>
                     </span>
                 </div>
 
@@ -30,6 +36,8 @@
     import { ref } from 'vue';
     import { useRouter } from 'vue-router';
     import { useBookingRoomsStore } from "@/stores/booking-store";
+
+    import IconSlideRight from '@/components/icons/IconSlideRight.vue';
 
     const bookingStore = useBookingRoomsStore()
 
@@ -46,6 +54,7 @@
         font-family: 'Optima Cyr';
         
         .container {
+            position: relative;
             padding-left: 1.3rem;
             padding-right: 1.3rem;
             & > div {
@@ -55,10 +64,43 @@
                 }
                 &:nth-child(2) {
                     text-align: center;
+                    @media (max-width: 1024px) {
+                        width: 100%;
+                    }
                 }
                 &:nth-child(3) {
                     text-align: right;
                 }
+            }
+        }
+        .arrow {
+            display: inline-block;
+            top: 4px;
+            scale: 1.2;
+        }
+        .left {
+            .arrow {
+                transform: rotate(180deg);
+                left: -2rem;
+                @media (max-width: 1024px) {
+                    left: 1rem;
+                }
+            }
+        }
+        .right {
+            .arrow {
+                right: -2rem;
+                @media (max-width: 1024px) {
+                    right: 1rem;
+                }
+            }
+        }
+        .arrow {
+            position: absolute;
+        }
+        .text {
+            @media (max-width: 1024px) {
+                display: none;
             }
         }
     }

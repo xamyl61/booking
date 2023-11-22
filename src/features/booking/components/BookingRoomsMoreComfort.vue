@@ -261,10 +261,16 @@ $border-color_1: var(--color-primary);
 }
 .booking-rooms-item-content {
 	border: 1px solid rgba(238, 234, 234, 1);
+	@media (max-width: 767px) {
+		flex-direction: column;
+	}
 }
 .booking-rooms-item-image {
 	position: relative;
 	width: 39%;
+	@media (max-width: 767px) {
+		width: auto;
+	}
 	img {
 		max-width: 100%;
 		object-fit: cover;
@@ -300,6 +306,24 @@ $border-color_1: var(--color-primary);
 }
 .booking-rooms-item-dscr {
 	padding: 0 1.6rem 0 2rem;
+	& > .flex {
+		@media (max-width: 767px) {
+			flex-direction: column;
+			align-items: start;
+		}
+	}
+	.cost-wr {
+		@media (max-width: 768px) {
+            margin-top: auto;
+        }
+		@media (max-width: 767px) {
+			padding-top: 2rem;
+			width: 100%;
+		}
+		.btn {
+			width: 100%;
+		}
+	}
 	.title {
 		font-size: 1.3rem;
 		padding-bottom: 1rem;

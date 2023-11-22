@@ -21,20 +21,24 @@
               </div>
               <div class="booking-sidebar">
                   <div class="booking-sidebar-inner">
-                      <div class="headline">Ваше бронирование</div>
-                      <BookingReservationList
-                          v-for="(booking, index) in bookingStore.useBookingList"
-                          :booking="booking"
-                          :index="index + 1"
-                      />
-                      <div class="cost">
-                          <div class="line">Стоимость</div>
-                          <div class="price">
-                              <div class="cost">{{ totalCost.toLocaleString('ru-RU') }} р.</div>
-                              <div class="bonus"><IconRuble/> {{ totalBonus }} бонусов</div>
-                          </div>
+                      <div class="headline" @click="showSidebarBokings = !showSidebarBokings">Ваше бронирование <span class="triangle">&#9650;</span></div>
+                      <div class="booking-sidebar__list" :class="{showBokings: showSidebarBokings}">
+                        <BookingReservationList
+                            v-for="(booking, index) in bookingStore.useBookingList"
+                            :booking="booking"
+                            :index="index + 1"
+                        />
+                        <div class="cost">
+                            <div class="line">Стоимость</div>
+                            <div class="price">
+                                <div class="cost">{{ totalCost.toLocaleString('ru-RU') }} р.</div>
+                                <div class="bonus"><IconRuble/> {{ totalBonus }} бонусов</div>
+                            </div>
+                        </div>
                       </div>
-                      <div @click="postBooking" class="footline">Забронировать</div>
+                      <div class="footline">
+                          <div @click="postBooking" class="footline-btn">Забронировать</div>
+                      </div>
                   </div>
               </div>
           </div>
@@ -97,6 +101,7 @@
     const avaliableServices = ref<[]>()
     const paymentsInfo = ref()
     const show = ref(true)
+    const showSidebarBokings = ref(false)
 
     const bookingFormStore = useBookingFormStore()
     const bookingPaymentStore = useBookingPaymentStore()
@@ -268,9 +273,22 @@
     /* .booking-sidebar */
     .booking-sidebar {
         flex: 0 0 20em;
+        @media (max-width: 768px) {
+            flex: 0 0 0;
+        }
+
+        &__list {
+            @media (max-width: 768px) {
+                display: none;
+                &.showBokings {
+                    display: block;
+                }
+            }
+        }
     }
     .booking-sidebar-inner {
         border: 1px solid #EEEAEA;
+        position: relative;
     }
     .booking-sidebar .line {
         color: #202020E5;
@@ -284,18 +302,56 @@
         font-size: 1.5rem;
         font-family: 'Optima Cyr';
         padding: 0 1.4rem;
+
+        @media (max-width: 768px) {
+            width: 50%;
+            height: 5.5rem;
+        }
+        .triangle {
+            display: none;
+            scale: 0.6;
+            margin-left: 1rem;
+            @media (max-width: 768px) {
+                display: inline-block;
+            }
+        }
     }
     .booking-sidebar .footline {
-        height: 4.2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         background: var(--color-primary);
         color: #fff;
         font-size: 1.5rem;
         font-family: 'Optima Cyr';
-        padding: 0 1.4rem;
+        
         cursor: pointer;
+        @media (max-width: 768px) {
+            width: 50%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 5.5rem;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            padding-right: 1.2rem;
+        }
+        &-btn {
+            display: flex;
+            padding: 0 1.4rem;
+            width: 100%;
+            height: 4.2rem;
+            align-items: center;
+            justify-content: center;
+
+            @media (max-width: 768px) {
+                width: 15rem;
+                height: 2.8rem;
+                border-radius: 22px;
+                background: #F7C87Ded;
+                color: #121326;
+                font-size: 1rem;
+                font-family: 'Geometria';
+            }
+        }
     }
     .booking-sidebar .footline:hover {
         background: #F7C87D;

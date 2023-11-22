@@ -64,11 +64,11 @@
     <div class="booking-rooms">
         <div class="booking-rooms-item">
             <div class="booking-rooms-item-header flex justify-between items-center">
-                <div class="title">Номер</div>
+                <div class="title">Номер {{ index }}</div>
 				<div
 					@click="removeRoom(index)"
 					class="remove flex items-center"
-				>Удалить номер<IconTrash/></div>
+				><span>Удалить номер </span><IconTrash/></div>
             </div>
             <div class="booking-rooms-item-content flex">
                 <div class="booking-rooms-item-image">
@@ -155,10 +155,16 @@
 }
 .booking-rooms-item-content {
 	border: 1px solid rgba(238, 234, 234, 1);
+	@media (max-width: 767px) {
+		flex-direction: column;
+	}
 }
 .booking-rooms-item-image {
 	position: relative;
 	width: 39%;
+	@media (max-width: 767px) {
+		width: auto;
+	}
 	img {
 		max-width: 100%;
 		object-fit: cover;
@@ -187,6 +193,11 @@
 		&:hover {
 			text-decoration: none;
 		}
+		span {
+			@media (max-width: 767px) {
+				display: none;
+			}
+		}
 		.icon {
 			margin-left: 1rem;
 		}
@@ -194,6 +205,23 @@
 }
 .booking-rooms-item-dscr {
 	padding: 0 1.6rem 0 2rem;
+
+	@media (max-width: 767px) {
+		padding: 1rem 1rem 1.2rem;
+	}
+
+	& > .flex {
+		@media (max-width: 767px) {
+			flex-direction: column;
+			align-items: start;
+		}
+	}
+	.cost-wr {
+		@media (max-width: 767px) {
+			padding-top: 1.2rem;
+		}
+	}
+
 	.title {
 		font-size: 1.25rem;
 		padding-bottom: 1rem;
