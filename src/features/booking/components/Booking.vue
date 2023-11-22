@@ -284,11 +284,18 @@
                     display: block;
                 }
             }
+            @media (max-width: 767px) {
+                order: 3;
+            }
         }
     }
     .booking-sidebar-inner {
         border: 1px solid #EEEAEA;
         position: relative;
+        @media (max-width: 767px) {
+            display: flex;
+            flex-direction: column;
+        }
     }
     .booking-sidebar .line {
         color: #202020E5;
@@ -307,6 +314,12 @@
             width: 50%;
             height: 5.5rem;
         }
+        @media (max-width: 767px) {
+            width: auto;
+            order: 1;
+            height: auto;
+            padding: 1.3rem 1.4rem 1rem;
+        }
         .triangle {
             display: none;
             scale: 0.6;
@@ -321,8 +334,9 @@
         color: #fff;
         font-size: 1.5rem;
         font-family: 'Optima Cyr';
-        
         cursor: pointer;
+        
+
         @media (max-width: 768px) {
             width: 50%;
             position: absolute;
@@ -333,6 +347,13 @@
             justify-content: end;
             align-items: center;
             padding-right: 1.2rem;
+        }
+        @media (max-width: 767px) {
+            width: auto;
+            position: static;
+            order: 2;
+            padding: 0 1.4rem 1.4rem;
+            height: auto;
         }
         &-btn {
             display: flex;
@@ -350,6 +371,9 @@
                 color: #121326;
                 font-size: 1rem;
                 font-family: 'Geometria';
+            }
+            @media (max-width: 767px) {
+                width: 100%;
             }
         }
     }
