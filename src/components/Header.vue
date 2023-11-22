@@ -7,7 +7,7 @@
       </a>
       <a v-else :href="returnUrl" class="back">
           <IconArrowLeft/>
-          <a class="back_text" >Вернуться на сайт</a>
+          <span class="back_text" >Вернуться на сайт</span>
       </a>
 
       <div class="call">
