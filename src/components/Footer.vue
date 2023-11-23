@@ -7,8 +7,8 @@
                     <p class="footer_copy">	&#169; 2022 Alean Collection</p>
                 </div>
                 <div class="right">
-                    <a class="footer_link" target="_blank" href="https://disk.yandex.ru/i/mowrpHr87mRmHw">Политика конфиденциальности</a>
-                    <a class="footer_link" target="_blank" href="https://disk.yandex.ru/i/bIGPj5wAGk1-kQ">Пользовательское соглашение</a>
+                    <a class="footer_link" target="_blank" href="src/assets/policy.pdf">Политика конфиденциальности</a>
+                    <a class="footer_link" target="_blank" href="src/assets/user_agreement.pdf">Пользовательское соглашение</a>
                 </div>
             </div>
         </div>
