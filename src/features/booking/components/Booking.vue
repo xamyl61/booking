@@ -271,6 +271,8 @@
     }
     .booking-sidebar-inner {
         border: 1px solid #EEEAEA;
+        position: sticky;
+        top: 0;
     }
     .booking-sidebar .line {
         color: #202020E5;
