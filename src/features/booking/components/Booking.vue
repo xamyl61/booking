@@ -291,7 +291,8 @@
     }
     .booking-sidebar-inner {
         border: 1px solid #EEEAEA;
-        position: relative;
+        position: sticky;
+        top: 0;
         @media (max-width: 767px) {
             display: flex;
             flex-direction: column;
@@ -378,7 +379,10 @@
         }
     }
     .booking-sidebar .footline:hover {
-        background: #F7C87D;
+        @media (min-width: 768px) {
+            background: #F7C87D;
+
+        }
     }
     .booking-sidebar .price {
         padding: 1.4rem;
