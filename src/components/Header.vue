@@ -267,5 +267,9 @@
     position: absolute;
     top: 2rem;
     right: 2rem;
+    display: none;
+    @media (max-width: 768px) {
+      display: block;
+    }
   }
 </style>
