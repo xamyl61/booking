@@ -164,9 +164,18 @@ onMounted(async () => {
         line-height: 25px;
         text-transform: uppercase;
         margin: 1rem 0;
+        @media (max-width: 1024px) {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
 
         & > span {
             width: 100%;
+        }
+        .flex > div {
+            @media (max-width: 1024px) {
+                max-width: 400px;
+            }
         }
         .time {
             padding-left: 1rem;

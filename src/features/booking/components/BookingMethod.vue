@@ -1,13 +1,16 @@
 <template>
     <div class="booking-method">
-        <div class="booking-method__info">
-            <span class="booking-method__info_bold">{{method.method === BookingPayMethod.Full ? '100%' : `${method.part}%`}}</span>
-            <span>{{description}}</span>
+        <div class="booking-method__block">
+            <div class="booking-method__info">
+                <span class="booking-method__info_bold">{{method.method === BookingPayMethod.Full ? '100%' : `${method.part}%`}}</span>
+                <span>{{description}}</span>
+            </div>
+            <div class="booking-method__cost">
+                <span>{{Format.formatCurrency(totalCost)}}</span>
+                <el-button round type="primary" size="default">Выбрать</el-button>
+            </div>
         </div>
-        <div class="booking-method__cost">
-            <span>{{Format.formatCurrency(totalCost)}}</span>
-            <el-button round type="primary" size="default">Выбрать</el-button>
-        </div>
+        <BookingPayByBonus/>
     </div>
 </template>
 
@@ -15,6 +18,7 @@
 
 import type {IBookingMethod} from "@/features/booking/types/IBookingMethod";
 import {BookingPayMethod} from "@/features/booking/types/IBookingMethod";
+import BookingPayByBonus from "@/features/booking/components/BookingPayByBonus.vue";
 import type {PropType} from "vue";
 import {computed} from "vue";
 import {Format} from "@/utils/format";
@@ -47,11 +51,19 @@ const totalCost = computed(() => {
 
 <style scoped lang="scss">
 .booking-method {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 1rem;
     border: 1px solid #EEEAEA;
+
+    &__block {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: baseline;
+        }
+    }
 
     &__info {
         display: flex;
@@ -66,6 +78,13 @@ const totalCost = computed(() => {
         display: flex;
         gap: 1rem;
         align-items: center;
+        @media (max-width: 768px) {
+            padding-top: 1rem;
+        }
+        @media (max-width: 767px) {
+            justify-content: space-between;
+            width: 100%;
+        }
 
         & span {
             font-family: "Optima Cyr",serif;
@@ -78,7 +97,8 @@ const totalCost = computed(() => {
             background-color: #215C66;
             border-color: #215C66;
             color: white;
-            width: 170px;
+            height: 40px;
+            font-size: 1rem;
             &:hover {
                 background: #F7C87D;
                 border-color: #F7C87D;
