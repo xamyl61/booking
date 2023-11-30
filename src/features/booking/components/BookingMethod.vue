@@ -10,7 +10,7 @@
                 <el-button round type="primary" size="default">Выбрать</el-button>
             </div>
         </div>
-        <BookingPayByBonus/>
+        <BookingPayByBonus :cost="totalCost"/>
     </div>
 </template>
 

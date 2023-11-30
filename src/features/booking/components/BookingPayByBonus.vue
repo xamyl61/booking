@@ -12,7 +12,7 @@
             <input type="number" placeholder="2000">
         </div>
         <div class="pay-bonus__pay">
-            <div class="cost">192 420 р.</div>
+            <div class="cost">{{Format.formatCurrency(cost)}}</div>
             <button class="btn">Оплатить</button>
         </div>
     </div>
@@ -21,6 +21,14 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import IconPayLogos from '@/components/icons/IconPayLogos.vue'
+    import {Format} from "@/utils/format";
+
+    const props = defineProps({
+        cost: {
+            type: Number,
+            required: true
+        }
+    })
 
 
 </script>
