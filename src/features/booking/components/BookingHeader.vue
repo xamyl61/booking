@@ -1,29 +1,35 @@
 <template>
     <div>
         <div class="header-line">
-            <div class="container mx-auto flex  ">
+            <div class="container mx-auto flex">
                 <div 
                     v-if="router.currentRoute.value.name == 'booking'"
                     class="cursor-pointer left"
+                    :class="{booking: router.currentRoute.value.name == 'booking'}"
                     @click="router.push('/')"
                 >
                     <span class="arrow"><IconSlideRight/></span>
                     <span class="text">Выбрать номер</span>
                 </div>
-                <div class="cursor-pointer" @click="router.push('/booking')">Данные о гостях</div>
-                <div class="right">
+                <div class="cursor-pointer center" @click="router.push('/booking')" :class="{complete: router.currentRoute.value.name == 'complete'}">
+                    <span v-if="router.currentRoute.value.name == 'complete'" class="arrow"><IconSlideRight/></span>
+                    <span class="text">Данные о гостях</span>
+                </div>
+                <div class="right" :class="{booking: router.currentRoute.value.name == 'booking'}">
                     <span
                         v-if="typeof bookingStore.bookedRooms.rooms == 'undefined'"
                         style="opacity: .5;"
                     >
-                        <span class="text">Завершить бронирование</span>
+                        <span class="text desktop">Завершить бронирование</span>
+                        <span class="text mobile">Завершить</span>
                         <span class="arrow"><IconSlideRight/></span>
                     </span>
                     <span
                     v-else
                         class="cursor-pointer" @click="router.push('/complete')">
-                        <span class="text">Завершить бронирование</span>
-                        <span class="arrow"><IconSlideRight/></span>
+                        <span class="text desktop">Завершить бронирование</span>
+                        <span class="text mobile">Завершить</span>
+                        <span v-if="router.currentRoute.value.name == 'booking'" class="arrow"><IconSlideRight/></span>
                     </span>
                 </div>
 
@@ -57,6 +63,10 @@
             position: relative;
             padding-left: 1.3rem;
             padding-right: 1.3rem;
+            @media (max-width: 1600px) {
+                padding-left: 3.3rem;
+                padding-right: 3.3rem;
+            }
             & > div {
                 width: 33.33%;
                 &:first-child {
@@ -78,20 +88,69 @@
             top: 4px;
             scale: 1.2;
         }
+        .center {
+            .arrow {
+                transform: rotate(180deg);
+                left: -2rem;
+                @media (max-width: 1600px) {
+                    left: 1rem;
+                }
+            }
+            &.complete {
+                @media (max-width: 1024px) {
+                    width: auto;
+                    .text {
+                        display: none;
+                    }
+                }
+            }
+        }
         .left {
             .arrow {
                 transform: rotate(180deg);
                 left: -2rem;
-                @media (max-width: 1024px) {
+                @media (max-width: 1600px) {
                     left: 1rem;
+                }
+            }
+            .text {
+                @media (max-width: 1024px) {
+                    display: none;
+                }
+            }
+            &.booking {
+                @media (max-width: 1024px) {
+                    width: auto;
+                    .text {
+                        display: none;
+                    }
                 }
             }
         }
         .right {
             .arrow {
                 right: -2rem;
-                @media (max-width: 1024px) {
+                @media (max-width: 1600px) {
                     right: 1rem;
+                }
+            }
+            &.booking {
+                @media (max-width: 1024px) {
+                    width: auto;
+                    .text {
+                        display: none;
+                    }
+                }
+            }
+            .desktop {
+                @media (max-width: 767px) {
+                    display: none;
+                }
+            }
+            .mobile {
+                display: none;
+                @media (max-width: 767px) {
+                    display: inline-block;
                 }
             }
         }
@@ -100,7 +159,7 @@
         }
         .text {
             @media (max-width: 1024px) {
-                display: none;
+                // display: none;
             }
         }
     }

@@ -22,7 +22,7 @@
       </div>
     </div>
     <!-- {{ showGuestInfo }} -->
-    <div v-if="showGuestInfo" class="mt-10 w-9/12">
+    <div v-if="showGuestInfo" class="mt-10 xl:w-9/12">
       <div v-for="(guest, index) in room.guests">
         <!-- index - {{ index }} -->
 
@@ -215,7 +215,6 @@ const dateFormat = (date: Date) => {
 
 <style scoped lang="scss">
 .booking-room {
-  
   padding: 1rem;
   border: 1px solid #EEEAEA;
 
@@ -230,6 +229,9 @@ const dateFormat = (date: Date) => {
     width: 50%;
     flex-direction: column;
     gap: 1rem;
+    @media (max-width: 1024px) {
+      width: auto;
+    }
   }
 
   &__number {
@@ -257,6 +259,9 @@ const dateFormat = (date: Date) => {
   &__photo {
     width: 400px;
     height: 190px;
+    @media (max-width: 1024px) {
+      display: none;
+    }
 
     & img {
       width: 100%;
@@ -279,6 +284,24 @@ const dateFormat = (date: Date) => {
     font-size: 15px;
     line-height: 20px;
     color: #202020;
+  }
+  :deep(.el-descriptions__table tr) {
+    @media (max-width: 1024px) {
+      display: flex;
+    }
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+  :deep(.el-descriptions__cell) {
+    @media (max-width: 1024px) {
+      display: flex;
+    }
+  }
+  :deep(.el-descriptions__cell:first-child) {
+    @media (max-width: 1024px) {
+      padding-right: 1rem;
+    }
   }
 }
 </style>

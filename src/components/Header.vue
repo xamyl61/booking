@@ -146,7 +146,7 @@
     display: flex;
     align-items: center;
     @media (max-width: 767px) {
-      a {
+      &_text  {
         display: none;
       }
     }
