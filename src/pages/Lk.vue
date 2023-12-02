@@ -1,5 +1,6 @@
 <template>
-    <div class="container container-fluid mx-auto mt-3">
+    <div class="container mx-auto">
+        <Filter standalone="true" />
         <el-tabs type="card" v-model="activeTab">
             <el-tab-pane label="Мой профиль" name="myProfile">
                 <MyProfile />
@@ -21,6 +22,7 @@ import MyProfile from "@/features/lk/components/MyProfile.vue";
 import MyBooking from "@/features/lk/components/MyBooking.vue";
 import MyBonus from "@/features/lk/components/MyBonus.vue";
 import {useRoute} from "vue-router";
+import Filter from "@/features/hotels/components/Filter.vue";
 
 const activeTab = ref('myProfile')
 
@@ -39,6 +41,12 @@ watch(route, (to) => {
 :deep(.el-tabs__nav-scroll) {
     display: flex;
     justify-content: center;
+}
+
+@media (max-width: 768px) {
+    :deep(.is-scrollable .el-tabs__nav-scroll) {
+        display: block;
+    }
 }
 
 :deep(.el-tabs__item) {
@@ -70,9 +78,9 @@ watch(route, (to) => {
     border-top: none;
 }
 
-@media (min-width: 1280px) {
-    .container {
-        max-width: 1080px;
+@media (max-width: 768px) {
+    :deep(.el-tabs__content) {
+        border-bottom: none;
     }
 }
 

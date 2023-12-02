@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, onUnmounted, reactive, ref, watch} from 'vue';
+import {computed, onMounted, onUnmounted, reactive, ref, watch} from 'vue';
 import {initFlowbite} from 'flowbite'
 import client from '@/api/client';
 import OtpInput from '@/components/OtpInput.vue'
@@ -33,6 +33,26 @@ onUnmounted(() => {
     clearInterval(intervalId);
 });
 
+
+const DrawerSize = computed(() => {
+
+    if(isMobile()) {
+        return '100%'
+    } else if(isTablet()) {
+        return '50%'
+    } else {
+        return '30%'
+    }
+
+})
+
+const isTablet = () => {
+    return screen.width < 1024;
+}
+
+const isMobile = () => {
+    return screen.width < 768;
+}
 
 const closeForm = () => {
     return drawerRef.value?.close();
@@ -193,7 +213,7 @@ const phoneFormRef = ref()
 </script>
 
 <template>
-    <el-drawer :show-close="false" ref="drawerRef">
+    <el-drawer :size="DrawerSize" :show-close="false" ref="drawerRef">
 
         <template v-slot:header="{close}">
             <div>

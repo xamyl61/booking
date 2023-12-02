@@ -19,7 +19,7 @@
                 v-loading="isLoading"
                 ref="ruleFormRef"
             >
-                <div class="grid grid-cols-3 gap-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10">
 
                     <el-form-item prop="last_name">
                         <el-input v-model="form.last_name" placeholder="Фамилия" :suffix-icon="EditIcon" />
@@ -263,5 +263,15 @@ const initForm = async () => {
 :deep(.birth-date-picker .el-input__wrapper) {
   display: flex;
   flex-direction: row-reverse;
+}
+
+@media (max-width: 768px) {
+    .my-profile__content {
+        padding: 2rem 1rem 2rem 1rem;
+    }
+
+    .my-profile__submit {
+        margin-top: 0rem;
+    }
 }
 </style>

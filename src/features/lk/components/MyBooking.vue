@@ -99,4 +99,10 @@ const getMyBookingInfo = async () => {
         text-align: left;
     }
 }
+
+@media (max-width: 768px) {
+    .my-booking__content {
+        padding: 2rem 1rem 2rem 1rem;
+    }
+}
 </style>
