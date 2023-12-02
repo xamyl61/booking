@@ -76,7 +76,7 @@
               <div v-for="(guest, idx) in booking.guests">
                   <div class="booking-body__guest-title">Гость {{idx+1}}</div>
 
-                  <div class="grid grid-cols-3 gap-10">
+                  <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
                       <el-form-item prop="last_name">
                           <el-input :model-value="guest.last_name" readonly placeholder="Фамилия" />
@@ -443,6 +443,19 @@ line-height: 20px;
 :deep(.birth-date-picker .el-input__wrapper) {
   display: flex;
   flex-direction: row-reverse;
+}
+
+@media (max-width: 768px) {
+  .item {
+    justify-content: space-between;
+  }
+  .price {
+    width: 60%;
+  }
+
+  .booking-card {
+    padding: 30px 20px 30px 20px;
+  }
 }
 
 

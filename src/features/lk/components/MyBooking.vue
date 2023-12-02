@@ -100,9 +100,17 @@ const getMyBookingInfo = async () => {
     }
 }
 
+@media (max-width: 1024px) {
+    .my-booking__content {
+        padding: 3rem 3rem 2rem 3rem;
+    }
+}
+
 @media (max-width: 768px) {
     .my-booking__content {
         padding: 2rem 1rem 2rem 1rem;
     }
 }
+
+
 </style>

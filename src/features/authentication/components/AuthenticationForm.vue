@@ -39,7 +39,7 @@ const DrawerSize = computed(() => {
     if(isMobile()) {
         return '100%'
     } else if(isTablet()) {
-        return '50%'
+        return '60%'
     } else {
         return '30%'
     }

@@ -171,6 +171,12 @@ const getCurrentBonus = async () => {
     height: 50px;
 }
 
+@media (max-width: 1024px) {
+    .my-bonus__content {
+        padding: 3rem 3rem 2rem 3rem;
+    }
+}
+
 @media (max-width: 768px) {
     .my-bonus__content {
         padding: 2rem 1rem 2rem 1rem;
@@ -188,4 +194,5 @@ const getCurrentBonus = async () => {
         gap: 1rem;
     }
 }
+
 </style>

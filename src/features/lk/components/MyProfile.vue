@@ -19,7 +19,7 @@
                 v-loading="isLoading"
                 ref="ruleFormRef"
             >
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10">
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-10">
 
                     <el-form-item prop="last_name">
                         <el-input v-model="form.last_name" placeholder="Фамилия" :suffix-icon="EditIcon" />
@@ -265,6 +265,12 @@ const initForm = async () => {
   flex-direction: row-reverse;
 }
 
+@media (max-width: 1024px) {
+    .my-profile__content {
+        padding: 3rem 3rem 2rem 3rem;
+    }
+}
+
 @media (max-width: 768px) {
     .my-profile__content {
         padding: 2rem 1rem 2rem 1rem;
@@ -274,4 +280,5 @@ const initForm = async () => {
         margin-top: 0rem;
     }
 }
+
 </style>

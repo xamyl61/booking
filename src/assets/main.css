@@ -934,4 +934,14 @@ body {
     }
 
 
-    
+@media (max-width: 1024px) {
+    .btn {
+        height: 3rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .btn {
+        height: 2.5rem !important;
+    }
+}
