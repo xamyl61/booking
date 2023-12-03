@@ -170,4 +170,29 @@ const getCurrentBonus = async () => {
     border-radius: 0;
     height: 50px;
 }
+
+@media (max-width: 1024px) {
+    .my-bonus__content {
+        padding: 3rem 3rem 2rem 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .my-bonus__content {
+        padding: 2rem 1rem 2rem 1rem;
+    }
+
+    .my-bonus__account {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .my-bonus__number {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
 </style>

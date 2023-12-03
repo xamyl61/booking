@@ -272,4 +272,10 @@
       display: block;
     }
   }
+
+  @media (max-width: 768px) {
+    .header .container {
+      border-bottom: none;
+    }
+  }
 </style>

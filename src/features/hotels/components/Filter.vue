@@ -1,5 +1,5 @@
 <template>
-    <div class="filter-wr">
+    <div class="filter-wr" :class="{'standalone': standalone}">
         <div
             class="booking-room-list container mx-auto"
             v-if="bookingStore.useBookingList.length"
@@ -10,7 +10,7 @@
                 :index="index"
             />
         </div>
-        <h1 v-else>Выберите период проживания и количество гостей</h1>
+        <h1 v-else v-if="!standalone">Выберите период проживания и количество гостей</h1>
 
         <div v-if="filterStore && filterChangeBtnBlock" class="filter-params-mobile">
             <div class="filter-params-mobile__hotel">{{ filterStore.filter.choosedHotel.label }}</div>
@@ -188,32 +188,33 @@
             <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
         </div>
 
-        <RoomTypeCard
-            :startDateFormated="rangeStartDate"
-            :endDateFormated="rangeEndDate"
-            :countOfDays="countOfDays"
-            :countOfPersons="countOfPersons"
-            :adults="adults"
-            :сhildren="сhildren"
-            :infants="infants"
-            :roomTypes="roomTypes"
-            :dateFrom="startDateFormated"
-            :dateTill="endDateFormated"
-            :choosedHotelGuid="choosedHotel"
+        <template v-if="!standalone">
+            <RoomTypeCard
+                :startDateFormated="rangeStartDate"
+                :endDateFormated="rangeEndDate"
+                :countOfDays="countOfDays"
+                :countOfPersons="countOfPersons"
+                :adults="adults"
+                :сhildren="сhildren"
+                :infants="infants"
+                :roomTypes="roomTypes"
+                :dateFrom="startDateFormated"
+                :dateTill="endDateFormated"
+                :choosedHotelGuid="choosedHotel"
 
-            v-loading="loading"
-            @change-available-dates="changeAvailableDates"
-            element-loading-text="Идет поиск номеров..."
-        />
+                v-loading="loading"
+                @change-available-dates="changeAvailableDates"
+                element-loading-text="Идет поиск номеров..."
+            />
 
-        <el-dialog
+            <el-dialog
                 v-model="dialogVisible"
                 width="70%"
                 class="room-detail"
                 align-center
                 destroy-on-close
-        >
-            <RoomCardDetails
+            >
+                <RoomCardDetails
                     :endDateFormated="parseDate(new Date(roomType.date_till))"
                     :startDateFormated="parseDate(new Date(roomType.date_from))"
                     :roomDetails="roomDetails"
@@ -226,14 +227,16 @@
                     :choosedHotelGuid="choosedHotel"
                     :adults="adults"
                     :bonus="bonus"
-            />
-        </el-dialog>
+                />
+            </el-dialog>
+        </template>
+
 
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue';
+import {ref, onMounted, reactive} from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 
@@ -259,8 +262,13 @@ const roomsStore = useFilteredRoomsStore()
 const filterStore = useFilterStore()
 
 
-
-
+const props = defineProps({
+    standalone: {
+        type: Boolean,
+        required: false,
+        default: false
+    }
+})
 
 
 const loading = ref(false)
@@ -450,6 +458,11 @@ async function getCities() {
 // const storeRoomFiltered = use
 
 async function getRoomTypes() {
+
+    if(props.standalone) {
+        return;
+    }
+
     try {
         countOfPersons.value = sumHosted.value
         countOfDays.value = (new Date(date.value[1]).getTime() - new Date(date.value[0]).getTime())/(1000 * 3600 * 24)
@@ -818,7 +831,10 @@ h1 {
     }
 }
 
-
+.standalone {
+    margin-top: 3rem;
+    margin-bottom: 2.5rem;
+}
 .filter-params-mobile {
     background: var(--color-primary);
     color: #fff;

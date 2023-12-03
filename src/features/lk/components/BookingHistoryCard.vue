@@ -22,14 +22,14 @@
     <div v-if="isShowDetail" class="booking-history__detail">
 
         <el-row>
-            <el-col :span="3">
+            <el-col :md="3" :sm="6" :xs="8">
                 <el-button type="info" size="default">Номер 1</el-button>
             </el-col>
         </el-row>
 
 
         <el-row>
-            <el-col :span="10">
+            <el-col :md="10" :sm="16" :xs="24">
                 <div class="descriptions">
                     <div class="descriptions__title">
                       Проживание
@@ -77,7 +77,7 @@
             <div v-for="(guest, idx) in history.guests">
                 <div class="booking-history__guest-title">Гость {{idx+1}}</div>
 
-                <div class="grid grid-cols-3 gap-5">
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
                     <el-form-item prop="last_name">
                         <el-input readonly placeholder="Фамилия" :model-value="guest.last_name" />
@@ -398,6 +398,34 @@ font-weight: 700;
 line-height: 20px;
 }
 
+@media (max-width: 1024px) {
 
+    .booking-history__item_strong {
+        display: none;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .booking-history {
+        padding: 30px 20px 30px 20px;
+    }
+
+    .booking-history__item_strong {
+        display: none;
+    }
+
+    .booking-history__item_small {
+        display: none;
+    }
+
+    .item {
+        justify-content: space-between;
+    }
+    .price {
+        width: 60%;
+    }
+}
 
 </style>

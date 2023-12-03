@@ -34,4 +34,11 @@
 
   }
 }
+
+@media (max-width: 768px) {
+  .header {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
 </style>
