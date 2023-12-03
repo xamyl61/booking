@@ -554,6 +554,7 @@ onMounted(() => {
     }
     @media (max-width: 767px) {
         grid-template-columns: 1fr;
+        padding: 40px 20px 70px;
     }
 }
 .devide-line {

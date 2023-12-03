@@ -11,7 +11,26 @@
             />
         </div>
         <h1 v-else>Выберите период проживания и количество гостей</h1>
-        <div class="filter container mx-auto lg:flex lg:flex-wrap lg:gap-x-6 p-3 md:p-8 lg:px-20 lg:py-8">
+
+        <div v-if="filterStore && filterChangeBtnBlock" class="filter-params-mobile">
+            <div class="filter-params-mobile__hotel">{{ filterStore.filter.choosedHotel.label }}</div>
+            
+            <div class="filter-params-mobile__block">
+                <div class="filter-params-mobile__dates">
+                    <div>{{ parseDate(new Date(filterStore.filter.date[0])) }}</div>
+                    <div class="devider">-</div>
+                    <div>{{ parseDate(new Date(filterStore.filter.date[1])) }}</div>
+                </div>
+                <div class="filter-params-mobile__guests">
+                    <IconPerson3/>
+                    <span v-if="filterStore.filter.sumHosted == 1">1 гость</span>
+                    <span v-else>{{ filterStore.filter.sumHosted }} гостей</span>
+                </div>
+            </div>
+            <button @click="showFilter" class="btn btn-yellow">Изменить параметры</button>
+        </div>
+
+        <div class="filter container mx-auto lg:flex lg:flex-wrap lg:gap-x-6 md:p-3 md:p-8 lg:px-20 lg:py-8" :class="{show: !filterChangeBtnBlock}">
             <IconSeashell/>
             <div class="grow p-4 lg:p-0">
                 <div class=" ">
@@ -222,6 +241,7 @@ import IconCalendar from '@/components/icons/IconCalendar.vue'
 import IconArrowLeftSircle from '@/components/icons/IconArrowLeftSircle.vue'
 import IconArrowRightSircle from '@/components/icons/IconArrowRightSircle.vue'
 import IconPerson from '@/components/icons/IconPerson.vue'
+import IconPerson3 from '@/components/icons/IconPerson3.vue'
 import IconSeashell from '@/components/icons/IconSeashell.vue'
 
 import RoomCardDetails from '@/features/hotels/components/RoomCardDetails.vue';
@@ -276,6 +296,9 @@ let emptyPersons = ref<number>(1)
 let countOfDays = ref()
 const countOfDaysAvailable = ref()
 let countOfPersons = ref()
+
+const filterChangeBtnBlock = ref(true)
+
 
 
 // const filteredRoomsdata = reactive({
@@ -366,8 +389,14 @@ const handleDate = () => {
 
     startDateFormated.value = dateFormateding(date.value[0]);
     endDateFormated.value =  dateFormateding(date.value[1]);
-
 }
+
+const showFilter = () => {
+    // date.value = modelData;
+    filterChangeBtnBlock.value = false;
+}
+
+
 
 async function getRoomDeatails(guid: string) {
     try {
@@ -394,7 +423,8 @@ async function getCities() {
                         value: hotel.guid,
                         nuberOfPersonsPerRoom: hotel.number_of_persons_per_room,
                         bookingDateFrom: hotel.booking_date_from,
-                        bookingDateTill: hotel.booking_date_till
+                        bookingDateTill: hotel.booking_date_till,
+                        label: hotel.title
                     },
                     label: hotel.title
                 }
@@ -442,6 +472,8 @@ async function getRoomTypes() {
             }
             return roomTypes
         })
+
+        filterChangeBtnBlock.value = true;
 
     } catch (error) {
         console.log(error)
@@ -567,6 +599,16 @@ onMounted(async () => {
         padding-left: 1rem;
         padding-right: 1rem;
     }
+    @media (max-width: 767px) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    h1 {
+        @media (max-width: 767px) {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    }
 }
 .btn[disabled] {
     opacity: .3;
@@ -602,6 +644,16 @@ h1 {
     /* padding: 2rem 5rem 1.9rem; */
     background-color: var(--color-primary);
     position: relative;
+
+    @media (max-width: 1024px) {
+        display: none;
+    }
+    @media (max-width: 767px) {
+        padding-bottom: 30px;
+    }
+    &.show {
+        display: block;
+    }
 }
 .filter-title {
     color: #fff;
@@ -767,6 +819,61 @@ h1 {
 }
 
 
+.filter-params-mobile {
+    background: var(--color-primary);
+    color: #fff;
+    padding: 1.2rem;
+    display: none;
+    position: relative;
 
+    @media (max-width: 767px) {
+        padding-bottom: 25px;
+    }
+
+    @media (max-width: 1024px) {
+        display: block;
+    }
+    &__hotel {
+        font-family: "Optima Cyr";
+        font-size: 20px;
+        text-transform: uppercase;
+    }
+    &__block {
+        display: flex;
+        padding-top: .4rem;
+        @media (max-width: 767px) {
+            flex-direction: column;
+        }
+    }
+    &__dates {
+        font-size: 1rem;
+        display: flex;
+        padding-right: 1.2rem;
+        @media (max-width: 767px) {
+            padding-right: 0;
+        }
+    }
+    &__guests {
+        display: flex;
+        @media (max-width: 767px) {
+            padding-top: 1rem;
+        }
+        i {
+            padding-right: 8px;
+        }
+    }
+    .btn {
+        width: auto;
+        position: absolute;
+        right: 1.2rem;
+        bottom: 1.5rem;
+        @media (max-width: 767px) {
+            height: 34px;
+        }
+    }
+    .devider {
+        padding: 0 4px;
+    }
+}
 
 </style>
