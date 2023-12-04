@@ -498,6 +498,13 @@ body {
         color: #fff;
         font-family: 'Optima Cyr';
     }
+    @media (max-width: 767px) {
+        .room-detail .room-detail-head {
+            background-color: var(--color-primary);
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    }
     .room-detail .el-dialog__close path {
         fill: #fff;
     }

@@ -165,6 +165,10 @@
     @media (max-width: 1280px) {
       margin-left: 0;
     }
+    @media (max-width: 767px) {
+      margin-left: auto;
+      margin-right: 16px;
+    }
     .phone-link {
       @media (max-width: 1024px) {
         display: none;
@@ -193,12 +197,12 @@
     margin-left: 1rem;
 
     @media (max-width: 1024px) {
-      position: fixed;
+      position: absolute;
       background: #fff;
       top: 82px;
       right: 0;
       margin: 0;
-      z-index: 10000;
+      z-index: 100;
       display: none;
       padding: 1.9rem;
       border: 1px solid #eee;
