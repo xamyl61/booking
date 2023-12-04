@@ -158,6 +158,9 @@
                             value-format="YYYY-MM-DD"
                         >
                         </el-date-picker>
+                        <!-- ДР: {{ bookingFormStore.bookingForm[bookingIndex-1].guests[index].birthday }}
+                        дата брони: {{ bookingStore.useBookingList[bookingIndex - 1].dateFrom }} -->
+
 
                         <!-- <VueDatePicker
                             text-input

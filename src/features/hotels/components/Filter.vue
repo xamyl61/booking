@@ -11,8 +11,7 @@
             />
         </div>
         <h1 v-else v-if="!standalone">Выберите период проживания и количество гостей</h1>
-
-        <div v-if="filterStore && filterChangeBtnBlock" class="filter-params-mobile">
+        <div v-if="filterStore.filter?.choosedHotel && filterChangeBtnBlock" class="filter-params-mobile">
             <div class="filter-params-mobile__hotel">{{ filterStore.filter.choosedHotel.label }}</div>
             
             <div class="filter-params-mobile__block">
@@ -30,7 +29,8 @@
             <button @click="showFilter" class="btn btn-yellow">Изменить параметры</button>
         </div>
 
-        <div class="filter container mx-auto lg:flex lg:flex-wrap lg:gap-x-6 md:p-3 md:p-8 lg:px-20 lg:py-8" :class="{show: !filterChangeBtnBlock}">
+        <div class="filter container mx-auto lg:flex lg:flex-wrap lg:gap-x-6 md:p-3 md:p-8 lg:px-20 lg:py-8">
+        <!-- <div class="filter container mx-auto lg:flex lg:flex-wrap lg:gap-x-6 md:p-3 md:p-8 lg:px-20 lg:py-8" :class="{show: !filterChangeBtnBlock}"> -->
             <IconSeashell/>
             <div class="grow p-4 lg:p-0">
                 <div class=" ">
@@ -659,7 +659,7 @@ h1 {
     position: relative;
 
     @media (max-width: 1024px) {
-        display: none;
+        // display: none;
     }
     @media (max-width: 767px) {
         padding-bottom: 30px;
@@ -854,7 +854,11 @@ h1 {
 
     @media (max-width: 1024px) {
         display: block;
+        & + .filter {
+            display: none;
+        }
     }
+    
     &__hotel {
         font-family: "Optima Cyr";
         font-size: 20px;
