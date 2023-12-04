@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto">
-        <Filter standalone="true" />
+        <Filter :standalone="true" />
         <el-tabs type="card" v-model="activeTab">
             <el-tab-pane label="Мой профиль" name="myProfile">
                 <MyProfile />
