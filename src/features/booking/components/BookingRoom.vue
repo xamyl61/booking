@@ -226,7 +226,7 @@ const dateFormat = (date: Date) => {
 
   &__info {
     display: flex;
-    width: 50%;
+    width: 60%;
     flex-direction: column;
     gap: 1rem;
     @media (max-width: 1024px) {

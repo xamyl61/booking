@@ -752,6 +752,9 @@ h1 {
     align-items: center;
     justify-content: center;
     width: 10%;
+    @media (max-width: 767px) {
+        width: auto;
+    }
 }
 
 
@@ -828,6 +831,9 @@ h1 {
     padding: 2rem 7rem 1.5rem;
     @media (max-width: 1024px) {
         padding: 1rem 0 0;
+    }
+    @media (max-width: 767px) {
+        padding: 1rem 20px 0;
     }
 }
 
