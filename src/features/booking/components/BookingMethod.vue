@@ -4,13 +4,14 @@
             <div class="booking-method__info">
                 <span class="booking-method__info_bold">{{method.method === BookingPayMethod.Full ? '100%' : `${method.part}%`}}</span>
                 <span>{{description}}</span>
+                <span v-if="showPayBonus" @click="showPayBonus = !showPayBonus" class="triangle">&#9650;</span>
             </div>
-            <div class="booking-method__cost">
+            <div class="booking-method__cost" v-if="!showPayBonus">
                 <span>{{Format.formatCurrency(totalCost)}}</span>
-                <el-button round type="primary" size="default">Выбрать</el-button>
+                <el-button round type="primary" size="default" @click="showPayBonus = !showPayBonus">Выбрать</el-button>
             </div>
         </div>
-        <BookingPayByBonus :cost="totalCost"/>
+        <BookingPayByBonus :cost="totalCost" v-if="showPayBonus"/>
     </div>
 </template>
 
@@ -20,9 +21,11 @@ import type {IBookingMethod} from "@/features/booking/types/IBookingMethod";
 import {BookingPayMethod} from "@/features/booking/types/IBookingMethod";
 import BookingPayByBonus from "@/features/booking/components/BookingPayByBonus.vue";
 import type {PropType} from "vue";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import {Format} from "@/utils/format";
 import Button from '@/components/Button.vue'
+
+const showPayBonus = ref(false)
 
 const props = defineProps({
     method: {
@@ -104,6 +107,12 @@ const totalCost = computed(() => {
                 border-color: #F7C87D;
             }
         }
+    }
+    .triangle {
+        color: #4F4F4F;
+        position: relative;
+        top: 2px;
+        cursor: pointer;
     }
 }
 </style>
