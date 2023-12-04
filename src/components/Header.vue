@@ -19,14 +19,16 @@
         </a>
       </div>
 
-      <div class="mobile-menu" @click="menuOpen = true">
-        <IconMenu/>
+      <div class="mobile-menu" >
+        <IconMenu @click="menuOpen = true" v-if="!menuOpen"/>
+        <IconCloseMenu @click="menuOpen = false" v-if="menuOpen"/>
       </div>
 
       <div class="login" :class="{ show: menuOpen }">
-        <div class="close-menu" @click="menuOpen = false">
-          <IconCloseCircle/>
-        </div>
+        <a class="phone-link" href="tel:+78889993311">
+          <IconPhone/>
+          <span class="phone-link_text">+7 (888) 999 33-11</span>
+        </a>
         <div class="dropdown" v-if="authStore.isAuthenticated">
 
             <Button @click="router.push({name: 'lk', query: { tab: 'myProfile' }})" class="btn">
@@ -60,6 +62,7 @@
   import IconCloseCircle from "@/components/icons/IconCloseCircle.vue";
   import IconMenu from '@/components/icons/IconMenu.vue'
   import IconPhone from '@/components/icons/IconPhone.vue'
+  import IconCloseMenu from '@/components/icons/IconCloseMenu.vue'
   import AuthenticationForm from '@/features/authentication/components/AuthenticationForm.vue'
   import { useAuthStore } from '@/stores/auth-store';
   import { $vfm } from 'vue-final-modal';
@@ -162,20 +165,22 @@
     @media (max-width: 1280px) {
       margin-left: 0;
     }
+    .phone-link {
+      @media (max-width: 1024px) {
+        display: none;
+      }
+    }
   }
 
   .phone-link {
     display: flex;
     align-items: center;
     margin-left: 2.6vw;
-    @media (max-width: 768px) {
-      display: none;
+    i {
+      margin-right: 1.1rem;
     }
   }
-  .phone-link i {
-    margin-right: 1.1rem;
-    
-  }
+
     .icon-phone-gold {
       margin-right: 1rem;
     }
@@ -183,25 +188,35 @@
   .login {
     margin-left: auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
     margin-left: 1rem;
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
       position: fixed;
       background: #fff;
-      top: 0;
+      top: 82px;
       right: 0;
-      bottom: 0;
-      left: 0;
       margin: 0;
       z-index: 10000;
       display: none;
-      padding: 1rem;
+      padding: 1.9rem;
+      border: 1px solid #eee;
+    }
+    @media (max-width: 767px) {
+      max-width: 100%;
+      width: 100%;
     }
     &.show {
-      display: block;
+      display: flex;
     }
-
+    .phone-link {
+      display: none;
+      @media (max-width: 1024px) {
+        display: flex;
+        margin-bottom: 20px;
+      }
+    }
   }
     .login .authorization {
       margin-right: 2.6vw;
@@ -259,8 +274,12 @@
   }
   .mobile-menu {
     display: none;
-    @media (max-width: 768px) {
-      display: block;
+    width: 30px;
+    height: 30px;
+    justify-content: flex-end;
+    align-items: center;
+    @media (max-width: 1024px) {
+      display: flex;
     }
   }
   .close-menu {
@@ -268,12 +287,12 @@
     top: 2rem;
     right: 2rem;
     display: none;
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
       display: block;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     .header .container {
       border-bottom: none;
     }

@@ -345,7 +345,7 @@
             right: 0;
             height: 5.5rem;
             display: flex;
-            justify-content: end;
+            justify-content: flex-end;
             align-items: center;
             padding-right: 1.2rem;
         }
