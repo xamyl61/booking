@@ -115,7 +115,12 @@ const onTryAuth = async (callback: () => Promise<any>) => {
         const response = await callback();
         verificationStep();
     } catch (e) {
-        console.log(e)
+        if(e.response.status === 404) {
+            toast('У Вас еще нет личного кабинета и бонусного счета. Завершите регистрацию', {
+                type: 'error',
+                position: 'top-center',
+            })
+        }
     } finally {
         isLoading.value = false;
     }
