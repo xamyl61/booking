@@ -52,7 +52,7 @@
                 <span class="btn-text">Войти в личный кабинет</span>
             </button>
         </div>
-          <div class="mobile-lk">
+          <div v-if="authStore.isAuthenticated" class="mobile-lk" @click="onHideMenu">
             <div @click="router.push({name: 'lk', query: { tab: 'myProfile' }})" class="mobile-lk__item">
                 Мой профиль
             </div>
@@ -95,6 +95,10 @@
   const currentRoute = computed(() => {
     return route.name
   })
+
+  const onHideMenu = () => {
+      menuOpen.value = false
+  }
 
   const onHome = () => {
     router.push({name: 'home'})
@@ -317,11 +321,15 @@
   }
 
   .mobile-lk {
-    display: flex;
+    display: none;
     width: 80%;
     flex-direction: column;
     gap: 1rem;
     margin-top: 1rem;
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
 
     &__item {
       text-align: center;

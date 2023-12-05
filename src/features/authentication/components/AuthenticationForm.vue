@@ -33,7 +33,6 @@ onUnmounted(() => {
     clearInterval(intervalId);
 });
 
-
 const DrawerSize = computed(() => {
 
     if(isMobile()) {
@@ -294,7 +293,7 @@ const phoneFormRef = ref()
 
 
             <div class="authentication-form__note">
-                <span>Нажав "Получить код" вы соглашаетесь с условиями <span class="underline cursor-pointer">Пользовательского соглашения</span></span>
+                <span>Нажав "Получить код" вы соглашаетесь с условиями <a target="_blank" href="/user_agreement.pdf" class="underline cursor-pointer">Пользовательского соглашения</a></span>
             </div>
 
         </div>
