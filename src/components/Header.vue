@@ -52,6 +52,20 @@
                 <span class="btn-text">Войти в личный кабинет</span>
             </button>
         </div>
+          <div class="mobile-lk">
+            <div @click="router.push({name: 'lk', query: { tab: 'myProfile' }})" class="mobile-lk__item">
+                Мой профиль
+            </div>
+              <div @click="router.push({name: 'lk', query: { tab: 'myBooking' }})" class="mobile-lk__item">
+                  Мои бронирования
+              </div>
+              <div @click="router.push({name: 'lk', query: { tab: 'myBonus' }})" class="mobile-lk__item">
+                  Бонусный счет
+              </div>
+              <div @click="onLogout" class="mobile-lk__item">
+                  Выйти
+              </div>
+          </div>
       </div>
     </div>
   </header>
@@ -299,6 +313,28 @@
   @media (max-width: 1024px) {
     .header .container {
       border-bottom: none;
+    }
+  }
+
+  .mobile-lk {
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    &__item {
+      text-align: center;
+      font-family: Geometria,serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25px;
+      border-bottom: 1px solid #215C66;
+      cursor: pointer;
+
+      &:last-child {
+        border-bottom: none;
+      }
     }
   }
 </style>
