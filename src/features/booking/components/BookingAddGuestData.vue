@@ -157,9 +157,13 @@
                             format="YYYY-MM-DD"
                             value-format="YYYY-MM-DD"
                         >
-                        </el-date-picker>
-                        <!-- ДР: {{ bookingFormStore.bookingForm[bookingIndex-1].guests[index].birthday }}
-                        дата брони: {{ bookingStore.useBookingList[bookingIndex - 1].dateFrom }} -->
+                    </el-date-picker>
+                        <div v-if="сhildren && index + 1 == guests">
+                            ДР: {{ bookingFormStore.bookingForm[bookingIndex-1].guests[index].birthday }}
+                            <br>
+                            дата брони: {{ bookingStore.useBookingList[bookingIndex - 1].dateFrom }}
+                        </div>
+                        
 
 
                         <!-- <VueDatePicker

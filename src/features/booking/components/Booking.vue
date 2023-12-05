@@ -11,9 +11,15 @@
                       :index="index + 1"
                   />
 
-                  <!-- <div class="mb-10">
-                      <button @click="router.push('/')" class="btn ml-auto mt-10 btn-with-border">Добавить гостя</button>
-                  </div> -->
+                  <div class="mb-10">
+                    <Button
+                        :disabled="bookingStore.useBookingList.length >= 5"
+                        @click="router.push('/')"
+                        class="btn ml-auto mt-10 btn-with-border"
+                    >
+                        Добавить номер
+                    </Button>
+                  </div>
                   <!-- <BookingServices :avaliableServices="avaliableServices"/> -->
                   <BookingPaymentData
                     v-if="bookingStore.useBookingList.length"
@@ -66,6 +72,8 @@
     import BookingComplete from "@/features/booking/components/BookingComplete.vue";
     import BookingPaymentData from "@/features/booking/components/BookingPaymentData.vue";
     import BookingCanceledModal from "@/features/booking/components/BookingCanceledModal.vue";
+
+    import Button from '@/components/Button.vue'
 
     
     
@@ -268,6 +276,9 @@
     }
     .bonus {
         color: rgba(147, 147, 147, 1);
+    }
+    .btn:disabled {
+        opacity: .5;
     }
 
     /* .booking-sidebar */
