@@ -114,7 +114,7 @@ const onTryAuth = async (callback: () => Promise<any>) => {
     try {
         const response = await callback();
         verificationStep();
-    } catch (e) {
+    } catch (e: any) {
         if(e.response.status === 404) {
             toast('У Вас еще нет личного кабинета и бонусного счета. Завершите регистрацию', {
                 type: 'error',
