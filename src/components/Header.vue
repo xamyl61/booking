@@ -359,7 +359,7 @@
     align-items: center;
     gap: 1rem;
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
       flex-direction: column;
     }
 
