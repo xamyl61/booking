@@ -77,11 +77,20 @@ const register = async () => {
             position: 'top-center',
         })
         drawerRef.value?.close();
-    } catch (e) {
-        toast('Ошибка при попытке регистрации', {
-            type: 'error',
-            position: 'top-center',
-        })
+    } catch (e: any) {
+
+        if(e.response.status === 400) {
+            toast('Пользователь уже существует', {
+                type: 'error',
+                position: 'top-center',
+            })
+        } else {
+            toast('Ошибка при попытке регистрации', {
+                type: 'error',
+                position: 'top-center',
+            })
+        }
+
     } finally {
         isLoading.value = false
     }
