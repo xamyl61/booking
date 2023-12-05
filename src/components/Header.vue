@@ -44,7 +44,8 @@
                     <a @click="onLogout" href="#">Выйти</a>
                 </div>
         </div>
-        <div v-else>
+        <div class="test" v-else>
+            <a v-if="!authStore.isAuthenticated" @click="onRegister">Зарегистрироваться</a>
             <Button :disabled="authStore.isLoading" @click="onLogin">
                 <slot name="icon">
                     <IconPersonPrimary/>
@@ -85,6 +86,7 @@
   import {useRoute, useRouter} from "vue-router";
   import {removeTokens} from "@/utils/token";
   import {computed, onMounted, ref} from "vue";
+  import RegistrationForm from "@/features/authentication/components/RegistrationForm.vue";
 
   const authStore = useAuthStore()
   const route = useRoute()
@@ -102,6 +104,11 @@
 
   const onHome = () => {
     router.push({name: 'home'})
+  }
+
+  const onRegister = () => {
+      menuOpen.value = false
+      $vfm.show({component: RegistrationForm})
   }
 
   const onLogin = () => {
@@ -343,6 +350,21 @@
       &:last-child {
         border-bottom: none;
       }
+    }
+  }
+
+  .test {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+
+    & a {
+      text-decoration: underline;
+      cursor: pointer;
     }
   }
 </style>

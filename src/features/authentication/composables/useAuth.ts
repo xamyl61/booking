@@ -1,7 +1,7 @@
 import {useAuthStore} from "@/stores/auth-store";
-import getUserInfo from "@/features/authentication/api";
 import {getAccessToken, removeTokens} from "@/utils/token";
 import {useRoute, useRouter} from "vue-router";
+import {getUserInfo} from "@/features/authentication/api";
 
 const useAuth = () => {
 

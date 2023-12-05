@@ -11,4 +11,10 @@ const getUserInfo = async (token: string) => {
     return response
 }
 
-export default getUserInfo
+const registerUser = (data: IUser) => {
+    return client.post(`/v2/users/registration/`, data)
+}
+
+export {
+    getUserInfo, registerUser
+}
