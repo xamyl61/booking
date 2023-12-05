@@ -296,6 +296,11 @@
 
   .dropdown:hover .dropdown-menu {
     display: block;
+
+    @media (max-width: 767px) {
+      display: none;
+
+    }
   }
 
   .btn {
