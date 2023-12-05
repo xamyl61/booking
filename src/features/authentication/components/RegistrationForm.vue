@@ -2,7 +2,7 @@
 import {computed, onMounted, reactive, ref} from 'vue';
 import type ElDrawer from "element-plus";
 import IconClose from "@/components/icons/IconClose.vue";
-import {IUser} from "@/features/authentication/types/IUser";
+import type {IUser} from "@/features/authentication/types/IUser";
 import { vMaska } from "maska"
 import Button from "@/components/Button.vue";
 import {registerUser} from "@/features/authentication/api";
