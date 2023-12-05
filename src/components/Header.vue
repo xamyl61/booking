@@ -346,6 +346,7 @@
       line-height: 25px;
       border-bottom: 1px solid #215C66;
       cursor: pointer;
+      padding-bottom: 0.8rem;
 
       &:last-child {
         border-bottom: none;
