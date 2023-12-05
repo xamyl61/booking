@@ -838,7 +838,6 @@ h1 {
 }
 
 .standalone {
-    margin-top: 3rem;
     margin-bottom: 2.5rem;
 }
 .filter-params-mobile {
