@@ -37,11 +37,11 @@
 
 <script setup lang="ts">
 
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import MyProfile from "@/features/lk/components/MyProfile.vue";
 import MyBooking from "@/features/lk/components/MyBooking.vue";
 import MyBonus from "@/features/lk/components/MyBonus.vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import Filter from "@/features/hotels/components/Filter.vue";
 import ArrowIcon from "@/features/lk/components/Icons/ArrowIcon.vue";
 
@@ -49,27 +49,31 @@ const activeTab = ref('myProfile')
 const isShowMenu = ref(false)
 const route = useRoute()
 const selectedMenu = ref('Мой профиль')
+const router = useRouter()
+
 
 watch(route, (to) => {
     if(to.query.tab) {
-        //activeTab.value = to.query.tab as string
+        activeTab.value = to.query.tab as string
+        if(to.query.tab === 'myBooking') {
+            selectedMenu.value = 'Мои бронирования'
+        } else if(to.query.tab === 'myProfile') {
+            selectedMenu.value = 'Мой профиль'
+        } else if(to.query.tab === 'myBonus') {
+            selectedMenu.value = 'Бонусный счет'
+        }
     }
 }, {flush: 'pre', immediate: true, deep: true})
 
 watch(activeTab, (t) => {
-    if(t === 'myBooking') {
-        selectedMenu.value = 'Мои бронирования'
-    } else if(t === 'myProfile') {
-        selectedMenu.value = 'Мой профиль'
-    } else if(t === 'myBonus') {
-        selectedMenu.value = 'Бонусный счет'
-    }
+    router.push({name: 'lk', query: { tab: t }})
 })
 
 const onMenuSelect = (menuName, tab) => {
     selectedMenu.value = menuName;
+    isShowMenu.value = false;
     activeTab.value = tab;
-    isShowMenu.value = false
+
 }
 
 </script>

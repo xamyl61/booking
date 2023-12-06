@@ -284,4 +284,8 @@ const closeForm = () => {
     padding-left: 2rem;
     padding-right: 2rem;
 }
+
+.registration-form .el-checkbox {
+    white-space: normal;
+}
 </style>
