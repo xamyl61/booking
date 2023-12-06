@@ -902,6 +902,7 @@ h1 {
         bottom: 1.5rem;
         @media (max-width: 767px) {
             height: 34px;
+            bottom: 1rem;
         }
     }
     .devider {

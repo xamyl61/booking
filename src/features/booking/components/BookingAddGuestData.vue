@@ -32,6 +32,7 @@
     const formRefs = ref<FormInstance[]>([])
 
     const submitForm = (formEl: FormInstance | undefined) => {
+        console.log("bookingFormStore.formsValidateResults:", bookingFormStore.formsValidateResults)
         if (!formEl) return
         formEl.validate((valid) => {
             if (valid) {
@@ -48,6 +49,31 @@
             submitForm(element)
         });
     });
+
+    function isOverTwelve(booking: Date, birthday: Date) {
+            var ageDifMs = new Date(booking).getTime() - new Date(birthday).getTime();
+            var ageDate = new Date(ageDifMs);
+            var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+            if(age < 12) {
+                return true;
+            } else{
+                return false;
+        }
+    }
+
+    const checkAge = (rule: any, value: any, callback: any) => {
+        console.log("value: ", value)
+        if (value == '') {
+            return callback(new Error('Введите дату рождения'))
+        }
+
+        const bookingDate = new Date(bookingStore.useBookingList[props.bookingIndex - 1].dateFrom)
+        const checResult = isOverTwelve(bookingDate, new Date(value))
+        console.log("checResult: ", checResult)
+        if (!checResult) {
+            return callback(new Error('Ребенку больше 12 лет'))
+        }
+    }
 
     onMounted(() => {
         adults.value = props.booking.adults
@@ -135,13 +161,38 @@
                     </el-form-item>
                     
 
-                    <el-form-item
+                    <!-- <el-form-item
+                        v-if="сhildren && index + 1 == guests"
                         prop="birthday"
                         :rules="[
                             {
                                 required: true,
-                                message: 'Введите дату рождения',
                                 trigger: ['blur', 'change'],
+                                validator: checkAge
+                            },
+                        ]"
+                    >
+                        <el-date-picker
+                            popper-class="el-datepicker-styles"
+                            v-model="bookingFormStore.bookingForm[bookingIndex-1].guests[index].birthday"
+                            type="date"
+                            label="Pick a date"
+                            placeholder="Дата рождения"
+                            style="width: 100%"
+                            format="YYYY-MM-DD"
+                            value-format="YYYY-MM-DD"
+                        >
+                        </el-date-picker>
+                        <IconCheckSuccess/>
+                    </el-form-item> -->
+                    <el-form-item
+
+                        prop="birthday"
+                        :rules="[
+                            {
+                                required: true,
+                                trigger: ['blur', 'change'],
+                                message: 'Введите дату рождения',
                             },
                         ]"
                     >
@@ -157,30 +208,11 @@
                             format="YYYY-MM-DD"
                             value-format="YYYY-MM-DD"
                         >
-                    </el-date-picker>
-                        <div v-if="сhildren && index + 1 == guests">
-                            ДР: {{ bookingFormStore.bookingForm[bookingIndex-1].guests[index].birthday }}
-                            <br>
-                            дата брони: {{ bookingStore.useBookingList[bookingIndex - 1].dateFrom }}
-                        </div>
-                        
-
-
-                        <!-- <VueDatePicker
-                            text-input
-                            v-model="bookingFormStore.bookingForm[bookingIndex-1].guests[index].birthday"
-                            :enable-time-picker="false"
-                            auto-apply
-                            locale="ru"
-                            position="left"
-                            :six-weeks="true"
-                            :offset="1"
-                            menu-class-name="m-datepicker"
-                            :placeholder="'Дата рождения'"
-                            @update:model-value="bookingFormStore.needValidate = !bookingFormStore.needValidate"
-                        ></VueDatePicker> -->
+                        </el-date-picker>
                         <IconCheckSuccess/>
                     </el-form-item>
+
+            
 
                     <el-form-item
                         prop="email"
