@@ -39,6 +39,8 @@
                 bookingFormStore.formsValidateResults.push(true)
             } else {
                 bookingFormStore.formsValidateResults.push(false)
+                const el = document.getElementsByClassName("is-error")[0]
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
                 return false
             }
         })

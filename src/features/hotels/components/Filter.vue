@@ -783,6 +783,7 @@ h1 {
 .accommodation-dropdown {
     padding: 1.4rem 1.9rem;
     width: 19rem;
+    background: var(--color-primary);
 }
 .accommodation-dropdown-item {
     display: flex;
