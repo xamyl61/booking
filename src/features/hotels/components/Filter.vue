@@ -184,8 +184,8 @@
             </div>
         </div>
 
-        <div v-if="roomTypes.length == 0 && showNoRoomsNotification">
-            <h6 class="text-3xl	 text-center">Онлайн бронирование недоступно. Вы можете забронировать номер по телефону 8-800-100-33-93</h6>
+        <div v-if="showNoRoomsNotification">
+            <h6 class="text-3xl	 text-center mt-6">Онлайн бронирование на эти даты невозможно. Пожалуйста, позвоните для бронирования по телефону: 8 800 250 00 30</h6>
         </div>
 
         <template v-if="!standalone">
@@ -470,21 +470,25 @@ async function getRoomTypes() {
         const res = await fetch(`https://backmb.aleancollection.ru/api/v1/rooms-request/${choosedHotel.value.value}/?number_of_adults=${adults.value}&number_of_teenagers=${teenagers.value}&number_of_children=${сhildren.value}&number_of_infants=${infants.value}&date_from=${startDateFormated.value}&date_till=${endDateFormated.value}`);
         const finalRes = await res.json();
         roomTypes.value = finalRes.res;
+        
+        // console.log("roomTypes.value : ", roomTypes.value )
         // roomsStore.$reset()
         // roomsStore.setRooms(roomTypes.value)
         filterStore.setFilter(filter)
-        if (roomTypes.value == 0) {
+        if (Object.keys(roomTypes.value ).length === 0) {
             showNoRoomsNotification.value = true
+        } else {
+            //added index if not available, it needs to open picker
+            showNoRoomsNotification.value = false
+            let index = 0;
+            roomTypes.value.forEach(function(item:any) {
+                if (!item.is_available) {
+                    item.is_available_index = index++
+                }
+                return roomTypes
+            })
         }
 
-        //added index if not available, it needs to open picker
-        let index = 0;
-        roomTypes.value.forEach(function(item:any) {
-            if (!item.is_available) {
-                item.is_available_index = index++
-            }
-            return roomTypes
-        })
 
         filterChangeBtnBlock.value = true;
 
@@ -503,8 +507,11 @@ async function getRoomTypeByDates(availableDate: any, roomGuid: string) {
         const finalRes = await res.json();
         roomType.value = finalRes.res;
         bonus.value = finalRes.res.price_info.bonus;
-        if (roomTypes.value == 0) {
+
+        if (Object.keys(roomTypes.value ).length === 0) {
             showNoRoomsNotification.value = true
+        } else {
+            showNoRoomsNotification.value = false
         }
 
     } catch (error) {
@@ -894,6 +901,7 @@ h1 {
         bottom: 1.5rem;
         @media (max-width: 767px) {
             height: 34px;
+            bottom: 1rem;
         }
     }
     .devider {
